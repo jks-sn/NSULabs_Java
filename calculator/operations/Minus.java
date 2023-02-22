@@ -7,9 +7,9 @@ public class Minus extends Operation {
     @Override
     public void exec() throws OperatorException {
         if(args.length > 0)
-            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " command!!!");
+            throw new OperatorException("Error: Wrong numbers of arguments " + this.getClass().getSimpleName().toLowerCase() + " command");
         if(CalculatorStack.getStackLength() < 2)
-            throw new OperatorException("Not enough variables in stack!!!");
+            throw new OperatorException("Error: Not enough value in stack");
         double valueFirst = CalculatorStack.pop();
         double valueSecond = CalculatorStack.pop();
         CalculatorStack.push(valueSecond - valueFirst);

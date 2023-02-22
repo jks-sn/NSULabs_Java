@@ -3,7 +3,7 @@ package calculator.operations;
 import calculator.exceptions.OperatorException;
 import calculator.logic.CalculatorStack;
 
-public class Divide extends Operation {
+public class Multipy extends Operation {
     @Override
     public void exec() throws OperatorException {
         if(args.length > 0)
@@ -12,6 +12,6 @@ public class Divide extends Operation {
             throw new OperatorException("Not enough variables in stack!!!");
         double valueFirst = CalculatorStack.pop();
         double valueSecond = CalculatorStack.pop();
-        CalculatorStack.push(valueSecond / valueFirst);
+        CalculatorStack.push(valueSecond + valueFirst);
     }
 }
