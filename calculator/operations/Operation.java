@@ -1,5 +1,7 @@
 package calculator.operations;
 
+import calculator.exceptions.OperatorException;
+
 public abstract class Operation {
     protected Object[] args = new Object[0];
     public Operation setArgs(Object... args)
@@ -8,5 +10,5 @@ public abstract class Operation {
         return this;
     }
 
-    public abstract void exec();
+    public abstract void exec() throws OperatorException;
 }

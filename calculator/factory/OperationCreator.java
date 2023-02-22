@@ -7,6 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public abstract class OperationCreator {
     public static Operation getOperation(String nameOperation) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        return (Operation) ConfigParser.getOperationClass(nameOperation).getConstructor().newInstance();
+        return ConfigParser.getOperationClass(nameOperation);
     }
 }
