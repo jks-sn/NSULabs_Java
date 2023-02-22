@@ -5,5 +5,8 @@ public abstract class Operation {
     public Operation setArgs(Object... args)
     {
         this.args = args;
+        return this;
     }
+
+    public abstract void exec();
 }

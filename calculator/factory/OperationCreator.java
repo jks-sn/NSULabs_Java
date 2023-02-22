@@ -2,9 +2,11 @@ package calculator.factory;
 
 import calculator.operations.Operation;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class OperationCreator {
-    public static Operation getOperation(String nameOperation)
-    {
-        return (Operation) Loader.getOperationClass(name).getConstructor().newInstance();
+    public static Operation getOperation(String nameOperation) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return (Operation) ConfigParser.getOperationClass(nameOperation).getConstructor().newInstance();
     }
 }
