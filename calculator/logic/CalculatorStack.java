@@ -1,7 +1,7 @@
 package calculator.logic;
 
 import calculator.utils.ArgChecker;
-
+import calculator.exceptions.OperatorException;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -19,12 +19,11 @@ public class CalculatorStack {
             variableMap.put(variableName,value);
         }
     }
-    public static void push(String variableName)
-    {
+    public static void push(String variableName) throws OperatorException {
         if(variableMap.containsKey(variableName))
             variableStack.push(variableMap.get(variableName));
         else
-            throw exception;
+            throw new OperatorException();
     }
     public static void push(double value)
     {
@@ -33,13 +32,13 @@ public class CalculatorStack {
     public static double pop()
     {
         if(variableStack.isEmpty())
-            throw exception;
+            throw OperatorException;
         return variableStack.pop();
     }
     public static double peek()
     {
         if(variableStack.isEmpty())
-            throw exception;
+            throw OperatorException;
         return variableStack.peek();
     }
     public static void clear()
