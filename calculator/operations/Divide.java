@@ -7,7 +7,7 @@ public class Divide extends Operation {
     @Override
     public void exec() throws OperatorException {
         if(args.length > 0)
-            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " command!!!");
+            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " operation");
         if(CalculatorStack.getStackLength() < 2)
             throw new OperatorException("Not enough variables in stack!!!");
         double valueFirst = CalculatorStack.pop();

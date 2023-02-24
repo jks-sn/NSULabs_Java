@@ -29,16 +29,14 @@ public class CalculatorStack {
     {
         variableStack.push(value);
     }
-    public static double pop()
-    {
+    public static double pop() throws OperatorException {
         if(variableStack.isEmpty())
-            throw OperatorException;
+            throw new OperatorException();
         return variableStack.pop();
     }
-    public static double peek()
-    {
+    public static double peek() throws OperatorException {
         if(variableStack.isEmpty())
-            throw OperatorException;
+            throw new OperatorException();
         return variableStack.peek();
     }
     public static void clear()
