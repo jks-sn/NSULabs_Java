@@ -15,7 +15,6 @@ public class InteractiveCalc {
     private ArrayList<Object> args;
     private String line;
 
-    private int numberLine;
     private boolean isOperation;
 
     public InteractiveCalc() {
@@ -23,7 +22,6 @@ public class InteractiveCalc {
         operationName = "";
         args = new ArrayList<>();
         line = "";
-        numberLine = 1;
     }
 
     public void execute() {
@@ -57,12 +55,12 @@ public class InteractiveCalc {
                 }
                 factory.getOperation(operationName, args.toArray(new Object[0])).exec();
             }  catch (OperatorException | IOException | ClassNotFoundException | NoSuchMethodException |
-                      InvocationTargetException | InstantiationException | IllegalAccessException e) {
-                System.err.println("Error on line " + numberLine + ":\n" + e.getClass().getSimpleName() + (e.getMessage() == null ? "" : ": " + e.getMessage())+"\nPlease try again");
+                      InvocationTargetException | InstantiationException | IllegalAccessException | NullPointerException e) {
+                System.out.println("Error" + ":\n" + e.getClass().getSimpleName() + (e.getMessage() == null ? "" : ": " + e.getMessage())+"\nPlease try again");
             }
             finally {
                 args.clear();
-                numberLine++;
+                operationName = "";
             }
         }
         readScan.close();

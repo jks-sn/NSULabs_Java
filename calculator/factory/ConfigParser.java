@@ -6,17 +6,31 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
+import calculator.exceptions.FactoryException;
 import calculator.logic.CalculatorStack;
 import calculator.operations.Operation;
 
 public class ConfigParser {
-    public Operation getOperationClass(CalculatorStack context, String nameOperation, Object... args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        InputStream stream = ConfigParser.class.getResourceAsStream("Operations.properties");
-        Properties prop = new Properties();
-        prop.load(stream);
-        String className = prop.getProperty(nameOperation);
-        Class<Operation> commandClass = (Class<Operation>) Class.forName(className);
-        Constructor<Operation> constructor = commandClass.getConstructor(CalculatorStack.class, Object[].class);
-        return constructor.newInstance(context,args);
+    public Operation getOperationClass(CalculatorStack context, String nameOperation, Object... args) throws FactoryException {
+            Properties prop = new Properties();
+            try {
+
+                InputStream stream = ConfigParser.class.getResourceAsStream("Operations.properties");
+                prop.load(stream);
+            }
+            catch(IOException e)
+            {
+                throw new FactoryException();
+            }
+
+        try {
+            String className = prop.getProperty(nameOperation);
+            Class<Operation> commandClass = (Class<Operation>) Class.forName(className);
+            Constructor<Operation> constructor = commandClass.getConstructor(CalculatorStack.class, Object[].class);
+            return constructor.newInstance(context, args);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                 ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

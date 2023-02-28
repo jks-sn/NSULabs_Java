@@ -6,6 +6,7 @@ import calculator.logic.CalculatorStack;
 public class Push extends Operation {
     public Push(CalculatorStack context, Object... args) {
         super(context, args);
+        this.numberArguments = 0;
     }
 
     @Override
