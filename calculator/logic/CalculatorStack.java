@@ -2,47 +2,55 @@ package calculator.logic;
 
 import calculator.utils.ArgChecker;
 import calculator.exceptions.OperatorException;
+
 import java.util.HashMap;
 import java.util.Stack;
 
 public class CalculatorStack {
-    private static final Stack<Double> variableStack = new Stack<>();
-    private static final HashMap<String,Double> variableMap = new HashMap<>();
-    public static long getStackLength()
-    {
+    private Stack<Double> variableStack;
+    private HashMap<String, Double> variableMap;
+
+    CalculatorStack() {
+        variableStack = new Stack<>();
+        variableMap = new HashMap<>();
+    }
+
+    public long getStackLength() {
         return variableStack.size();
     }
-    public static void createVariable(String variableName, double value)
-    {
-        if(!variableMap.containsKey(variableName) && !ArgChecker.isNumeric(variableName))
-        {
-            variableMap.put(variableName,value);
+
+    public void createVariable(String variableName, double value) {
+        if (!variableMap.containsKey(variableName) && !ArgChecker.isDouble(variableName)) {
+            variableMap.put(variableName, value);
         }
     }
-    public static void push(String variableName) throws OperatorException {
-        if(variableMap.containsKey(variableName))
+
+    public void push(String variableName) throws OperatorException {
+        if (variableMap.containsKey(variableName))
             variableStack.push(variableMap.get(variableName));
         else
             throw new OperatorException();
     }
-    public static void push(double value)
-    {
+
+    public void push(double value) {
         variableStack.push(value);
     }
-    public static double pop() throws OperatorException {
-        if(variableStack.isEmpty())
+
+    public double pop() throws OperatorException {
+        if (variableStack.isEmpty())
             throw new OperatorException();
         return variableStack.pop();
     }
-    public static double peek() throws OperatorException {
-        if(variableStack.isEmpty())
+
+    public double peek() throws OperatorException {
+        if (variableStack.isEmpty())
             throw new OperatorException();
         return variableStack.peek();
     }
-    public static void clear()
-    {
+
+    public void clear() {
         variableMap.clear();
         variableStack.clear();
     }
-    
+
 }

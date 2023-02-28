@@ -1,13 +1,16 @@
 package calculator.operations;
 
 import calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
+
+import java.util.Arrays;
 
 public abstract class Operation {
-    protected Object[] args = new Object[0];
-    public Operation setArgs(Object... args)
-    {
+    protected Object[] args;
+    protected CalculatorStack context;
+    public Operation (CalculatorStack context,Object... args) {
+        this.context = context;
         this.args = args;
-        return this;
     }
 
     public abstract void exec() throws OperatorException;

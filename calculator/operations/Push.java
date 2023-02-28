@@ -4,11 +4,16 @@ import calculator.exceptions.OperatorException;
 import calculator.logic.CalculatorStack;
 
 public class Push extends Operation {
+    public Push(CalculatorStack context, Object... args) {
+        super(context, args);
+    }
+
     @Override
     public void exec() throws OperatorException {
-        if (args[0] instanceof String)
-            CalculatorStack.push((String) args[0]);
-        else
-            CalculatorStack.push((double) args[0]);
+        try {
+            context.push(Double.parseDouble((String) args[0]));
+        } catch (NumberFormatException e) {
+            context.push((String) args[0]);
+        }
     }
 }
