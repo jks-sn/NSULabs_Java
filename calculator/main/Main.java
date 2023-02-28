@@ -11,8 +11,8 @@ public class Main {
         }
         else {
             System.out.println("Hello, World!");
-            //InteractiveCalc calc = new InteractiveCalc(args[0]);
-            //calc.execute();
+            InteractiveCalc calc = new InteractiveCalc();
+            calc.execute();
         }
     }
 }
