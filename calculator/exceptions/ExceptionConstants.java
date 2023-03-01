@@ -18,6 +18,7 @@ public class ExceptionConstants
     public static final String STACK = "Stack";
     public static final String HASH_MAP = "Hash_map";
 
+    public static final String WRONG_ARGUMENTS_DEFINE = "Wrong arguments for Define";
     public static final String WRONG_SYMBOLS = "Wrong symbols";
 
     public static final String CALC= "Calc";
