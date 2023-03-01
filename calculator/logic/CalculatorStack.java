@@ -1,14 +1,17 @@
 package calculator.logic;
 
+import calculator.exceptions.StackException;
 import calculator.utils.ArgChecker;
 import calculator.exceptions.OperatorException;
 
 import java.util.HashMap;
 import java.util.Stack;
 
+import static calculator.exceptions.ExceptionConstants.*;
+
 public class CalculatorStack {
-    private Stack<Double> variableStack;
-    private HashMap<String, Double> variableMap;
+    private final Stack<Double> variableStack;
+    private final HashMap<String, Double> variableMap;
 
     CalculatorStack() {
         variableStack = new Stack<>();
@@ -29,7 +32,7 @@ public class CalculatorStack {
         if (variableMap.containsKey(variableName))
             variableStack.push(variableMap.get(variableName));
         else
-            throw new OperatorException();
+            throw new StackException(HASH_MAP, UNKNOWN_VARIABLE);
     }
 
     public void push(double value) {
@@ -38,13 +41,13 @@ public class CalculatorStack {
 
     public double pop() throws OperatorException {
         if (variableStack.isEmpty())
-            throw new OperatorException();
+            throw new StackException(STACK, EMPTY_STACK);
         return variableStack.pop();
     }
 
     public double peek() throws OperatorException {
         if (variableStack.isEmpty())
-            throw new OperatorException();
+            throw new StackException(STACK,EMPTY_STACK);
         return variableStack.peek();
     }
 

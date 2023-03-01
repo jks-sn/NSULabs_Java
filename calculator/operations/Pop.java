@@ -3,6 +3,8 @@ package calculator.operations;
 import calculator.exceptions.OperatorException;
 import calculator.logic.CalculatorStack;
 
+import static calculator.exceptions.ExceptionConstants.*;
+
 public class Pop extends Operation {
 
     public Pop(CalculatorStack context, Object... args) {
@@ -15,10 +17,10 @@ public class Pop extends Operation {
     public void exec() throws OperatorException {
         if(args.length != numberArguments)
         {
-            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " operation");
+            throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
         }
         if(context.getStackLength() < numberVariablesFromStack) {
-            throw new OperatorException("Not enough variables in stack!!!");
+            throw new OperatorException(OPERATION, LOW_STACK);
         }
         context.pop();
     }

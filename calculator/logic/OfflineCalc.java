@@ -1,19 +1,22 @@
 package calculator.logic;
 
-import calculator.exceptions.OperatorException;
+import calculator.exceptions.CalcException;
 import calculator.factory.OperationCreator;
 import calculator.utils.ArgChecker;
+import calculator.utils.RegularSpecialSymbolsException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static calculator.exceptions.ExceptionConstants.*;
+
 public class OfflineCalc {
     private final String pathToFile;
-    private CalculatorStack context;
+    private final CalculatorStack context;
     private String operationName;
-    private ArrayList<Object> args;
+    private final ArrayList<Object> args;
     private int numberLine;
 
     public OfflineCalc(String inputFileName) {
@@ -39,18 +42,17 @@ public class OfflineCalc {
             try {
                 isOperation = true;
                 line = readScan.nextLine();
-                if (line.charAt(0) == '#')
-                    break;
+                if (line.isEmpty() || line.charAt(0) == '#') continue;
                 for (var word : line.split(" ")) {
-                    if (ArgChecker.regularSpecialSymbols(word))
-                        throw new OperatorException("Wrong symbols!!!");
+                    ArgChecker.regularSpecialSymbols(word);
                     if (isOperation) {
                         isOperation = false;
                         operationName = word;
                     } else {
                         if (ArgChecker.isDouble(word)) {
-                            if (Double.isNaN(Double.parseDouble(word)) || Double.isInfinite(Double.parseDouble(word)))
-                                throw new OperatorException("Error, wrong value!!!");
+                            if (Double.isNaN(Double.parseDouble(word))) throw new CalcException(VALUE, VALUE_NAN);
+                            if (Double.isInfinite(Double.parseDouble(word)))
+                                throw new CalcException(VALUE, VALUE_INFINITE);
                             args.add(word);
                         } else {
                             args.add(word);
@@ -58,17 +60,19 @@ public class OfflineCalc {
                     }
                 }
                 factory.getOperation(operationName, args.toArray(new Object[0])).exec();
-            } catch (Throwable error) {
-                System.err.println("Error on line " + numberLine + ":\n" + error.getClass().getSimpleName() + (error.getMessage() == null ? "" : ": " + error.getMessage()));
+            } catch (CalcException e) {
+                System.err.println("Error on line " + numberLine + ":\n");
+                e.whatTheProblem();
+            } catch (RegularSpecialSymbolsException e) {
+                System.err.println("Error on line " + numberLine + ":\n" + "There are some specific symbols");
             } finally {
                 args.clear();
                 numberLine++;
             }
         }
         readScan.close();
-        if (context.getStackLength() > 1)
+        if (context.getStackLength() > 0)
             System.out.println("In stack now " + context.getStackLength() + " variables.");
-        else if (context.getStackLength() == 0)
-            System.out.println("Stack is empty!!!");
+        else System.out.println("Stack is empty");
     }
 }

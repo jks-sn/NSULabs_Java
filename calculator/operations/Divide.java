@@ -3,7 +3,7 @@ package calculator.operations;
 import calculator.exceptions.OperatorException;
 import calculator.logic.CalculatorStack;
 
-import static calculator.exceptions.ExceptionConstants.DIVISION_BY_ZERO;
+import static calculator.exceptions.ExceptionConstants.*;
 
 public class Divide extends Operation {
     public Divide(CalculatorStack context, Object... args) {
@@ -15,13 +15,13 @@ public class Divide extends Operation {
     @Override
     public void exec() throws OperatorException {
         if(args.length > numberArguments)
-            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " operation");
+            throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
         if(context.getStackLength() < numberVariablesFromStack)
-            throw new OperatorException("Not enough variables in stack!!!");
+            throw new OperatorException(OPERATION, LOW_STACK);
         double valueFirst = context.pop();
         double valueSecond = context.pop();
         if(valueSecond == 0)
-            throw new OperatorException(DIVISION_BY_ZERO);
+            throw new OperatorException(OPERATION,DIVISION_BY_ZERO);
         context.push(valueSecond / valueFirst);
     }
 }

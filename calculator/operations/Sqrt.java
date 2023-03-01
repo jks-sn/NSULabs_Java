@@ -3,6 +3,8 @@ package calculator.operations;
 import calculator.exceptions.OperatorException;
 import calculator.logic.CalculatorStack;
 
+import static calculator.exceptions.ExceptionConstants.*;
+
 public class Sqrt extends Operation {
     public Sqrt(CalculatorStack context, Object... args) {
         super(context, args);
@@ -12,9 +14,9 @@ public class Sqrt extends Operation {
 
     public void exec() throws OperatorException {
         if(args.length > numberArguments)
-            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " operation");
+            throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
         if(context.getStackLength() < numberVariablesFromStack)
-            throw new OperatorException("Not enough variables in stack!!!");
+            throw new OperatorException(OPERATION, LOW_STACK);
         context.push(Math.sqrt(context.pop()));
     }
 }

@@ -3,6 +3,9 @@ package calculator.operations;
 import calculator.exceptions.OperatorException;
 import calculator.logic.CalculatorStack;
 
+import static calculator.exceptions.ExceptionConstants.OPERATION;
+import static calculator.exceptions.ExceptionConstants.WRONG_NUMBER_ARGUMENTS;
+
 public class Print extends Operation
 {
     public Print(CalculatorStack context, Object... args) {
@@ -13,7 +16,7 @@ public class Print extends Operation
     @Override
     public void exec() throws OperatorException {
         if(args.length > numberArguments)
-            throw new OperatorException("Too many arguments in " + this.getClass().getSimpleName().toLowerCase() + " command!!!");
+            throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
 
         System.out.println("" + context.peek());
     }

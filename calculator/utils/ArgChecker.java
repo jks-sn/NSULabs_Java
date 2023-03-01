@@ -14,11 +14,13 @@ public class ArgChecker {
             return false;
         }
     }
-    public static boolean regularSpecialSymbols(String arg)
-    {
+    public static void regularSpecialSymbols(String arg) throws RegularSpecialSymbolsException {
         Pattern special = Pattern.compile("[!@$%&()_=|<>?{}\\[\\]~]");
         Matcher hasSpecial = special.matcher(arg);
 
-        return hasSpecial.find();
+        if (hasSpecial.find())
+        {
+            throw new RegularSpecialSymbolsException();
+        }
     }
 }

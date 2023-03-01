@@ -3,6 +3,8 @@ package calculator.operations;
 import calculator.logic.CalculatorStack;
 import calculator.exceptions.OperatorException;
 
+import static calculator.exceptions.ExceptionConstants.*;
+
 public class Minus extends Operation {
     public Minus(CalculatorStack context, Object... args) {
         super(context, args);
@@ -13,9 +15,9 @@ public class Minus extends Operation {
     @Override
     public void exec() throws OperatorException {
         if (args.length > numberArguments)
-            throw new OperatorException("Error: Wrong numbers of arguments " + this.getClass().getSimpleName().toLowerCase() + " operation");
+            throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
         if (context.getStackLength() < numberVariablesFromStack)
-            throw new OperatorException("Error: Not enough value in stack");
+            throw new OperatorException(OPERATION, LOW_STACK);
         double valueFirst = context.pop();
         double valueSecond = context.pop();
         context.push(valueSecond - valueFirst);

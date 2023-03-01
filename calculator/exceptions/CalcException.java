@@ -1,11 +1,20 @@
 package calculator.exceptions;
 
+import static calculator.exceptions.ExceptionConstants.EXCEPTION_MESSAGE_DELIMITER;
+import static calculator.exceptions.ExceptionConstants.MESSAGE_TRY;
+
 public class CalcException extends Exception {
-    public CalcException() {
-        super();
+    protected String problemDescription;
+    protected String problemObjectName;
+    public CalcException(String problemObjectName,
+                  String currentProblem)
+    {
+        this.problemObjectName = problemObjectName;
+        this.problemDescription = currentProblem;
     }
 
-    public CalcException(String messageAboutExeption) {
-        super(messageAboutExeption);
+    public void whatTheProblem()
+    {
+        System.out.println(problemObjectName+EXCEPTION_MESSAGE_DELIMITER+problemDescription+" "+MESSAGE_TRY+EXCEPTION_MESSAGE_DELIMITER+'\n');
     }
 }

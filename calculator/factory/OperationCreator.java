@@ -1,5 +1,6 @@
 package calculator.factory;
 
+import calculator.exceptions.FactoryException;
 import calculator.logic.CalculatorStack;
 import calculator.operations.Operation;
 
@@ -13,9 +14,9 @@ public class OperationCreator {
         this.context = context;
     }
 
-    public Operation getOperation(String nameOperation, Object... args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+    public Operation getOperation(String nameOperation, Object... args) throws FactoryException {
         ConfigParser configParser = new ConfigParser();
-        final var operationClass = configParser.getOperationClass(context, nameOperation, args);
-        return operationClass;
+            return configParser.getOperationClass(context, nameOperation, args);
     }
 }

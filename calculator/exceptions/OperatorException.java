@@ -1,11 +1,9 @@
 package calculator.exceptions;
 
-public class OperatorException extends CalcException {
-    public OperatorException() {
-        super();
-    }
+import static calculator.exceptions.ExceptionConstants.BAD_OPERATION;
 
-    public OperatorException(String informationAboutException) {
-        super(informationAboutException);
+public class OperatorException extends FactoryException {
+    public OperatorException(String problemObjectName, String currentProblem) {
+        super(problemObjectName,currentProblem);
     }
 }
