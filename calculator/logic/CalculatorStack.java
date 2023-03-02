@@ -13,7 +13,7 @@ public class CalculatorStack {
     private final Stack<Double> variableStack;
     private final HashMap<String, Double> variableMap;
 
-    CalculatorStack() {
+    public CalculatorStack() {
         variableStack = new Stack<>();
         variableMap = new HashMap<>();
     }
