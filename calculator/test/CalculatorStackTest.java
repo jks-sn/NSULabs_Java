@@ -5,32 +5,44 @@ import calculator.exceptions.StackException;
 import calculator.logic.CalculatorStack;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 
 public class CalculatorStackTest {
+    static CalculatorStack context;
+
+    @BeforeAll
+    static void createStack() {
+        context = new CalculatorStack();
+    }
+
     @Test
-    public void getStackLength() throws OperatorException {
-        CalculatorStack context = new CalculatorStack();
+    public void getStackLength1() throws OperatorException {
         context.push(9);
         context.clear();
         Assert.assertEquals(context.getStackLength(), 0);
-        context.clear();
-
+    }
+    public void getStackLength2() throws OperatorException {
         context.push(33);
         context.push(33);
         Assert.assertEquals(context.getStackLength(), 2);
-        context.clear();
-        try{
-            context.push("abacaba");
-            Assert
+    }
+        public void Push1() throws OperatorException {
+            try {
+                context.push("abacaba");
+                Assert.assertEquals(0, 1);
+            } catch (StackException ignored) {
+                Assert.assertEquals(0, 0);
+            }
         }
-        catch(StackException ignored){
-
-        }
-
+        public void Pop1() throws OperatorException{
         context.push(33);
         context.pop();
-        Assert.assertEquals(context.getStackLength(),0);
+        Assert.assertEquals(context.getStackLength(), 0);
+    }
 
-
+    @AfterEach
+    void cleanStack() {
+        context.clear();
     }
 }
