@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static calculator.constants.CalcConstants.COMMENT_CHARACTER;
 import static calculator.exceptions.ExceptionConstants.*;
 
 public class OfflineCalc {
@@ -42,7 +43,7 @@ public class OfflineCalc {
             try {
                 isOperation = true;
                 line = readScan.nextLine();
-                if (line.isEmpty() || line.charAt(0) == '#') continue;
+                if (line.isEmpty() || line.charAt(0) == COMMENT_CHARACTER) continue;
                 for (var word : line.split(" ")) {
                     ArgChecker.regularSpecialSymbols(word);
                     if (isOperation) {

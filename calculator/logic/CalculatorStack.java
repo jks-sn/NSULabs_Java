@@ -28,7 +28,7 @@ public class CalculatorStack {
         }
     }
 
-    public void push(String variableName) throws OperatorException {
+    public void push(String variableName) throws StackException {
         if (variableMap.containsKey(variableName))
             variableStack.push(variableMap.get(variableName));
         else
@@ -39,15 +39,15 @@ public class CalculatorStack {
         variableStack.push(value);
     }
 
-    public double pop() throws OperatorException {
+    public double pop() throws StackException {
         if (variableStack.isEmpty())
             throw new StackException(STACK, EMPTY_STACK);
         return variableStack.pop();
     }
 
-    public double peek() throws OperatorException {
+    public double peek() throws StackException {
         if (variableStack.isEmpty())
-            throw new StackException(STACK,EMPTY_STACK);
+            throw new StackException(STACK, EMPTY_STACK);
         return variableStack.peek();
     }
 
