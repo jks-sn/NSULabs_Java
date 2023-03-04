@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class OperationCreator {
-    private CalculatorStack context;
+    private final CalculatorStack context;
 
     public OperationCreator(CalculatorStack context) {
         this.context = context;

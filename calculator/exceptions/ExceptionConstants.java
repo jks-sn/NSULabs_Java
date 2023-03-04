@@ -29,4 +29,8 @@ public class ExceptionConstants
 
     public static final String VALUE = "Value";
     public static final String MESSAGE_TRY = "please, try again";
+    public static final String MESSAGE_SPECIAL_SYMBOLS = "Error" + ":\n" + "There are some specific symbols";
+
+    public static final String MESSAGE_ERROR = "Error" + ":\n";
+
 }

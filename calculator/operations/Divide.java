@@ -14,14 +14,14 @@ public class Divide extends Operation {
 
     @Override
     public void exec() throws OperatorException {
-        if(args.length > numberArguments)
+        if (args.length > numberArguments)
             throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
-        if(context.getStackLength() < numberVariablesFromStack)
+        if (context.getStackLength() < numberVariablesFromStack)
             throw new OperatorException(OPERATION, LOW_STACK);
         double valueFirst = context.pop();
         double valueSecond = context.pop();
-        if(valueSecond == 0)
-            throw new OperatorException(OPERATION,DIVISION_BY_ZERO);
+        if (valueSecond == 0)
+            throw new OperatorException(OPERATION, DIVISION_BY_ZERO);
         context.push(valueSecond / valueFirst);
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static calculator.constants.CalcConstants.*;
 import static calculator.exceptions.ExceptionConstants.*;
 
 public class InteractiveCalc {
@@ -29,16 +30,15 @@ public class InteractiveCalc {
     public void execute() {
         OperationCreator factory = new OperationCreator(context);
         Scanner readScan = new Scanner(System.in);
-        System.out.println("Hello! This is stack-calculator, please write you command:");
+        System.out.println(HELLO_MESSAGE);
         while (readScan.hasNext()) {
             try {
                 isOperation = true;
                 line = readScan.nextLine();
-                if(Objects.equals(line, "EXIT"))
-                {
+                if (Objects.equals(line, NAME_EXIT_COMMAND)) {
                     break;
                 }
-                if (line.isEmpty() || line.charAt(0) == '#') {
+                if (line.isEmpty() || line.charAt(0) == COMMENT_CHARACTER) {
                     continue;
                 }
                 for (var word : line.split(" ")) {
@@ -59,10 +59,10 @@ public class InteractiveCalc {
                 }
                 factory.getOperation(operationName, args.toArray(new Object[0])).exec();
             } catch (CalcException e) {
-                System.err.println("Error " + ":\n");
+                System.err.println(MESSAGE_ERROR);
                 e.whatTheProblem();
             } catch (RegularSpecialSymbolsException e) {
-                System.err.println("Error" + ":\n" + "There are some specific symbols");
+                System.err.println(MESSAGE_SPECIAL_SYMBOLS);
             } finally {
                 args.clear();
                 operationName = "";
@@ -74,6 +74,6 @@ public class InteractiveCalc {
         else {
             context.getStackLength();
         }
-            System.out.println("Stack is empty");
+        System.out.println(EMPTY_STACK);
     }
 }

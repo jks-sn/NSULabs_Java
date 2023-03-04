@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static calculator.constants.CalcConstants.COMMENT_CHARACTER;
+import static calculator.constants.CalcConstants.MESSAGE_EMPTY_STACK;
 import static calculator.exceptions.ExceptionConstants.*;
 
 public class OfflineCalc {
@@ -74,6 +75,6 @@ public class OfflineCalc {
         readScan.close();
         if (context.getStackLength() > 0)
             System.out.println("In stack now " + context.getStackLength() + " variables.");
-        else System.out.println("Stack is empty");
+        else System.out.println(MESSAGE_EMPTY_STACK);
     }
 }
