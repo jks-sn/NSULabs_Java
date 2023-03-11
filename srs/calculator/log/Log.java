@@ -42,8 +42,6 @@ public class Log {
             ex.printStackTrace();
         }
         assert file != null;
-        System.setProperty("log4j.properties", file.getPath());
-
 
         info = LogManager.getLogger(NAME_LOGGER_INFO);
         err = LogManager.getLogger(NAME_LOGGER_DEBUG);
