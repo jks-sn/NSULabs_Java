@@ -74,31 +74,6 @@ public class Log {
         errEnabled = false;
     }
 
-    public static <T> void printArray(String splitter, LogType type, ArrayList<T> array) {
-        if (array == null) {
-            error(MESSAGE_EMPTY_ARRAY);
-            return;
-        }
-
-        if (splitter == null) {
-            error(MESSAGE_EMPTY_SPLITTER);
-            return;
-        }
-
-        StringBuilder message = new StringBuilder("[");
-        if (array.isEmpty())
-            message.append(E;
-        for (int i = 0; i < array.size(); i++)
-            message.append(array.get(i).toString()).append(i == array.size() - 1 ? "" : splitter + " ");
-        message.append("]");
-
-        switch (type) {
-            case INFO -> info(message + "");
-            case DEBUG -> debug(message + "");
-            case ERROR -> error(message + "");
-        }
-    }
-
     public static <T extends Number> void info(T message) {
         info(message + "");
     }
