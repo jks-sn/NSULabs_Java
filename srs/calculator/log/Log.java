@@ -26,7 +26,7 @@ public class Log {
 
         try {
             InputStream input = Log.class.getResourceAsStream(resource);
-            file = File.createTempFile("temple", ".tmp");
+            file = File.createTempFile("temp", ".tmp");
             OutputStream out = new FileOutputStream(file);
             int read;
             byte[] bytes = new byte[BUFFER_SIZE];
