@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.util.ArrayList;
 
+import static srs.calculator.constants.LogConstants.*;
+
 public class Log {
     private static Logger info;
     private static Logger err;
@@ -27,7 +29,7 @@ public class Log {
             file = File.createTempFile("temple", ".tmp");
             OutputStream out = new FileOutputStream(file);
             int read;
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[BUFFER_SIZE];
 
             while (true) {
                 assert input != null;
@@ -43,13 +45,13 @@ public class Log {
         System.setProperty("log4j.properties", file.getPath());
 
 
-        info = LogManager.getLogger("calc-info");
-        err = LogManager.getLogger("calc-error");
-        debug = LogManager.getLogger("calc-debug");
+        info = LogManager.getLogger(NAME_LOGGER_INFO);
+        err = LogManager.getLogger(NAME_LOGGER_DEBUG);
+        debug = LogManager.getLogger(NAME_LOGGER_ERROR);
     }
 
     void enableLog() {
-        logEnabled = true;
+        Log.logEnabled = true;
     }
 
     void disableLog() {
@@ -74,18 +76,18 @@ public class Log {
 
     public static <T> void printArray(String splitter, LogType type, ArrayList<T> array) {
         if (array == null) {
-            error("Null array!");
+            error(MESSAGE_EMPTY_ARRAY);
             return;
         }
 
         if (splitter == null) {
-            error("Null splitter!");
+            error(MESSAGE_EMPTY_SPLITTER);
             return;
         }
 
         StringBuilder message = new StringBuilder("[");
         if (array.isEmpty())
-            message.append("empty");
+            message.append(E;
         for (int i = 0; i < array.size(); i++)
             message.append(array.get(i).toString()).append(i == array.size() - 1 ? "" : splitter + " ");
         message.append("]");
@@ -132,17 +134,17 @@ public class Log {
             case DEBUG -> {
                 if (!debugEnabled)
                     return;
-                debug.debug(message);
+                debug.debug(message, t);
             }
             case ERROR -> {
                 if (!errEnabled)
                     return;
-                err.warn(message);
+                err.warn(message, t);
             }
             case INFO -> {
                 if (!infoEnabled)
                     return;
-                info.info(message);
+                info.info(message, t);
             }
         }
     }
