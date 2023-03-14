@@ -1,6 +1,6 @@
-package src.utils;
+package utils;
 
-public class utilsBoard {
+public class UtilsBoard {
     public static int countValidCoordinates(int i,int limit)
     {
         if(i < 0)

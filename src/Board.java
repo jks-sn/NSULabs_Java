@@ -1,7 +1,6 @@
-package src;
 
-import static src.utils.utilsBoard.countValidCoordinates;
-
+import static src.utils.UtilsBoard.countValidCoordinates;
+import src.Cell;
 public class Board {
     int mines;
     private Cell cells[][];
@@ -14,7 +13,13 @@ public class Board {
         columns = numberColls;
         cells = new Cell[rows][columns];
     }
-
+    public Board()
+    {
+        mines = 10;
+        rows = 9;
+        columns = 9;
+        cells = new Cell[rows][columns];
+    }
     public void setMines() { //придумать что-нибудь получше
         int x, y, i = 0;
         while (i != mines) {

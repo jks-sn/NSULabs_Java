@@ -1,1 +1,4 @@
-package srs;
+
+public class Game {
+
+}
