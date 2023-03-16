@@ -2,7 +2,7 @@ package srs.calculator.logic;
 
 import srs.calculator.exceptions.CalcException;
 import srs.calculator.factory.OperationCreator;
-import srs.calculator.log.Log;
+//import srs.calculator.log.Log;
 import srs.calculator.utils.ArgChecker;
 import srs.calculator.utils.RegularSpecialSymbolsException;
 
@@ -59,13 +59,13 @@ public class InteractiveCalc {
                     }
                 }
                 factory.getOperation(operationName, args.toArray(new Object[0])).exec();
-                Log.info("Stack after:");
+                //Log.info("Stack after:");
             } catch (CalcException e) {
-                Log.error(MESSAGE_ERROR+e.getMessage(), e);
+                //Log.error(MESSAGE_ERROR+e.getMessage(), e);
                 System.err.println(MESSAGE_ERROR);
                 e.whatTheProblem();
             } catch (RegularSpecialSymbolsException e) {
-                Log.error(MESSAGE_SPECIAL_SYMBOLS, e);
+                //Log.error(MESSAGE_SPECIAL_SYMBOLS, e);
                 System.err.println(MESSAGE_SPECIAL_SYMBOLS);
             } finally {
                 args.clear();
@@ -74,11 +74,11 @@ public class InteractiveCalc {
         }
         readScan.close();
         if (context.getStackLength() > 0) {
-            Log.info("In stack now " + context.getStackLength() + " variables.");
+            //Log.info("In stack now " + context.getStackLength() + " variables.");
             System.out.println("In stack now " + context.getStackLength() + " variables.");
         }
         else {
-            Log.info(MESSAGE_EMPTY_STACK);
+            //Log.info(MESSAGE_EMPTY_STACK);
             System.out.println(EMPTY_STACK);
         }
     }

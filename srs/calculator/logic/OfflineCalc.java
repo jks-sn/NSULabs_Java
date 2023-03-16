@@ -2,7 +2,7 @@ package srs.calculator.logic;
 
 import srs.calculator.exceptions.CalcException;
 import srs.calculator.factory.OperationCreator;
-import srs.calculator.log.Log;
+//import srs.calculator.log.Log;
 import srs.calculator.utils.ArgChecker;
 import srs.calculator.utils.RegularSpecialSymbolsException;
 
@@ -46,8 +46,8 @@ public class OfflineCalc {
                 isOperation = true;
                 line = readScan.nextLine();
                 if (line.isEmpty() || line.charAt(0) == COMMENT_CHARACTER) continue;
-                Log.info("Call line: " + line);
-                Log.info("Stack before:");
+                //Log.info("Call line: " + line);
+                //Log.info("Stack before:");
                 for (var word : line.split(" ")) {
                     ArgChecker.regularSpecialSymbols(word);
                     if (isOperation) {

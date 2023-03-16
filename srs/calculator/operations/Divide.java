@@ -20,7 +20,7 @@ public class Divide extends Operation {
             throw new OperatorException(OPERATION, LOW_STACK);
         double valueFirst = context.pop();
         double valueSecond = context.pop();
-        if (valueSecond == 0)
+        if (valueFirst == 0)
             throw new OperatorException(OPERATION, DIVISION_BY_ZERO);
         context.push(valueSecond / valueFirst);
     }

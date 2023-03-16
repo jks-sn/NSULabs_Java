@@ -1,11 +1,10 @@
 package srs.calculator.log;
 
-
+/*
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
 
 import static srs.calculator.constants.LogConstants.*;
 
@@ -128,3 +127,4 @@ public class Log {
         ERROR
     }
 }
+*/

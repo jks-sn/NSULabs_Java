@@ -1,7 +1,7 @@
 package srs.calculator.logic;
 
 import srs.calculator.exceptions.StackException;
-import srs.calculator.log.Log;
+//import srs.calculator.log.Log;
 import srs.calculator.utils.ArgChecker;
 import srs.calculator.exceptions.OperatorException;
 
@@ -60,7 +60,7 @@ public class CalculatorStack {
             message.append(ArgChecker.isDouble(String.valueOf(variableStack.get(i))) ? "var" + variableStack.get(i) : variableStack.get(i)).append(" = ").append(variableMap.get(variableStack.get(i))).append(i == variableStack.size() - 1 ? "" : ", ");
         message.append("]");
 
-        Log.log(Log.LogType.INFO, message.toString(), null);
+        //Log.log(Log.LogType.INFO, message.toString(), null);
     }
 
     public void clear() {
