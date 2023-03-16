@@ -1,9 +1,10 @@
 
-import static src.utils.UtilsBoard.countValidCoordinates;
 import src.Cell;
+import static utils.UtilsBoard.countValidCoordinates;
+
 public class Board {
     int mines;
-    private Cell cells[][];
+    private final Cell[][] cells;
     private int rows;
     private int columns;
 
