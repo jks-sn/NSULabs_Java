@@ -4,7 +4,7 @@ import srs.calculator.exceptions.CalcException;
 import srs.calculator.factory.OperationCreator;
 //import srs.calculator.log.Log;
 import srs.calculator.utils.ArgChecker;
-import srs.calculator.utils.RegularSpecialSymbolsException;
+import srs.calculator.exceptions.RegularSpecialSymbolsException;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,5 +1,7 @@
 package srs.calculator.utils;
 
+import srs.calculator.exceptions.RegularSpecialSymbolsException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class ArgChecker {

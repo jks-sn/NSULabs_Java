@@ -1,4 +1,4 @@
-package srs.calculator.utils;
+package srs.calculator.exceptions;
 
 public class RegularSpecialSymbolsException extends Exception{
     public RegularSpecialSymbolsException() {

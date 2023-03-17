@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 import srs.calculator.exceptions.FactoryException;
-import srs.calculator.exceptions.OperatorException;
 import srs.calculator.logic.CalculatorStack;
 import srs.calculator.operations.Operation;
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import srs.calculator.exceptions.OperatorException;
 import srs.calculator.logic.CalculatorStack;
-import srs.calculator.operations.Divide;
+import srs.calculator.operations.Minus;
 import srs.calculator.operations.Operation;
 
 import java.util.ArrayList;
@@ -33,9 +33,9 @@ public class MinusTest {
         args.add("3");
         context.push(5);
         context.push(9);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
+            minus.exec();
             Assertions.fail();
         } catch (OperatorException e) {
             Assertions.assertEquals(0, 0);
@@ -45,9 +45,9 @@ public class MinusTest {
     @Test
     public void MinusTest2() {
         context.push(3);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
+            minus.exec();
             Assertions.fail();
         } catch (OperatorException e) {
             Assertions.assertEquals(0, 0);
@@ -58,12 +58,12 @@ public class MinusTest {
     public void MinusTest3() {
         context.push(300);
         context.push(0);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
-            Assertions.fail();
+            minus.exec();
+            Assertions.assertEquals(context.peek(), 300);
         } catch (Throwable e) {
-            Assertions.assertEquals(0, 0);
+            Assertions.fail();
         }
     }
 
@@ -71,10 +71,10 @@ public class MinusTest {
     public void MinusTest4() {
         context.push(3);
         context.push(1);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
-            Assertions.assertEquals(context.peek(), 3);
+            minus.exec();
+            Assertions.assertEquals(context.peek(), 2);
         } catch (OperatorException e) {
             Assertions.fail();
         }
@@ -84,10 +84,10 @@ public class MinusTest {
     public void MinusTest5() {
         context.push(55);
         context.push(11);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
-            Assertions.assertEquals(context.peek(), 5);
+            minus.exec();
+            Assertions.assertEquals(context.peek(), 44);
         } catch (OperatorException e) {
             Assertions.fail();
         }
@@ -97,10 +97,10 @@ public class MinusTest {
     public void MinusTest6() {
         context.push(60);
         context.push(600);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
-            Assertions.assertEquals(context.peek(), 0.1);
+            minus.exec();
+            Assertions.assertEquals(context.peek(), -540);
         } catch (OperatorException e) {
             Assertions.fail();
         }
@@ -108,12 +108,12 @@ public class MinusTest {
 
     @Test
     public void MinusTest7() {
-        context.push(0);
-        context.push(699);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        context.push(0.6);
+        context.push(1);
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
-            Assertions.assertEquals(context.peek(), 0.0);
+            minus.exec();
+            Assertions.assertEquals(context.peek(), -0.4);
         } catch (Throwable e) {
             Assertions.fail();
         }
@@ -121,11 +121,11 @@ public class MinusTest {
 
     @Test
     public void MinusTest8() {
-        context.push(Double.MAX_VALUE);
-        context.push(0.5);
-        Operation divide = new Divide(context, args.toArray(new Object[0]));
+        context.push(-Double.MAX_VALUE);
+        context.push(5);
+        Operation minus = new Minus(context, args.toArray(new Object[0]));
         try {
-            divide.exec();
+            minus.exec();
             Assertions.fail();
         } catch (Throwable e) {
             Assertions.assertEquals(0, 0);
