@@ -1,5 +1,3 @@
-
-import src.Cell;
 import static utils.UtilsBoard.countValidCoordinates;
 
 public class Board {

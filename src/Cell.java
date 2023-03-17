@@ -1,5 +1,3 @@
-package src;
-
 public class Cell {
     private boolean mine;
     private boolean flag;
