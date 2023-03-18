@@ -2,7 +2,7 @@ package srs.calculator.exceptions;
 
 public class ExceptionConstants
 {
-    public static final String EXCEPTION_MESSAGE_DELIMITER = "-------------------------------------------";
+    //public static final String EXCEPTION_MESSAGE_DELIMITER = "-------------------------------------------";
     public static final String VALUE_NAN = "THIS IS NAN";
     public static final String VALUE_INFINITE = "THIS IS INFINITE";
     public static final String DIVISION_BY_ZERO ="Division by 0!";

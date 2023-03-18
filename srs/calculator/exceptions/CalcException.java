@@ -1,6 +1,5 @@
 package srs.calculator.exceptions;
 
-import static srs.calculator.exceptions.ExceptionConstants.EXCEPTION_MESSAGE_DELIMITER;
 import static srs.calculator.exceptions.ExceptionConstants.MESSAGE_TRY;
 
 public class CalcException extends Exception {
@@ -15,6 +14,6 @@ public class CalcException extends Exception {
 
     public void whatTheProblem()
     {
-        System.out.println(problemObjectName+EXCEPTION_MESSAGE_DELIMITER+problemDescription+" "+MESSAGE_TRY+EXCEPTION_MESSAGE_DELIMITER+'\n');
+        System.out.println(problemObjectName+":"+problemDescription+" "+MESSAGE_TRY+'\n');
     }
 }
