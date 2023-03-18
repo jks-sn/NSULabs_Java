@@ -2,7 +2,7 @@ package ui.tui;
 
 import ui.GameViewInterface;
 
-public class TextGame implements GameViewInterface {
+public class TextInterface implements GameViewInterface {
 
     @Override
     public void updateFlag(int x, int y) {
