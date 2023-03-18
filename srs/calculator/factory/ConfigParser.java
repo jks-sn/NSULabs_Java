@@ -20,25 +20,20 @@ public class ConfigParser {
 
             InputStream stream = ConfigParser.class.getResourceAsStream(PROPETIES_PATH);
             prop.load(stream);
-        } catch (NullPointerException | IOException e) {
-            throw new FactoryException(PROPERTY, PROPERTY_PROBLEM);
-        }
-
-        String className = prop.getProperty(nameOperation);
-        if (className == null) //check
-        {
-            throw new FactoryException(PROPERTY, WRONG_OPERATION);
-        }
-        Constructor<Operation> constructor;
-        try {
+            String className = prop.getProperty(nameOperation);
+            if (className == null) //check
+            {
+                throw new FactoryException(PROPERTY, WRONG_OPERATION);
+            }
+            Constructor<Operation> constructor;
             Class<Operation> commandClass = (Class<Operation>) Class.forName(className);
             constructor = commandClass.getConstructor(CalculatorStack.class, Object[].class);
+            return constructor.newInstance(context, args);
+        } catch (NullPointerException | IOException e) {
+            throw new FactoryException(PROPERTY, PROPERTY_PROBLEM);
         } catch (NoSuchMethodException |
                  ClassNotFoundException e) {
             throw new FactoryException(OPERATION, BAD_OPERATION + CANT_GET_OPERATION_CONSTRUCTOR);
-        }
-        try {
-            return constructor.newInstance(context, args);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new FactoryException(OPERATION, BAD_OPERATION + CANT_OPERATION_CREATE);
         }
