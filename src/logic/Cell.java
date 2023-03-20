@@ -1,3 +1,5 @@
+package logic;
+
 public class Cell {
     private boolean mine;
     private boolean flag;
@@ -32,9 +34,17 @@ public class Cell {
             flag = !flag; //check
         }
     }
-    public void changeLock()
+    public boolean getLocked()
     {
-        locked = !locked;
+        return locked;
+    }
+    public boolean getFlag()
+    {
+        return flag;
+    }
+    public void open()
+    {
+        locked = false;
     }
 
 }

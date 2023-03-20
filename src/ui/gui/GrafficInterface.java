@@ -1,4 +1,6 @@
 package ui.gui;
 
-public class GrafficInterface {
+import ui.GameViewInterface;
+
+public class GrafficInterface implements GameViewInterface {
 }
