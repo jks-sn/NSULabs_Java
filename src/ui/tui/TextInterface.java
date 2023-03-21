@@ -2,6 +2,7 @@ package ui.tui;
 
 import constants.TextInterfaceCommands;
 import logic.Board;
+import timer.Timer;
 import ui.GameViewInterface;
 
 import java.io.InputStream;
@@ -49,9 +50,15 @@ public class TextInterface implements GameViewInterface {
     }
 
     @Override
-    public void updateTimer() {
+    public void writeFirstCommandMessage() {
+        System.out.print("Please, open first cell");
+    }
+
+    @Override
+    public void updateTimer(Timer timer) {
 
     }
+
 
     @Override
     public void restartGame() {
@@ -70,11 +77,6 @@ public class TextInterface implements GameViewInterface {
 
     @Override
     public void updatePause() {
-
-    }
-
-    @Override
-    public void openCell() {
 
     }
 

@@ -10,13 +10,13 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Game {
-    HashMap<String, Integer> commands = new HashMap<String, Integer>() {{
+    private HashMap<String, Integer> commands = new HashMap<String, Integer>() {{
         put("OPEN", 0);
         put("FLAGGED", 1);
         //put("PAUSE", 2);
     }};
-    Timer timer;
-    Board board;
+    private Timer timer;
+    private Board board;
 
     static boolean gameOver = false;
 
@@ -24,7 +24,6 @@ public class Game {
 
     public Game(int rows, int cols, int mines, boolean isGui) {
         board = new Board(rows, cols, mines);
-        timer = new Timer();
         if(isGui)
             ui = new GrafficInterface();
         else
@@ -33,18 +32,32 @@ public class Game {
 
     public Game() {
         board = new Board();
-        timer = new Timer();
     }
 
     public void playGame() {
+        var input = ui.getCommand();
+        String command = (String) input[0];
+        int x;
+        int y;
+        while(!Objects.equals(command, "OPEN"))
+        {
+            ui.writeFirstCommandMessage();
+            input = ui.getCommand();
+            command = (String) input[0];
+        }
+        x = (int)input[1];
+        y = (int)input[2];
+        board.openCell(x,y);
+        timer = new Timer();
         ui.updateBoard(board);
-        while (!gameOver) {
-            var input = ui.getCommand();
+        board.setMines();
+        while (!gameOver && (board.getNumberOpenCells() + board.getNumberMines() != board.getColumns()*board.getRows())) {
             if (input.length != 3)
                 throw new RuntimeException("Error, wrong command");
-            int x = (int) input[1];
-            int y = (int) input[2];
-            String command = (String) input[0];
+            input = ui.getCommand();
+            command = (String) input[0];
+            x = (int)input[1];
+            y = (int)input[2];
             if (Objects.equals(command, "OPEN")) {
                 {
                     board.openCell(x, y);

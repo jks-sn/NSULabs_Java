@@ -7,14 +7,12 @@ public class Timer {
     private long minets;
     private static Thread timer;
 
-    private static TimerTask task;
     private boolean isRunning;
 
     public Timer()
     {
         seconds = 0;
         minets = 0;
-        isRunning = false;
     }
     public void startTimer()
     {
@@ -33,7 +31,6 @@ public class Timer {
                 catch(InterruptedException ignored){}
             }
         });
-
         timer.start();
     }
     public void stopTimer()
@@ -41,7 +38,7 @@ public class Timer {
         isRunning = false;
 
         try
-        {
+        {   
             if (timer!= null)
                 timer.join();
         }

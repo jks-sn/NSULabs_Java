@@ -30,7 +30,7 @@ public class Board {
         while (i != mines) {
             x = (int) Math.floor(Math.random() * rows);
             y = (int) Math.floor(Math.random() * columns);
-            if (!cells[x][y].getMine()) {
+            if (!cells[x][y].getMine() && cells[x][y].getLocked()) {
                 ++i;
                 cells[x][y].setMine();
             }
@@ -97,5 +97,11 @@ public class Board {
 
     public int getColumns() {
         return columns;
+    }
+    public int getNumberOpenCells() {
+        return numberOpenCells;
+    }
+    public int getNumberMines() {
+        return mines;
     }
 }

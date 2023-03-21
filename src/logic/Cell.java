@@ -9,7 +9,7 @@ public class Cell {
     public Cell() {
         mine = false;
         flag = false;
-        locked = false;
+        locked = true;
         surroundingMines = 0;
     }
 

@@ -7,9 +7,19 @@
 /dataSources/
 /dataSources.local.xml
 .gradle/
+out/
 gradle/
 /build/
 .idea/
 gradlew
 gradlew.bat
 NSULabs_Java.iml
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+.gitattributes
+build.gradle
+settings.gradle
