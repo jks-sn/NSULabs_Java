@@ -1,6 +1,6 @@
-package logic;
+package ru.nsu.ccfit.berkaev.logic;
 
-import static utils.UtilsBoard.countValidCoordinates;
+import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countValidCoordinates;
 
 public class Board {
     int mines;

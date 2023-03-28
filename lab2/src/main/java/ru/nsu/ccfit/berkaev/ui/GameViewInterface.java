@@ -1,7 +1,7 @@
-package ui;
+package ru.nsu.ccfit.berkaev.ui;
 
-import logic.Board;
-import timer.Timer;
+import ru.nsu.ccfit.berkaev.logic.Board;
+import ru.nsu.ccfit.berkaev.timer.Timer;
 
 public interface GameViewInterface {
     void updateFlag(int x, int y, Board board);

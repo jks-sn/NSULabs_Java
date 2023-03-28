@@ -1,4 +1,4 @@
-package utils;
+package ru.nsu.ccfit.berkaev.utils;
 
 public class UtilsBoard {
     public static int countValidCoordinates(int i,int limit)

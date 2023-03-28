@@ -1,10 +1,9 @@
-package logic;
+package ru.nsu.ccfit.berkaev.logic;
 
-import logic.Board;
-import timer.Timer;
-import ui.GameViewInterface;
-import ui.gui.GrafficInterface;
-import ui.tui.TextInterface;
+import ru.nsu.ccfit.berkaev.timer.Timer;
+import ru.nsu.ccfit.berkaev.ui.GameViewInterface;
+import ru.nsu.ccfit.berkaev.ui.gui.GrafficInterface;
+import ru.nsu.ccfit.berkaev.ui.tui.TextInterface;
 
 import java.util.HashMap;
 import java.util.Objects;

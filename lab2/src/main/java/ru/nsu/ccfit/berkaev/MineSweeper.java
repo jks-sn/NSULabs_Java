@@ -1,3 +1,4 @@
+package ru.nsu.ccfit.berkaev;
 
 public class MineSweeper {
     private byte [][] map;

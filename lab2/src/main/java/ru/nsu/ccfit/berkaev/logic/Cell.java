@@ -1,4 +1,4 @@
-package logic;
+package ru.nsu.ccfit.berkaev.logic;
 
 public class Cell {
     private boolean mine;

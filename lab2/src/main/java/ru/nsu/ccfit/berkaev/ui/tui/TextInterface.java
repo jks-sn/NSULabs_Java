@@ -1,18 +1,11 @@
-package ui.tui;
+package ru.nsu.ccfit.berkaev.ui.tui;
 
-import constants.TextInterfaceCommands;
-import logic.Board;
-import timer.Timer;
-import ui.GameViewInterface;
+import ru.nsu.ccfit.berkaev.logic.Board;
+import ru.nsu.ccfit.berkaev.timer.Timer;
+import ru.nsu.ccfit.berkaev.ui.GameViewInterface;
 
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.Scanner;
-
-import logic.Cell;
-
-import static javax.swing.UIManager.put;
 
 public class TextInterface implements GameViewInterface {
     HashMap<String, Integer> commands = new HashMap<String, Integer>() {{

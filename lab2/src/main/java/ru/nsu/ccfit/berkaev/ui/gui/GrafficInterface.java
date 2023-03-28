@@ -1,8 +1,8 @@
-package ui.gui;
+package ru.nsu.ccfit.berkaev.ui.gui;
 
-import logic.Board;
-import timer.Timer;
-import ui.GameViewInterface;
+import ru.nsu.ccfit.berkaev.logic.Board;
+import ru.nsu.ccfit.berkaev.timer.Timer;
+import ru.nsu.ccfit.berkaev.ui.GameViewInterface;
 
 public class GrafficInterface implements GameViewInterface {
     @Override

@@ -1,4 +1,4 @@
-package logic;
+package ru.nsu.ccfit.berkaev.logic;
 
 public class Mine {
     private boolean isTrapped;

@@ -1,6 +1,4 @@
-package timer;
-
-import java.util.TimerTask;
+package ru.nsu.ccfit.berkaev.timer;
 
 public class Timer {
     private long seconds;
