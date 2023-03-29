@@ -30,12 +30,12 @@ public class TextInterface implements GameViewInterface {
         for (int row = 0; row < board.getRows(); row++) {
             System.out.print(row + " ");
             for (int col = 0; col < board.getColumns(); col++) {
-                if (board.isClose(row, col)) {
-                    System.out.print("- ");
-                } else if (board.isFlagged(row, col)) {
+                if (board.isFlagged(row, col)) {
                     System.out.print("* ");
+                } else if (board.isClose(row, col)) {
+                    System.out.print("- ");
                 } else {
-                    System.out.print(board.calcNeighboursMines(row, col) + " ");
+                    System.out.print(board.getSurroundingMines(row,col) + " ");
                 }
             }
             System.out.println();
@@ -71,6 +71,11 @@ public class TextInterface implements GameViewInterface {
     @Override
     public void updatePause() {
 
+    }
+
+    @Override
+    public void writeMessageUnknownCommand() {
+        System.out.println("Unknown command");
     }
 
     public Object[] getCommand() {

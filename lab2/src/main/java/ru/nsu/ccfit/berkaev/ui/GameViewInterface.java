@@ -13,6 +13,6 @@ public interface GameViewInterface {
     void noticeWinGame();
     void noticeLoseGame();
     void updatePause();
-
+    void writeMessageUnknownCommand();
     Object[] getCommand();
 }

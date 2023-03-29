@@ -36,6 +36,7 @@ public class Cell {
     }
     public boolean getLocked()
     {
+
         return locked;
     }
     public boolean getFlag()
