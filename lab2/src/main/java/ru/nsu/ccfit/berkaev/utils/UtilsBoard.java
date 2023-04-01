@@ -1,7 +1,7 @@
 package ru.nsu.ccfit.berkaev.utils;
 
 public class UtilsBoard {
-    public static int countValidCoordinates(int i,int limit)
+    public static int countCoordinates(int i,int limit)
     {
         if(i < 0)
             return 0;

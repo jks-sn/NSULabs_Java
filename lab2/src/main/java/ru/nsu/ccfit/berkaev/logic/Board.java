@@ -1,11 +1,11 @@
 package ru.nsu.ccfit.berkaev.logic;
 
-import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countValidCoordinates;
+import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 
 public class Board {
     int mines;
     int numberOpenCells;
-    private final Cell[][] cells;
+    private Cell[][] cells;
     private final int rows;
     private final int columns;
 
@@ -14,65 +14,45 @@ public class Board {
         rows = numberRows;
         columns = numberColls;
         numberOpenCells = 0;
-        cells = new Cell[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                cells[i][j] = new Cell();
+        createEmptyBoard();
+        setMines();
+        calcNeighboursMines();
+    }
+    public Board()
+    {
+        this(9,9,10);
+    }
+    public void createEmptyBoard()
+    {
+        cells = new Cell[columns][rows];
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                cells[x][y] = new Cell();
             }
         }
     }
-
-    public Board() {
-        mines = 10;
-        rows = 9;
-        columns = 9;
-        numberOpenCells = 0;
-        cells = new Cell[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                cells[i][j] = new Cell();
-            }
-        }
-    }
-
-    public void setMines(int x_first, int y_first) { //придумать что-нибудь получше
-        int x, y, i = 0;
-        while (i != mines) {
+    public void setMines() {
+        int x, y, numberMines = 0;
+        while (numberMines != mines) {
             x = (int) Math.floor(Math.random() * rows);
             y = (int) Math.floor(Math.random() * columns);
-            if (!cells[x][y].getMine() && cells[x][y].getLocked() && ((x != x_first) || (y != y_first))) {
-                ++i;
+            if (!cells[x][y].getMine()) {
+                ++numberMines;
                 System.out.print(x + " " + y + "\n");
                 cells[x][y].setMine();
             }
         }
     }
 
-
-    public void changeFlag(int x, int y) {
-        cells[x][y].changeFlag();
+    public Cell[][] getCells()
+    {
+        return cells;
     }
-
-    public void openCell(int x, int y) {
-        if (!cells[x][y].getLocked())
-            return;
-        if (cells[x][y].getMine())
-            Game.gameOver = true;
-        numberOpenCells++;
-        cells[x][y].open();
-        if (cells[x][y].getSurroundingMines() == 0) {
-            for (int i = countValidCoordinates(x - 1, rows); i <= countValidCoordinates(x + 1, rows); ++i) {
-                for (int j = countValidCoordinates(y - 1, columns); j <= countValidCoordinates(y + 1, columns); ++j) {
-                    if (i != x || j != y) {
-                        openCell(i, j);
-                    }
-                }
-            }
-        }
-    }
-
-    public void firstOpenCell(int x, int y) {
-        cells[x][y].open();
+    public void setCells(Cell[][] cells)
+    {
+        this.cells = cells;
     }
     public void calcNeighboursMines(){
         for (int row = 0; row < getRows(); row++) {
@@ -87,28 +67,31 @@ public class Board {
     }
     public void calcNeighboursMines(int x, int y) {
         int neighbours = 0;
-        for (int i = countValidCoordinates(x - 1, rows); i < countValidCoordinates(x + 1, rows); ++i) {
-            for (int j = countValidCoordinates(y - 1, columns); j < countValidCoordinates(y + 1, columns); ++j) {
-                if (i != x || j != y) {
+        for (int i = countCoordinates(x - 1, rows); i <= countCoordinates(x + 1, rows); ++i) {
+            for (int j = countCoordinates(y - 1, columns); j <= countCoordinates(y + 1, columns); ++j) {
+                if ((i != x || j != y) && cells[i][j].getMine()) {
                     neighbours++;
                 }
             }
         }
         cells[x][y].setSurroundingMines(neighbours);
     }
-
-    public boolean isMinned(int x, int y) {
-        return cells[x][y].getMine();
+    public void resetBoard()
+    {
+        for(int x = 0 ; x < columns ; x++)
+        {
+            for(int y = 0 ; y < rows ; y++)
+            {
+                cells[x][y].setState(Cell.states.CLOSE.ordinal());
+            }
+        }
     }
-
-    public boolean isFlagged(int x, int y) {
-        return cells[x][y].getFlag();
+    public int getState(int x, int y) {
+        return cells[x][y].getState();
     }
-
-    public boolean isClose(int x, int y) {
-        return cells[x][y].getLocked();
+    public void getState(int x, int y, int state) {
+        cells[x][y].setState(state);
     }
-
     public int getRows() {
         return rows;
     }

@@ -2,50 +2,39 @@ package ru.nsu.ccfit.berkaev.logic;
 
 public class Cell {
     private boolean mine;
-    private boolean flag;
-    private boolean locked;
+    public enum states{
+         CLOSE, OPEN, FLAG, MINE
+    }
+    private int state;
     private int surroundingMines;
 
     public Cell() {
         mine = false;
-        flag = false;
-        locked = true;
+        state = states.CLOSE.ordinal();
         surroundingMines = 0;
     }
-
-    public boolean getMine() {
-        return this.mine;
-    }
-
     public void setMine() {
-        this.mine = true;
+        mine = true;
+        this.state = states.MINE.ordinal();
     }
-
+    public boolean getMine()
+    {
+        return mine;
+    }
     public int getSurroundingMines() {
         return surroundingMines;
     }
+    public int getState()
+    {
+        return state;
+    }
 
+    public void setState(int state)
+    {
+        this.state = state;
+    }
     public void setSurroundingMines(int surroundingMines) {
         this.surroundingMines = surroundingMines;
-    }
-    public void changeFlag() {
-        if (locked)
-        {
-            flag = !flag; //check
-        }
-    }
-    public boolean getLocked()
-    {
-
-        return locked;
-    }
-    public boolean getFlag()
-    {
-        return flag;
-    }
-    public void open()
-    {
-        locked = false;
     }
 
 }
