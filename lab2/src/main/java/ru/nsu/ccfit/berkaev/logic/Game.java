@@ -74,20 +74,19 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         if (SwingUtilities.isLeftMouseButton(e))
         {
                 button.setIcon(null);
-                if(board.getCells()[x][y].getMine())
+                if(board.getMine(x,y))
                 {
-
                     button.setIcon(ui.getIconRedMine());
-                    board.getCells()[x][y].setState(MINE.ordinal());
+                    board.setState(x,y,MINE.ordinal());
                     gameLost();
                 }
                 else
                 {
-                    board.getCells()[x][y].setState(OPEN.ordinal());
-                    button.setText(Integer.toString(board.getCells()[x][y].getSurroundingMines()));
+                    board.setState(x,y,OPEN.ordinal());
+                    button.setText(Integer.toString(board.getSurroundingMines(x,y)));
                     ui.setTextColor(button);
 
-                    if(board.getCells()[x][y].getSurroundingMines() == 0 )
+                    if(board.getSurroundingMines(x,y) == 0)
                     {
                         button.setBackground(Color.lightGray);
                         button.setText("");
@@ -101,17 +100,17 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         }
         else if (SwingUtilities.isRightMouseButton(e))
         {
-            if(board.getCells()[x][y].getState() == FLAG.ordinal())
+            if(board.getState(x,y) == FLAG.ordinal())
             {
-                board.getCells()[x][y].setState(CLOSE.ordinal());
+                board.setState(x,y,CLOSE.ordinal());
                 button.setText("");
                 button.setBackground(new Color(0,110,140));
                 button.setIcon(ui.getIconTile());
                 ui.plusMines();
             }
-            else if (board.getCells()[x][y].getState() == CLOSE.ordinal())
+            else if (board.getState(x,y) == CLOSE.ordinal())
             {
-                board.getCells()[x][y].setState(FLAG.ordinal());
+                board.setState(x,y,FLAG.ordinal());
                 button.setBackground(Color.blue);
                 button.setIcon(ui.getIconFlag());
                 ui.minesMines();
@@ -122,15 +121,12 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     public boolean isFinished()
     {
         boolean isFinished = true;
-
-        Cell[][] cells = board.getCells();
-
         for( int x = 0 ; x < board.getColumns() ; x++ )
         {
             for( int y = 0 ; y < board.getRows() ; y++ )
             {
 
-                if((!cells[x][y].getMine()) && (cells[x][y].getState() == CLOSE.ordinal()))
+                if((!board.getMine(x,y)) && (board.getState(x,y) == CLOSE.ordinal()))
                 {
                     isFinished = false;
                     break;
@@ -147,20 +143,17 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         }
     }
     public void findZeroes(int xInput, int yInput) {
-        int neighbours;
-        Cell[][] cells = board.getCells();
         JButton[][] buttons = ui.getButtons();
-
-        for (int x = countCoordinates(xInput, board.getColumns()); x <= countCoordinates(xInput + 1,board.getColumns()); x++) {
-            for (int y = countCoordinates(yInput, board.getRows()); x <= countCoordinates(yInput + 1,board.getRows()); x++) {
-                if (cells[x][y].getState() == CLOSE.ordinal()) {
+        for (int x = countCoordinates(xInput - 1, board.getColumns()); x <= countCoordinates(xInput + 1,board.getColumns()); x++) {
+            for (int y = countCoordinates(yInput - 1, board.getRows()); y <= countCoordinates(yInput + 1,board.getRows()); y++) {
+                if (board.getState(x,y) == CLOSE.ordinal()) {
                     buttons[x][y].setIcon(null);
                     buttons[x][y].setBackground(Color.lightGray);
-                    if (cells[x][y].getSurroundingMines() == 0) {
-                        buttons[x][y].setText("");
+                    if (board.getSurroundingMines(x,y) == 0) {
+                        board.setState(x,y,OPEN.ordinal());
                         findZeroes(x, y);
                     } else {
-                        buttons[x][y].setText(Integer.toString(cells[x][y].getSurroundingMines()));
+                        buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x,y)));
                         ui.setTextColor(buttons[x][y]);
                     }
                 }
@@ -299,27 +292,25 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     private void showAll()
     {
         int state;
-        Cell[][] cells = board.getCells();
         JButton[][] buttons = ui.getButtons();
 
         for (int x=0; x<board.getColumns(); x++ )
         {
             for (int y=0; y<board.getRows(); y++ )
             {
-                state = cells[x][y].getState();
+                state = board.getState(x,y);
 
                 if(state == (CLOSE.ordinal()) )
                 {
                     buttons[x][y].setIcon(null);
-                    if(cells[x][y].getMine())
+                    if(board.getMine(x,y))
                     {
-
                         buttons[x][y].setIcon(ui.getIconMine());
                         buttons[x][y].setBackground(Color.lightGray);
                     }
                     else
                     {
-                        if(cells[x][y].getSurroundingMines() == 0)
+                        if(board.getSurroundingMines(x,y) == 0)
                         {
                             buttons[x][y].setText("");
                             buttons[x][y].setBackground(Color.lightGray);
@@ -327,7 +318,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
                         else
                         {
                             buttons[x][y].setBackground(Color.lightGray);
-                            buttons[x][y].setText(Integer.toString(cells[x][y].getSurroundingMines()));
+                            buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x,y)));
                             ui.setTextColor(buttons[x][y]);
                         }
                     }
@@ -335,7 +326,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
 
                 else if(state == FLAG.ordinal() )
                 {
-                    if(!cells[x][y].getMine())
+                    if(!board.getMine(x,y))
                     {
                         buttons[x][y].setBackground(Color.orange);
                     }

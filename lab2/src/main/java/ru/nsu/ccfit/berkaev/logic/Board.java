@@ -3,16 +3,16 @@ package ru.nsu.ccfit.berkaev.logic;
 import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 
 public class Board {
-    int mines;
-    int numberOpenCells;
+    private final int mines;
+    private final int numberOpenCells;
     private Cell[][] cells;
     private final int rows;
     private final int columns;
 
-    public Board(int numberRows, int numberColls, int numberMines) {
+    public Board(int numberRows, int numberColumns, int numberMines) {
         mines = numberMines;
         rows = numberRows;
-        columns = numberColls;
+        columns = numberColumns;
         numberOpenCells = 0;
         createEmptyBoard();
         setMines();
@@ -46,14 +46,10 @@ public class Board {
         }
     }
 
-    public Cell[][] getCells()
+/*    public Cell[][] getCells()
     {
         return cells;
-    }
-    public void setCells(Cell[][] cells)
-    {
-        this.cells = cells;
-    }
+    }*/
     public void calcNeighboursMines(){
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getColumns(); col++) {
@@ -76,20 +72,10 @@ public class Board {
         }
         cells[x][y].setSurroundingMines(neighbours);
     }
-    public void resetBoard()
-    {
-        for(int x = 0 ; x < columns ; x++)
-        {
-            for(int y = 0 ; y < rows ; y++)
-            {
-                cells[x][y].setState(Cell.states.CLOSE.ordinal());
-            }
-        }
-    }
     public int getState(int x, int y) {
         return cells[x][y].getState();
     }
-    public void getState(int x, int y, int state) {
+    public void setState(int x, int y, int state) {
         cells[x][y].setState(state);
     }
     public int getRows() {
@@ -103,6 +89,10 @@ public class Board {
 
     public int getNumberOpenCells() {
         return numberOpenCells;
+    }
+    public boolean getMine(int x, int y)
+    {
+        return(cells[x][y].getMine());
     }
 
     public int getNumberMines() {

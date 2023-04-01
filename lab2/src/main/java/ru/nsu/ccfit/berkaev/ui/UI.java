@@ -62,7 +62,7 @@ public class UI extends JFrame {
 
         for (int x = 0; x < columns; ++x) {
             for (int y = 0; y < rows; ++y) {
-                buttons[x][y] = new JButton("");
+                buttons[x][y] = new JButton();
 
                 buttons[x][y].setName(x + "," + y);
                 buttons[x][y].setFont(new Font("Serif", Font.BOLD, 24));
@@ -76,7 +76,7 @@ public class UI extends JFrame {
 
 
         JLabel iT = new JLabel("",SwingConstants.CENTER);
-        iT.setIcon(new ImageIcon(getClass().getResource( "/timer.png")));
+        iT.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/timer.png"))));
 
 
         JPanel minesPanel = new JPanel();
@@ -155,7 +155,7 @@ public class UI extends JFrame {
             }
         }
     }
-
+// for pause
     public void disableAll()
     {
         for( int x=0 ; x<rows ; x++)
