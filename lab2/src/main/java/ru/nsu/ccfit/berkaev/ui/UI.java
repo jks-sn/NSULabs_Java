@@ -2,6 +2,7 @@ package ru.nsu.ccfit.berkaev.ui;
 
 import ru.nsu.ccfit.berkaev.logic.Cell;
 import ru.nsu.ccfit.berkaev.logic.Game;
+import ru.nsu.ccfit.berkaev.timer.Timer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,12 +19,10 @@ public class UI extends JFrame {
     private int rows;
     private int columns;
     private int mines;
+
     private JLabel minesLabel;
 
     private JLabel timeLabel;
-    private Thread timer;
-    private int timePassed;
-    private boolean stopTimer;
 
     private final String FRAME_TITLE = "Minesweeper";
 
@@ -47,8 +46,6 @@ public class UI extends JFrame {
         this.rows = rows;
         this.columns = columns;
         this.mines = mines;
-        this.timePassed = 0;
-        this.stopTimer = true;
 
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setTitle(FRAME_TITLE);
@@ -81,7 +78,6 @@ public class UI extends JFrame {
         timeLabel.setBackground(new Color(110,110,255));
         timeLabel.setForeground(Color.white);
         timeLabel.setOpaque(true);
-        setTimePassed(timePassed);
 
         JLabel iconTimer = new JLabel("", SwingConstants.CENTER);
         iconTimer.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/timer.png"))));
@@ -117,7 +113,7 @@ public class UI extends JFrame {
 
 
         menuBar = new JMenuBar();
-        gameMenu = new JMenu("Game");
+        gameMenu = new JMenu("Menu");
         newGame = new JMenuItem("   New Game");
         exit = new JMenuItem("   Exit");
         newGame.setName("New Game");
@@ -173,7 +169,10 @@ public class UI extends JFrame {
         }
     }
 
-
+    public void setTime(int timePassed)
+    {
+        timeLabel.setText("  " + timePassed + "  ");
+    }
     public void hideAll() {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
@@ -205,24 +204,10 @@ public class UI extends JFrame {
         return buttons;
     }
 
-    public int getTimePassed() {
-        return timePassed;
-    }
-
     public void setMines(int mines) {
         minesLabel.setText("  " + mines + "  ");
     }
-    public void resetTimer()
-    {
-        timePassed = 0;
-        timeLabel.setText("  " + timePassed + "  ");
-    }
 
-    public void setTimePassed(int time)
-    {
-        timePassed = time;
-        timeLabel.setText("  " + timePassed + "  ");
-    }
     public static void setLook(String look) {
         try {
 
@@ -236,28 +221,7 @@ public class UI extends JFrame {
         } catch (Exception ignored) {
         }
     }
-    public void startTimer()
-    {
-        stopTimer = false;
 
-        timer = new Thread(() -> {
-            while(!stopTimer)
-            {
-                timePassed++;
-
-
-                timeLabel.setText("  " + timePassed + "  ");
-
-
-                try{
-                    Thread.sleep(1000);
-                }
-                catch(InterruptedException ignored){}
-            }
-        });
-
-        timer.start();
-    }
     public void plusMines() {
         mines++;
         setMines(mines);
@@ -335,4 +299,7 @@ public class UI extends JFrame {
         else if (b.getText().equals("8"))
             b.setForeground(new Color(153, 0, 76));
     }
+
+
+
 }

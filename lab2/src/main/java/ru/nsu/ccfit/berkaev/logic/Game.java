@@ -1,5 +1,6 @@
 package ru.nsu.ccfit.berkaev.logic;
 
+import ru.nsu.ccfit.berkaev.timer.Timer;
 import ru.nsu.ccfit.berkaev.ui.UI;
 
 import javax.swing.*;
@@ -13,12 +14,15 @@ import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 public class Game implements MouseListener, ActionListener, WindowListener {
 
     private Board board;
+
+    private ru.nsu.ccfit.berkaev.timer.Timer timer;
     private boolean playing;
     private UI ui;
     private boolean gameStarted = false;
 
     public Game() {
         board = new Board();
+        timer = new Timer();
         UI.setLook("Nimbus");
         this.ui = new UI(board.getRows(), board.getColumns(), board.getNumberMines());
         this.ui.setButtonListeners(this);
@@ -31,9 +35,9 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         this.playing = false;
 
         board = new Board();
-
         ui.initGame();
         ui.setMines(board.getNumberMines());
+        timer.resetTimer(ui);
     }
 
     public boolean getGameStarted() {
@@ -49,7 +53,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     public void mouseClicked(MouseEvent e) {
 
         if (!playing) {
-            ui.startTimer();
+            timer.startTimer(ui);
             playing = true;
         }
 
@@ -186,7 +190,6 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         dialog.setLocationRelativeTo(ui);
         dialog.setVisible(true);
     }
-
     public void gameLost() {
         endGame();
 
@@ -250,7 +253,6 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         showAll();
 
     }
-
     private void showAll() {
         int state;
         JButton[][] buttons = ui.getButtons();

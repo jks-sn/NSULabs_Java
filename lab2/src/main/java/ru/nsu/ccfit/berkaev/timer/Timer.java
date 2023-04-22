@@ -1,59 +1,55 @@
 package ru.nsu.ccfit.berkaev.timer;
 
+import ru.nsu.ccfit.berkaev.ui.UI;
+
 public class Timer {
-    private long seconds;
-    private long minets;
-    private static Thread timer;
+    private Thread timer;
+    private int timePassed;
+    private boolean stopTimer;
 
-    private boolean isRunning;
-
-    public Timer()
-    {
-        seconds = 0;
-        minets = 0;
+    public Timer() {
+        this.timePassed = 0;
+        this.stopTimer = true;
     }
-    public void startTimer()
-    {
-        isRunning = true;
+
+    public void setTimePassed(int time) {
+        timePassed = time;
+    }
+
+    public void resetTimer(UI ui) {
+        timePassed = 0;
+        ui.setTime(timePassed);
+    }
+
+    public void setStopTimer(boolean stopTimer) {
+        this.stopTimer = stopTimer;
+    }
+
+    public boolean getStopTimer() {
+        return (this.stopTimer);
+    }
+
+    public void plusSecond() {
+        timePassed++;
+    }
+
+    public int getTimePassed() {
+        return timePassed;
+    }
+
+    public void startTimer(UI ui) {
+        stopTimer = false;
         timer = new Thread(() -> {
-            while(isRunning)
-            {
-                seconds++;
-                if(seconds > 60) {
-                    minets++;
-                    seconds -= 60;
-                }
-                try{
+            while (!stopTimer) {
+                timePassed++;
+                ui.setTime(timePassed);
+                try {
                     Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
                 }
-                catch(InterruptedException ignored){}
             }
         });
+
         timer.start();
     }
-    public void stopTimer()
-    {
-        isRunning = false;
-
-        try
-        {   
-            if (timer!= null)
-                timer.join();
-        }
-        catch (InterruptedException ignored)
-        {
-
-        }
-    }
-    public void resetTimer()
-    {
-        seconds = 0;
-        minets = 0;
-
-    }
-    public long getTime()
-    {
-        return seconds+minets*60;
-    }
 }
-
