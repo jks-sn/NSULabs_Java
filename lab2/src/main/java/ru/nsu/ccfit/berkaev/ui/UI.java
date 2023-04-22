@@ -20,12 +20,11 @@ public class UI extends JFrame {
     private int mines;
     private JLabel minesLabel;
 
-    private JLabel timePassedLabel;
+    private JLabel timeLabel;
     private Thread timer;
     private int timePassed;
     private boolean stopTimer;
 
-    // Frame settings
     private final String FRAME_TITLE = "Minesweeper";
 
     private final int FRAME_WIDTH = 520;
@@ -33,7 +32,6 @@ public class UI extends JFrame {
     private final int FRAME_LOC_X = 430;
     private final int FRAME_LOC_Y = 50;
 
-    // Icons
     private Icon redMine;
     private Icon mine;
     private Icon flag;
@@ -42,20 +40,22 @@ public class UI extends JFrame {
     private JMenuBar menuBar;
     private JMenu gameMenu;
     private JMenuItem newGame;
-    //private JMenuItem statistics;
     private JMenuItem exit;
 
     public UI(int rows, int columns, int mines) {
         buttons = new JButton[columns][rows];
-    this.rows = rows;
-    this.columns = columns;
-        // Set frame
+        this.rows = rows;
+        this.columns = columns;
+        this.mines = mines;
+        this.timePassed = 0;
+        this.stopTimer = true;
+
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setTitle(FRAME_TITLE);
         setLocation(FRAME_LOC_X, FRAME_LOC_Y);
 
         JPanel gameBoard;
-        JPanel tmPanel;
+        JPanel downPanel;
 
         gameBoard = new JPanel();
         gameBoard.setLayout(new GridLayout(columns, rows, 0, 0));
@@ -73,53 +73,64 @@ public class UI extends JFrame {
             }
         }
 
+        JPanel timePanel = new JPanel();
+        timePanel.setLayout(new BorderLayout(10,0));
+        this.timeLabel = new JLabel ("  0  " , SwingConstants.CENTER);
+        timeLabel.setFont(new Font("Serif", Font.BOLD, 20));
 
+        timeLabel.setBackground(new Color(110,110,255));
+        timeLabel.setForeground(Color.white);
+        timeLabel.setOpaque(true);
+        setTimePassed(timePassed);
 
-        JLabel iT = new JLabel("",SwingConstants.CENTER);
-        iT.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/timer.png"))));
+        JLabel iconTimer = new JLabel("", SwingConstants.CENTER);
+        iconTimer.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/timer.png"))));
+
+        timePanel.add(iconTimer, BorderLayout.WEST);
+        timePanel.add(timeLabel, BorderLayout.CENTER);
+        timePanel.setOpaque(false);
 
 
         JPanel minesPanel = new JPanel();
-        minesPanel.setLayout(new BorderLayout(10,0));
+        minesPanel.setLayout(new BorderLayout(10, 0));
 
-
-        // Initialize mines label.
-        this.minesLabel = new JLabel ("  0  " , SwingConstants.CENTER);
+        this.minesLabel = new JLabel("  0  ", SwingConstants.CENTER);
         minesLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        minesLabel.setBackground(new Color(110,110,255));
+        minesLabel.setBackground(new Color(110, 110, 255));
         minesLabel.setForeground(Color.white);
-
         minesLabel.setOpaque(true);
         setMines(mines);
 
-        JLabel mT = new JLabel("", SwingConstants.CENTER);
-        mT.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/mine.png"))));
+        JLabel iconMine = new JLabel("", SwingConstants.CENTER);
+        iconMine.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/mine.png"))));
 
         minesPanel.add(minesLabel, BorderLayout.WEST);
-        minesPanel.add(mT, BorderLayout.CENTER);
+        minesPanel.add(iconMine, BorderLayout.CENTER);
         minesPanel.setOpaque(false);
 
-        // Build the "tmPanel".
-        tmPanel = new JPanel();
-        tmPanel.setLayout(new BorderLayout(0,20));
+        downPanel = new JPanel();
+        downPanel.setLayout(new BorderLayout(0,20));
+
+        downPanel.add(timePanel, BorderLayout.WEST);
+        downPanel.add(minesPanel, BorderLayout.EAST);
+        downPanel.setOpaque(false);
 
 
         menuBar = new JMenuBar();
         gameMenu = new JMenu("Game");
         newGame = new JMenuItem("   New Game");
-        //statistics = new JMenuItem("   Statistics");
         exit = new JMenuItem("   Exit");
         newGame.setName("New Game");
-        //statistics.setName("Statistics");
         exit.setName("Exit");
+
         gameMenu.add(newGame);
         gameMenu.add(exit);
         menuBar.add(gameMenu);
 
         JPanel p = new JPanel();
-        p.setLayout(new BorderLayout(0,10));
+        p.setLayout(new BorderLayout(0, 10));
         p.add(gameBoard, BorderLayout.CENTER);
-        p.add(tmPanel, BorderLayout.SOUTH);
+        p.add(downPanel, BorderLayout.SOUTH);
 
         p.setBorder(BorderFactory.createEmptyBorder(60, 60, 14, 60));
         p.setOpaque(false);
@@ -129,9 +140,9 @@ public class UI extends JFrame {
 
         add(background);
 
-        background.setLayout(new BorderLayout(0,0));
+        background.setLayout(new BorderLayout(0, 0));
 
-        background.add(menuBar,BorderLayout.NORTH);
+        background.add(menuBar, BorderLayout.NORTH);
         background.add(p, BorderLayout.CENTER);
 
 
@@ -139,87 +150,80 @@ public class UI extends JFrame {
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
-    public void initGame()
-    {
+
+    public void initGame() {
         hideAll();
         enableAll();
     }
 
-    public void enableAll()
-    {
-        for( int x=0 ; x<rows ; x++ )
-        {
-            for( int y=0 ; y<columns ; y++ )
-            {
+    public void enableAll() {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
                 buttons[x][y].setEnabled(true);
             }
         }
     }
-// for pause
-    public void disableAll()
-    {
-        for( int x=0 ; x<rows ; x++)
-        {
-            for( int y=0 ; y<columns ; y++ )
-            {
+
+
+    public void disableAll() {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
                 buttons[x][y].setEnabled(false);
             }
         }
     }
 
 
-    public void hideAll()
-    {
-        for( int x=0 ; x<rows ; x++ )
-        {
-            for( int y=0 ; y<columns ; y++ )
-            {
+    public void hideAll() {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
                 buttons[x][y].setText("");
-                buttons[x][y].setBackground(new Color(0,103,200));
+                buttons[x][y].setBackground(new Color(0, 103, 200));
                 buttons[x][y].setIcon(tile);
             }
         }
     }
 
 
-
-    public void setButtonListeners(Game game)
-    {
+    public void setButtonListeners(Game game) {
         addWindowListener(game);
-        for( int x=0 ; x<rows ; x++ )
-        {
-            for( int y=0 ; y<columns ; y++ )
-            {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
                 buttons[x][y].addMouseListener(game);
             }
         }
 
         newGame.addActionListener(game);
-        //statistics.addActionListener(game);
         exit.addActionListener(game);
 
         newGame.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         exit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-        //statistics.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
     }
 
 
-
-    public JButton[][] getButtons()
-    {
+    public JButton[][] getButtons() {
         return buttons;
     }
 
-    public int getTimePassed()
-    {
+    public int getTimePassed() {
         return timePassed;
     }
-    public void setMines(int mines)
-    {
+
+    public void setMines(int mines) {
         minesLabel.setText("  " + mines + "  ");
     }
-    public static void setLook(String look)
+    public void resetTimer()
     {
+        timePassed = 0;
+        timeLabel.setText("  " + timePassed + "  ");
+    }
+
+    public void setTimePassed(int time)
+    {
+        timePassed = time;
+        timeLabel.setText("  " + timePassed + "  ");
+    }
+    public static void setLook(String look) {
         try {
 
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -229,30 +233,52 @@ public class UI extends JFrame {
                 }
             }
 
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
-    public void plusMines()
+    public void startTimer()
     {
+        stopTimer = false;
+
+        timer = new Thread(() -> {
+            while(!stopTimer)
+            {
+                timePassed++;
+
+
+                timeLabel.setText("  " + timePassed + "  ");
+
+
+                try{
+                    Thread.sleep(1000);
+                }
+                catch(InterruptedException ignored){}
+            }
+        });
+
+        timer.start();
+    }
+    public void plusMines() {
         mines++;
         setMines(mines);
     }
-    public void minesMines()
-    {
+
+    public void minesMines() {
         mines--;
         setMines(mines);
     }
-    public int getMines()
-    {
+
+    public int getMines() {
         return mines;
     }
-    private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight)
-    {
+
+    private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
         Image img = icon.getImage();
-        Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);
+        Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
-    public void setIcons()
-    {
+
+    public void setIcons() {
         int bOffset = buttons[0][1].getInsets().left;
         int bWidth = buttons[0][1].getWidth();
         int bHeight = buttons[0][1].getHeight();
@@ -260,58 +286,53 @@ public class UI extends JFrame {
         ImageIcon d;
 
         d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/redmine.png")));
-        redMine =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
+        redMine = resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
 
         d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/mine.png")));
-        mine =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
+        mine = resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
 
         d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/flag.png")));
-        flag =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
+        flag = resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
 
         d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/closet.png")));
-        tile =   resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
+        tile = resizeIcon(d, bWidth - bOffset, bHeight - bOffset);
 
     }
 
-    public Icon getIconMine()
-    {
+    public Icon getIconMine() {
         return mine;
     }
 
-    public Icon getIconRedMine()
-    {
+    public Icon getIconRedMine() {
         return redMine;
     }
 
-    public Icon getIconFlag()
-    {
+    public Icon getIconFlag() {
         return flag;
     }
 
-    public Icon getIconTile()
-    {
+    public Icon getIconTile() {
         return tile;
     }
 
 
-    //---------------------------------------------------------------------//
-    public void setTextColor(JButton b)
-    {
+
+    public void setTextColor(JButton b) {
         if (b.getText().equals("1"))
             b.setForeground(Color.blue);
         else if (b.getText().equals("2"))
-            b.setForeground(new Color(76,153,0));
+            b.setForeground(new Color(76, 153, 0));
         else if (b.getText().equals("3"))
             b.setForeground(Color.red);
         else if (b.getText().equals("4"))
-            b.setForeground(new Color(153,0,0));
+            b.setForeground(new Color(153, 0, 0));
         else if (b.getText().equals("5"))
-            b.setForeground(new Color(153,0,153));
+            b.setForeground(new Color(153, 0, 153));
         else if (b.getText().equals("6"))
-            b.setForeground(new Color(96,96,96));
+            b.setForeground(new Color(96, 96, 96));
         else if (b.getText().equals("7"))
-            b.setForeground(new Color(0,0,102));
+            b.setForeground(new Color(0, 0, 102));
         else if (b.getText().equals("8"))
-            b.setForeground(new Color(153,0,76));
+            b.setForeground(new Color(153, 0, 76));
     }
 }

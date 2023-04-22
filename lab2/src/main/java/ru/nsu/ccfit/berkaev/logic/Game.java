@@ -11,32 +11,23 @@ import static ru.nsu.ccfit.berkaev.logic.Cell.states.*;
 import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 
 public class Game implements MouseListener, ActionListener, WindowListener {
-    //private Timer timer;
-    private Board board;
 
+    private Board board;
     private boolean playing;
     private UI ui;
-
-    static public boolean gameOver = false;
-
     private boolean gameStarted = false;
-
-
-    public Game(int rows, int cols, int mines, boolean isGui) {
-        board = new Board(rows, cols, mines);
-    }
 
     public Game() {
         board = new Board();
         UI.setLook("Nimbus");
         this.ui = new UI(board.getRows(), board.getColumns(), board.getNumberMines());
         this.ui.setButtonListeners(this);
-        this.playing = false;
         ui.setVisible(true);
         ui.setIcons();
+        newGame();
     }
-    public void newGame()
-    {
+
+    public void newGame() {
         this.playing = false;
 
         board = new Board();
@@ -44,8 +35,8 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         ui.initGame();
         ui.setMines(board.getNumberMines());
     }
-    public boolean getGameStarted()
-    {
+
+    public boolean getGameStarted() {
         return gameStarted;
     }
 
@@ -57,60 +48,44 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        if(!playing)
-        {
-            //ui.startTimer();
+        if (!playing) {
+            ui.startTimer();
             playing = true;
         }
-        //Get the button's name
-        JButton button = (JButton)e.getSource();
 
-        // Get coordinates (button.getName().equals("x,y")).
+        JButton button = (JButton) e.getSource();
+
         String[] co = button.getName().split(",");
 
         int x = Integer.parseInt(co[0]);
         int y = Integer.parseInt(co[1]);
 
-        if (SwingUtilities.isLeftMouseButton(e))
-        {
-                button.setIcon(null);
-                if(board.getMine(x,y))
-                {
-                    button.setIcon(ui.getIconRedMine());
-                    board.setState(x,y,MINE.ordinal());
-                    gameLost();
-                }
-                else
-                {
-                    board.setState(x,y,OPEN.ordinal());
-                    button.setText(Integer.toString(board.getSurroundingMines(x,y)));
-                    ui.setTextColor(button);
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            button.setIcon(null);
+            if (board.getMine(x, y)) {
+                button.setIcon(ui.getIconRedMine());
+                gameLost();
+            } else {
+                board.setState(x, y, OPEN.ordinal());
+                button.setText(Integer.toString(board.getSurroundingMines(x, y)));
+                ui.setTextColor(button);
 
-                    if(board.getSurroundingMines(x,y) == 0)
-                    {
-                        button.setBackground(Color.lightGray);
-                        button.setText("");
-                        findZeroes(x, y);
-                    }
-                    else
-                    {
-                        button.setBackground(Color.lightGray);
-                    }
+                if (board.getSurroundingMines(x, y) == 0) {
+                    button.setBackground(Color.lightGray);
+                    button.setText("");
+                    findZeroes(x, y);
+                } else {
+                    button.setBackground(Color.lightGray);
                 }
-        }
-        else if (SwingUtilities.isRightMouseButton(e))
-        {
-            if(board.getState(x,y) == FLAG.ordinal())
-            {
-                board.setState(x,y,CLOSE.ordinal());
-                button.setText("");
-                button.setBackground(new Color(0,110,140));
+            }
+        } else if (SwingUtilities.isRightMouseButton(e)) {
+            if (board.getState(x, y) == FLAG.ordinal()) {
+                board.setState(x, y, CLOSE.ordinal());
+                button.setBackground(new Color(0, 110, 140));
                 button.setIcon(ui.getIconTile());
                 ui.plusMines();
-            }
-            else if (board.getState(x,y) == CLOSE.ordinal())
-            {
-                board.setState(x,y,FLAG.ordinal());
+            } else if (board.getState(x, y) == CLOSE.ordinal()) {
+                board.setState(x, y, FLAG.ordinal());
                 button.setBackground(Color.blue);
                 button.setIcon(ui.getIconFlag());
                 ui.minesMines();
@@ -118,16 +93,13 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         }
         checkGame();
     }
-    public boolean isFinished()
-    {
-        boolean isFinished = true;
-        for( int x = 0 ; x < board.getColumns() ; x++ )
-        {
-            for( int y = 0 ; y < board.getRows() ; y++ )
-            {
 
-                if((!board.getMine(x,y)) && (board.getState(x,y) == CLOSE.ordinal()))
-                {
+    public boolean isFinished() {
+        boolean isFinished = true;
+        for (int x = 0; x < board.getColumns(); x++) {
+            for (int y = 0; y < board.getRows(); y++) {
+
+                if ((!board.getMine(x, y)) && (board.getState(x, y) == CLOSE.ordinal())) {
                     isFinished = false;
                     break;
                 }
@@ -135,33 +107,32 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         }
         return isFinished;
     }
-    private void checkGame()
-    {
-        if(isFinished())
-        {
+
+    private void checkGame() {
+        if (isFinished()) {
             gameWon();
         }
     }
     public void findZeroes(int xInput, int yInput) {
         JButton[][] buttons = ui.getButtons();
-        for (int x = countCoordinates(xInput - 1, board.getColumns()); x <= countCoordinates(xInput + 1,board.getColumns()); x++) {
-            for (int y = countCoordinates(yInput - 1, board.getRows()); y <= countCoordinates(yInput + 1,board.getRows()); y++) {
-                if (board.getState(x,y) == CLOSE.ordinal()) {
+        for (int x = countCoordinates(xInput - 1, board.getColumns()); x <= countCoordinates(xInput + 1, board.getColumns()); x++) {
+            for (int y = countCoordinates(yInput - 1, board.getRows()); y <= countCoordinates(yInput + 1, board.getRows()); y++) {
+                if (board.getState(x, y) == CLOSE.ordinal()) {
                     buttons[x][y].setIcon(null);
                     buttons[x][y].setBackground(Color.lightGray);
-                    if (board.getSurroundingMines(x,y) == 0) {
-                        board.setState(x,y,OPEN.ordinal());
+                    board.setState(x, y, OPEN.ordinal());
+                    if (board.getSurroundingMines(x, y) == 0) {
                         findZeroes(x, y);
                     } else {
-                        buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x,y)));
+                        buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x, y)));
                         ui.setTextColor(buttons[x][y]);
                     }
                 }
             }
         }
     }
-    public void gameWon()
-    {
+
+    public void gameWon() {
         endGame();
 
         JDialog dialog = new JDialog(ui, Dialog.ModalityType.DOCUMENT_MODAL);
@@ -169,12 +140,10 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         JLabel message = new JLabel("Congratulations, you won the game!", SwingConstants.CENTER);
 
         JPanel statistics = new JPanel();
-        statistics.setLayout(new GridLayout(6,1,0,10));
+        statistics.setLayout(new GridLayout(6, 1, 0, 10));
 
-
-        //--------BUTTONS----------//
         JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(1,2,10,0));
+        buttons.setLayout(new GridLayout(1, 2, 10, 0));
 
         JButton exit = new JButton("Exit");
         JButton playAgain = new JButton("Play Again");
@@ -193,10 +162,8 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         buttons.add(exit);
         buttons.add(playAgain);
 
-        //--------DIALOG-------------//
-
         JPanel c = new JPanel();
-        c.setLayout(new BorderLayout(20,20));
+        c.setLayout(new BorderLayout(20, 20));
         c.add(message, BorderLayout.NORTH);
         c.add(statistics, BorderLayout.CENTER);
         c.add(buttons, BorderLayout.SOUTH);
@@ -219,12 +186,8 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         dialog.setLocationRelativeTo(ui);
         dialog.setVisible(true);
     }
-    public void gameLost()
-    {
-        //score.decCurrentStreak();
-        //score.incCurrentLosingStreak();
-        //score.incGamesPlayed();
-        //ui.interruptTimer();
+
+    public void gameLost() {
         endGame();
 
 
@@ -234,7 +197,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
 
 
         JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(1,3,2,0));
+        buttons.setLayout(new GridLayout(1, 3, 2, 0));
 
         JButton exit = new JButton("Exit");
         JButton restart = new JButton("Restart");
@@ -258,10 +221,8 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         buttons.add(restart);
         buttons.add(playAgain);
 
-        //--------DIALOG-------------//
-
         JPanel c = new JPanel();
-        c.setLayout(new BorderLayout(20,20));
+        c.setLayout(new BorderLayout(20, 20));
         c.add(message, BorderLayout.NORTH);
         c.add(buttons, BorderLayout.SOUTH);
 
@@ -289,54 +250,41 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         showAll();
 
     }
-    private void showAll()
-    {
+
+    private void showAll() {
         int state;
         JButton[][] buttons = ui.getButtons();
 
-        for (int x=0; x<board.getColumns(); x++ )
-        {
-            for (int y=0; y<board.getRows(); y++ )
-            {
-                state = board.getState(x,y);
+        for (int x = 0; x < board.getColumns(); x++) {
+            for (int y = 0; y < board.getRows(); y++) {
+                state = board.getState(x, y);
 
-                if(state == (CLOSE.ordinal()) )
-                {
+                if (state == (CLOSE.ordinal())) {
                     buttons[x][y].setIcon(null);
-                    if(board.getMine(x,y))
-                    {
+                    if (board.getMine(x, y)) {
                         buttons[x][y].setIcon(ui.getIconMine());
                         buttons[x][y].setBackground(Color.lightGray);
-                    }
-                    else
-                    {
-                        if(board.getSurroundingMines(x,y) == 0)
-                        {
+                    } else {
+                        if (board.getSurroundingMines(x, y) == 0) {
                             buttons[x][y].setText("");
                             buttons[x][y].setBackground(Color.lightGray);
-                        }
-                        else
-                        {
+                        } else {
                             buttons[x][y].setBackground(Color.lightGray);
-                            buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x,y)));
+                            buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x, y)));
                             ui.setTextColor(buttons[x][y]);
                         }
                     }
-                }
-
-                else if(state == FLAG.ordinal() )
-                {
-                    if(!board.getMine(x,y))
-                    {
+                } else if (state == FLAG.ordinal()) {
+                    if (!board.getMine(x, y)) {
                         buttons[x][y].setBackground(Color.orange);
-                    }
-                    else
+                    } else
                         buttons[x][y].setBackground(Color.green);
                 }
 
             }
         }
     }
+
     @Override
     public void mousePressed(MouseEvent e) {
 
@@ -363,7 +311,9 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     }
 
     @Override
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(WindowEvent e)
+    {
+            System.exit(0);
     }
 
     @Override
