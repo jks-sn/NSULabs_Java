@@ -61,32 +61,32 @@ public class Game implements MouseListener, ActionListener, WindowListener {
 
         String[] coordinates = button.getName().split(",");
 
-        int x = Integer.parseInt(coordinates[0]);
-        int y = Integer.parseInt(coordinates[1]);
+        int row = Integer.parseInt(coordinates[0]);
+        int column= Integer.parseInt(coordinates[1]);
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             button.setIcon(null);
-            if (board.getMine(x, y)) {
+            if (board.getMine(row, column)) {
                 button.setIcon(ui.getIconRedMine());
                 endGame(false);
             } else {
-                board.setState(x, y, OPEN.ordinal());
-                button.setText(Integer.toString(board.getSurroundingMines(x, y)));
+                board.setState(row, column, OPEN.ordinal());
+                button.setText(Integer.toString(board.getSurroundingMines(row, column)));
                 ui.setTextColor(button);
                 button.setBackground(Color.lightGray);
-                if (board.getSurroundingMines(x, y) == 0) {
+                if (board.getSurroundingMines(row, column) == 0) {
                     button.setText("");
-                    findZeroes(x, y);
+                    findZeroes(row, column);
                 }
             }
         } else if (SwingUtilities.isRightMouseButton(e)) {
-            if (board.getState(x, y) == FLAG.ordinal()) {
-                board.setState(x, y, CLOSE.ordinal());
+            if (board.getState(row, column) == FLAG.ordinal()) {
+                board.setState(row, column, CLOSE.ordinal());
                 button.setBackground(Color.lightGray);
                 button.setIcon(ui.getIconTile());
                 ui.plusMines();
-            } else if (board.getState(x, y) == CLOSE.ordinal()) {
-                board.setState(x, y, FLAG.ordinal());
+            } else if (board.getState(row, column) == CLOSE.ordinal()) {
+                board.setState(row, column, FLAG.ordinal());
                 button.setBackground(Color.blue);
                 button.setIcon(ui.getIconFlag());
                 ui.minesMines();
