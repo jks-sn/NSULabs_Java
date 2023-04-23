@@ -16,6 +16,7 @@ public class Timer {
     }
 
     public void resetTimer(UI ui) {
+
         timePassed = 0;
         ui.setTime(timePassed);
     }
@@ -49,5 +50,9 @@ public class Timer {
             }
         });
         timer.start();
+    }
+
+    public void endTimer() {
+        stopTimer = true;
     }
 }

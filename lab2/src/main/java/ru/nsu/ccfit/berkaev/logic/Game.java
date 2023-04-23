@@ -134,6 +134,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     }
 
     private void endGame(boolean isWin) {
+        timer.endTimer();
         playing = false;
         showAll();
         JDialog dialog = new JDialog(ui, Dialog.ModalityType.DOCUMENT_MODAL);
@@ -161,24 +162,17 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         ui.endGame(isWin,dialog,exit,playAgain,buttons,panel);
     }
     private void showAll() {
-        int state;
         JButton[][] buttons = ui.getButtons();
-
         for (int x = 0; x < board.getColumns(); x++) {
             for (int y = 0; y < board.getRows(); y++) {
-                state = board.getState(x, y);
-
+                int state = board.getState(x, y);
                 if (state == (CLOSE.ordinal())) {
                     buttons[x][y].setIcon(null);
+                    buttons[x][y].setBackground(Color.lightGray);
                     if (board.getMine(x, y)) {
                         buttons[x][y].setIcon(ui.getIconMine());
-                        buttons[x][y].setBackground(Color.lightGray);
                     } else {
-                        if (board.getSurroundingMines(x, y) == 0) {
-                            buttons[x][y].setText("");
-                            buttons[x][y].setBackground(Color.lightGray);
-                        } else {
-                            buttons[x][y].setBackground(Color.lightGray);
+                        if (board.getSurroundingMines(x, y) != 0) {
                             buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x, y)));
                             ui.setTextColor(buttons[x][y]);
                         }
