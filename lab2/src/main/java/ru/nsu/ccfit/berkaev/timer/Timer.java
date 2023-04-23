@@ -3,7 +3,6 @@ package ru.nsu.ccfit.berkaev.timer;
 import ru.nsu.ccfit.berkaev.ui.UI;
 
 public class Timer {
-    private Thread timer;
     private int timePassed;
     private boolean stopTimer;
 
@@ -39,7 +38,7 @@ public class Timer {
 
     public void startTimer(UI ui) {
         stopTimer = false;
-        timer = new Thread(() -> {
+        Thread timer = new Thread(() -> {
             while (!stopTimer) {
                 timePassed++;
                 ui.setTime(timePassed);
@@ -49,7 +48,6 @@ public class Timer {
                 }
             }
         });
-
         timer.start();
     }
 }

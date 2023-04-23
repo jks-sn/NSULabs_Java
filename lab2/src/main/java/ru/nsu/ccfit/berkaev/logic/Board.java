@@ -46,11 +46,7 @@ public class Board {
         }
     }
 
-/*    public Cell[][] getCells()
-    {
-        return cells;
-    }*/
-    public void calcNeighboursMines(){
+public void calcNeighboursMines(){
         for (int row = 0; row < getRows(); row++) {
             for (int col = 0; col < getColumns(); col++) {
                 calcNeighboursMines(row,col);
