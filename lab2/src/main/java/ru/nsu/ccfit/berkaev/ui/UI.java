@@ -4,6 +4,7 @@ import ru.nsu.ccfit.berkaev.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.Objects;
 
 import static ru.nsu.ccfit.berkaev.constants.UI.*;
@@ -167,7 +168,28 @@ public class UI extends JFrame {
     public void setMines(int mines) {
         minesLabel.setText("  " + mines + "  ");
     }
+    public void endGame(boolean isWin, JDialog dialog, JButton exit, JButton playAgain, JPanel buttons, JPanel c)
+    {
+        exit.setText("Exit");
+        playAgain.setText("PlayAgain");
+        JLabel message = new JLabel(isWin?"You win the game":"You lose the game!", SwingConstants.CENTER);
+        buttons.setLayout(new GridLayout(1, 2, 10, 0));
+        buttons.add(exit);
+        buttons.add(playAgain);
+        c.setLayout(new BorderLayout(20, 20));
+        c.add(message, BorderLayout.NORTH);
+        c.add(buttons, BorderLayout.SOUTH);
 
+        c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        dialog.setTitle(isWin?"Game Won":"Game Lost");
+        dialog.add(c);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
     public static void setLook(String look) {
         try {
 
@@ -241,22 +263,7 @@ public class UI extends JFrame {
 
 
     public void setTextColor(JButton b) {
-        if (b.getText().equals("1"))
-            b.setForeground(Color.blue);
-        else if (b.getText().equals("2"))
-            b.setForeground(new Color(76, 153, 0));
-        else if (b.getText().equals("3"))
-            b.setForeground(Color.red);
-        else if (b.getText().equals("4"))
-            b.setForeground(new Color(153, 0, 0));
-        else if (b.getText().equals("5"))
-            b.setForeground(new Color(153, 0, 153));
-        else if (b.getText().equals("6"))
-            b.setForeground(new Color(96, 96, 96));
-        else if (b.getText().equals("7"))
-            b.setForeground(new Color(0, 0, 102));
-        else if (b.getText().equals("8"))
-            b.setForeground(new Color(153, 0, 76));
+    ru.nsu.ccfit.berkaev.constants.UI.setTextColor(b);
     }
 
 

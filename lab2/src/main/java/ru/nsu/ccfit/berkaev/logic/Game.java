@@ -59,33 +59,30 @@ public class Game implements MouseListener, ActionListener, WindowListener {
 
         JButton button = (JButton) e.getSource();
 
-        String[] co = button.getName().split(",");
+        String[] coordinates = button.getName().split(",");
 
-        int x = Integer.parseInt(co[0]);
-        int y = Integer.parseInt(co[1]);
+        int x = Integer.parseInt(coordinates[0]);
+        int y = Integer.parseInt(coordinates[1]);
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             button.setIcon(null);
             if (board.getMine(x, y)) {
                 button.setIcon(ui.getIconRedMine());
-                gameLost();
+                endGame(false);
             } else {
                 board.setState(x, y, OPEN.ordinal());
                 button.setText(Integer.toString(board.getSurroundingMines(x, y)));
                 ui.setTextColor(button);
-
+                button.setBackground(Color.lightGray);
                 if (board.getSurroundingMines(x, y) == 0) {
-                    button.setBackground(Color.lightGray);
                     button.setText("");
                     findZeroes(x, y);
-                } else {
-                    button.setBackground(Color.lightGray);
                 }
             }
         } else if (SwingUtilities.isRightMouseButton(e)) {
             if (board.getState(x, y) == FLAG.ordinal()) {
                 board.setState(x, y, CLOSE.ordinal());
-                button.setBackground(new Color(0, 110, 140));
+                button.setBackground(Color.lightGray);
                 button.setIcon(ui.getIconTile());
                 ui.plusMines();
             } else if (board.getState(x, y) == CLOSE.ordinal()) {
@@ -114,7 +111,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
 
     private void checkGame() {
         if (isFinished()) {
-            gameWon();
+            endGame(true);
         }
     }
     public void findZeroes(int xInput, int yInput) {
@@ -136,122 +133,32 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         }
     }
 
-    public void gameWon() {
-        endGame();
-
-        JDialog dialog = new JDialog(ui, Dialog.ModalityType.DOCUMENT_MODAL);
-
-        JLabel message = new JLabel("Congratulations, you won the game!", SwingConstants.CENTER);
-
-        JPanel statistics = new JPanel();
-        statistics.setLayout(new GridLayout(6, 1, 0, 10));
-
-        JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(1, 2, 10, 0));
-
-        JButton exit = new JButton("Exit");
-        JButton playAgain = new JButton("Play Again");
-
-
-        exit.addActionListener((ActionEvent e) -> {
-            dialog.dispose();
-            windowClosing(null);
-        });
-        playAgain.addActionListener((ActionEvent e) -> {
-            dialog.dispose();
-            newGame();
-        });
-
-
-        buttons.add(exit);
-        buttons.add(playAgain);
-
-        JPanel c = new JPanel();
-        c.setLayout(new BorderLayout(20, 20));
-        c.add(message, BorderLayout.NORTH);
-        c.add(statistics, BorderLayout.CENTER);
-        c.add(buttons, BorderLayout.SOUTH);
-
-        c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                     @Override
-                                     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                                         dialog.dispose();
-                                         newGame();
-                                     }
-                                 }
-        );
-
-        dialog.setTitle("Game Won");
-        dialog.add(c);
-        dialog.pack();
-        dialog.setLocationRelativeTo(ui);
-        dialog.setVisible(true);
-    }
-    public void gameLost() {
-        endGame();
-
-
-        JDialog dialog = new JDialog(ui, Dialog.ModalityType.DOCUMENT_MODAL);
-
-        JLabel message = new JLabel("Sorry, you lost this game :(", SwingConstants.CENTER);
-
-
-        JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(1, 3, 2, 0));
-
-        JButton exit = new JButton("Exit");
-        JButton restart = new JButton("Restart");
-        JButton playAgain = new JButton("Play Again");
-
-        exit.addActionListener((ActionEvent e) -> {
-            dialog.dispose();
-            windowClosing(null);
-        });
-        restart.addActionListener((ActionEvent e) -> {
-            dialog.dispose();
-            newGame();
-        });
-        playAgain.addActionListener((ActionEvent e) -> {
-            dialog.dispose();
-            newGame();
-        });
-
-
-        buttons.add(exit);
-        buttons.add(restart);
-        buttons.add(playAgain);
-
-        JPanel c = new JPanel();
-        c.setLayout(new BorderLayout(20, 20));
-        c.add(message, BorderLayout.NORTH);
-        c.add(buttons, BorderLayout.SOUTH);
-
-        c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                                     @Override
-                                     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                                         dialog.dispose();
-                                         newGame();
-                                     }
-                                 }
-        );
-
-        dialog.setTitle("Game Lost");
-        dialog.add(c);
-        dialog.pack();
-        dialog.setLocationRelativeTo(ui);
-        dialog.setVisible(true);
-    }
-
-    private void endGame() {
+    private void endGame(boolean isWin) {
         playing = false;
         showAll();
+        JDialog dialog = new JDialog(ui, Dialog.ModalityType.DOCUMENT_MODAL);
+        JPanel buttons = new JPanel();
+        JButton exit = new JButton();
+        JButton playAgain = new JButton();
+        JPanel panel = new JPanel();
+        exit.addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+            windowClosing(null);
+        });
+        playAgain.addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+            newGame();
+        });
 
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                     @Override
+                                     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                                         dialog.dispose();
+                                         newGame();
+                                     }
+                                 }
+        );
+        ui.endGame(isWin,dialog,exit,playAgain,buttons,panel);
     }
     private void showAll() {
         int state;
