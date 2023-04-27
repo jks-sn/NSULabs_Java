@@ -2,7 +2,9 @@ package carfactory.carbuildings;
 
 import carfactory.Car;
 import carfactory.carparts.Accessory;
+import carfactory.carparts.CarBody;
 import carfactory.carparts.Engine;
+import carfactory.tasks.BuildCar;
 import carfactory.threadpool.Task;
 import carfactory.threadpool.ThreadPool;
 
@@ -15,6 +17,7 @@ public class CarFabric {
     private Properties config;
     private final Storage<Engine> engineStorage;
     private final Storage<Accessory> accessoryStorage;
+    private final Storage<CarBody> carBodyStorage;
     private final Storage<Car> carStorage;
 
     private AtomicInteger numberCars;
@@ -23,9 +26,6 @@ public class CarFabric {
     private ThreadPool threadPoolDealer;
     private ThreadPool threadPoolSupplier;
     private ThreadPool threadPoolController;
-    Task supplyWheels;
-    Task supplyEngine;
-    Task supplySupplier;
     Task buildingOrder;
     public CarFabric()
     {
@@ -37,11 +37,33 @@ public class CarFabric {
             e.printStackTrace();
         }
         engineStorage = new Storage<>(Integer.parseInt(config.getProperty("EngineStorageSize")), "EngineStorage");
+        carBodyStorage = new Storage<>(Integer.parseInt(config.getProperty("CarBodyStorageSize")),"CarBodyStorage");
         accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty("SupplierStorageSize")), "SupplierStorage");
         carStorage = new Storage<>(Integer.parseInt(config.getProperty("CarStorageSize")),"CarStorage");
         numberCars = new AtomicInteger(0);
         threadPoolSupplier = new ThreadPool(Integer.parseInt(config.getProperty("NumberSuppliers")));
         threadPoolWorker = new ThreadPool(Integer.parseInt(config.getProperty("NumberWorkers")));
         threadPoolDealer = new ThreadPool(Integer.parseInt(config.getProperty("NumberDealers")));
+        buildingOrder = new BuildCar(this);
+        Thread routine = new Thread(() -> {
+            while (carStorage.getNumberItems() < carStorage.getStorageSize()){
+                threadPoolWorker.addTask(buildingOrder);
+                threadPoolDealer.addTask(sellingOrder);
+            }
+        });
+
+        routine.start();
+    }
+    public Storage<Engine> getEngineStorage(){
+        return engineStorage;
+    }
+    public Storage<CarBody> getCarBodyStorage(){
+        return carBodyStorage;
+    }
+    public Storage<Accessory> getAccessoryStorage(){
+        return accessoryStorage;
+    }
+    public Storage<Car> getCarStorage(){
+        return carStorage;
     }
 }

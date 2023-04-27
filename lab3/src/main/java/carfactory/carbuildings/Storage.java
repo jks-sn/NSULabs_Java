@@ -55,4 +55,11 @@ public class Storage<T extends Product>{
             }
         }
     }
+    public int getStorageSize() {
+        return size;
+    }
+
+    public int getNumberItems(){
+        return carItems.size();
+    }
 }
