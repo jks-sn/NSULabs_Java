@@ -1,4 +1,4 @@
-package carfactory;
+package carfactory.carparts;
 
 public abstract class Product {
     private final long id;

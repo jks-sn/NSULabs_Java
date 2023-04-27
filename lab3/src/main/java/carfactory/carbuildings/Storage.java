@@ -1,6 +1,6 @@
 package carfactory.carbuildings;
 
-import carfactory.Product;
+import carfactory.carparts.Product;
 
 import java.util.ArrayDeque;
 

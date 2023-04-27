@@ -1,6 +1,6 @@
 package carfactory.tasks;
 
-import carfactory.Car;
+import carfactory.carparts.Car;
 import carfactory.carbuildings.CarFabric;
 import carfactory.carbuildings.Storage;
 import carfactory.carparts.Accessory;
@@ -22,10 +22,10 @@ public class BuildCar implements Task {
     public BuildCar(CarFabric carFabric) {
         this.carFabric = carFabric;
         this.workerID = generateID();
-        this.engineStorage = engineStorage;
-        this.carBodyStorage = carBodyStorage;
-        this.accessoryStorage = accessoryStorage;
-        this.carStorage = carStorage;
+        this.engineStorage = carFabric.getEngineStorage();
+        this.carBodyStorage = carFabric.getCarBodyStorage();
+        this.accessoryStorage = carFabric.getAccessoryStorage();
+        this.carStorage = carFabric.getCarStorage();
     }
 
     @Override
@@ -35,6 +35,11 @@ public class BuildCar implements Task {
 
     @Override
     public void performWork() throws InterruptedException {
+
+    }
+
+    @Override
+    public void setParameter(int parameter) {
 
     }
 }

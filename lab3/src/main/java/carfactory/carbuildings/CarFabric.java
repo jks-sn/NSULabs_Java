@@ -1,6 +1,6 @@
 package carfactory.carbuildings;
 
-import carfactory.Car;
+import carfactory.carparts.Car;
 import carfactory.carparts.Accessory;
 import carfactory.carparts.CarBody;
 import carfactory.carparts.Engine;
@@ -27,6 +27,7 @@ public class CarFabric {
     private ThreadPool threadPoolSupplier;
     private ThreadPool threadPoolController;
     Task buildingOrder;
+    Task sellingOrder;
     public CarFabric()
     {
         logger.info("Car Fabric starts");
@@ -40,19 +41,31 @@ public class CarFabric {
         carBodyStorage = new Storage<>(Integer.parseInt(config.getProperty("CarBodyStorageSize")),"CarBodyStorage");
         accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty("SupplierStorageSize")), "SupplierStorage");
         carStorage = new Storage<>(Integer.parseInt(config.getProperty("CarStorageSize")),"CarStorage");
+
         numberCars = new AtomicInteger(0);
+
         threadPoolSupplier = new ThreadPool(Integer.parseInt(config.getProperty("NumberSuppliers")));
         threadPoolWorker = new ThreadPool(Integer.parseInt(config.getProperty("NumberWorkers")));
         threadPoolDealer = new ThreadPool(Integer.parseInt(config.getProperty("NumberDealers")));
+
         buildingOrder = new BuildCar(this);
-        Thread routine = new Thread(() -> {
+        Thread work = new Thread(() -> {
             while (carStorage.getNumberItems() < carStorage.getStorageSize()){
                 threadPoolWorker.addTask(buildingOrder);
                 threadPoolDealer.addTask(sellingOrder);
             }
         });
 
-        routine.start();
+        work.start();
+    }
+    public void stopFactory(){
+        threadPoolWorker.shutdown();
+        threadPoolSupplier.shutdown();
+        threadPoolDealer.shutdown();
+        logger.info("Factory stop working");
+    }
+    public void finishCarBuilding(){
+        numberCars.getAndIncrement();
     }
     public Storage<Engine> getEngineStorage(){
         return engineStorage;
@@ -65,5 +78,19 @@ public class CarFabric {
     }
     public Storage<Car> getCarStorage(){
         return carStorage;
+    }
+    public int getProducedCarCount() {
+        return numberCars.get();
+    }
+    public int getEngineStorageSize(){
+        return engineStorage.getStorageSize();
+    }
+
+    public int getWheelStorageSize(){
+        return accessoryStorage.getStorageSize();
+    }
+
+    public int getCarBodyStorageSize(){
+        return carBodyStorage.getStorageSize();
     }
 }
