@@ -10,14 +10,14 @@ import java.util.Objects;
 import static ru.nsu.ccfit.berkaev.constants.UI.*;
 
 public class UI extends JFrame {
-    private JButton[][] buttons;
-    private int rows;
-    private int columns;
+    private final JButton[][] buttons;
+    private final int rows;
+    private final int columns;
     private int mines;
 
-    private JLabel minesLabel;
+    private final JLabel minesLabel;
 
-    private JLabel timeLabel;
+    private final JLabel timeLabel;
 
     private Icon redMine;
     private Icon mine;
