@@ -4,7 +4,6 @@ import ru.nsu.ccfit.berkaev.timer.Timer;
 import ru.nsu.ccfit.berkaev.ui.UI;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
