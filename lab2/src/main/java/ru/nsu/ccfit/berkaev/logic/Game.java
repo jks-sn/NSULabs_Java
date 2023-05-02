@@ -17,7 +17,6 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     private ru.nsu.ccfit.berkaev.timer.Timer timer;
     private boolean playing;
     private UI ui;
-    private boolean gameStarted = false;
 
     public Game() {
         board = new Board();
@@ -37,10 +36,6 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         ui.initGame();
         ui.setMines(board.getNumberMines());
         timer.resetTimer(ui);
-    }
-
-    public boolean getGameStarted() {
-        return gameStarted;
     }
 
     @Override
@@ -70,8 +65,9 @@ public class Game implements MouseListener, ActionListener, WindowListener {
                 endGame(false);
             } else {
                 board.setState(row, column, OPEN.ordinal());
-                button.setText(Integer.toString(board.getSurroundingMines(row, column)));
-                ui.setTextColor(button);
+                String numberSurroundingMines = Integer.toString(board.getSurroundingMines(row, column));
+                button.setText(numberSurroundingMines);
+                ui.setTextColor(button,numberSurroundingMines);
                 button.setBackground(Color.lightGray);
                 if (board.getSurroundingMines(row, column) == 0) {
                     button.setText("");
@@ -124,8 +120,9 @@ public class Game implements MouseListener, ActionListener, WindowListener {
                     if (board.getSurroundingMines(x, y) == 0) {
                         findZeroes(x, y);
                     } else {
-                        buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x, y)));
-                        ui.setTextColor(buttons[x][y]);
+                        String numberSurroundingMines = Integer.toString(board.getSurroundingMines(x, y));
+                        buttons[x][y].setText(numberSurroundingMines);
+                        ui.setTextColor(buttons[x][y],numberSurroundingMines);
                     }
                 }
             }
@@ -171,9 +168,11 @@ public class Game implements MouseListener, ActionListener, WindowListener {
                     if (board.getMine(x, y)) {
                         buttons[x][y].setIcon(ui.getIconMine());
                     } else {
+
                         if (board.getSurroundingMines(x, y) != 0) {
-                            buttons[x][y].setText(Integer.toString(board.getSurroundingMines(x, y)));
-                            ui.setTextColor(buttons[x][y]);
+                            String numberSurroundingMines = Integer.toString(board.getSurroundingMines(x, y));
+                            buttons[x][y].setText(numberSurroundingMines);
+                            ui.setTextColor(buttons[x][y],numberSurroundingMines);
                         }
                     }
                 } else if (state == FLAG.ordinal()) {

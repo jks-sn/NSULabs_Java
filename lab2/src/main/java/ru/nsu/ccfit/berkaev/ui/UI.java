@@ -1,13 +1,23 @@
 package ru.nsu.ccfit.berkaev.ui;
 
+import ru.nsu.ccfit.berkaev.constants.Constants;
 import ru.nsu.ccfit.berkaev.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.Objects;
 
-import static ru.nsu.ccfit.berkaev.constants.UI.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.EndGame.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Panel.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Paths.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Window.windowBorder;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Window.windowBorderLayout;
+import static ru.nsu.ccfit.berkaev.constants.Constants.downPanel.downPanelBorderLayout;
+import static ru.nsu.ccfit.berkaev.constants.Constants.hideAll.backgroundColor;
+import static ru.nsu.ccfit.berkaev.constants.Constants.hideAll.text;
+import static ru.nsu.ccfit.berkaev.constants.Constants.makeLabel.colorBackground;
+import static ru.nsu.ccfit.berkaev.constants.Constants.makeLabel.labelText;
 
 public class UI extends JFrame {
     private final JButton[][] buttons;
@@ -44,20 +54,20 @@ public class UI extends JFrame {
 
         gameBoard = createBoard();
 
-        JPanel timePanel = makePanel("/timer.png",timeLabel);
-        JPanel minesPanel = makePanel("/mine.png",minesLabel);
+        JPanel timePanel = makePanel(timerPath,timeLabel);
+        JPanel minesPanel = makePanel(minePath,minesLabel);
 
         downPanel = makeDownPanel(timePanel,minesPanel);
 
         JPanel game = createWindow(gameBoard,downPanel);
         setLayout(new BorderLayout());
-        JLabel background = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource("/background.jpg"))));
+        JLabel background = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource(backgroundPath))));
 
         add(background);
         background.setLayout(new BorderLayout(0, 0));
         background.add(game, BorderLayout.CENTER);
 
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mine.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(minePath)));
     }
 
     public void initGame() {
@@ -73,14 +83,6 @@ public class UI extends JFrame {
         }
     }
 
-
-    public void disableAll() {
-        for (int x = 0; x < rows; x++) {
-            for (int y = 0; y < columns; y++) {
-                buttons[x][y].setEnabled(false);
-            }
-        }
-    }
     public JPanel createBoard()
     {
         JPanel gameBoard = new JPanel();
@@ -90,9 +92,9 @@ public class UI extends JFrame {
                 buttons[x][y] = new JButton();
 
                 buttons[x][y].setName(x + "," + y);
-                buttons[x][y].setFont(new Font("Serif", Font.BOLD, 24));
+                buttons[x][y].setFont(font);
 
-                buttons[x][y].setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+                buttons[x][y].setBorder(border);
 
                 gameBoard.add(buttons[x][y]);
             }
@@ -106,8 +108,8 @@ public class UI extends JFrame {
     public void hideAll() {
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < columns; y++) {
-                buttons[x][y].setText("");
-                buttons[x][y].setBackground(new Color(0, 103, 200));
+                buttons[x][y].setText(text);
+                buttons[x][y].setBackground(backgroundColor);
                 buttons[x][y].setIcon(tile);
             }
         }
@@ -124,9 +126,9 @@ public class UI extends JFrame {
     }
     private JLabel makeLabel()
     {
-        JLabel label = new JLabel("  0  ", SwingConstants.CENTER);
-        label.setFont(new Font("Serif", Font.BOLD, 20));
-        label.setBackground(new Color(110, 110, 255));
+        JLabel label = new JLabel(labelText, SwingConstants.CENTER);
+        label.setFont(font);
+        label.setBackground(colorBackground);
         label.setForeground(Color.white);
         label.setOpaque(true);
         return label;
@@ -134,7 +136,7 @@ public class UI extends JFrame {
     private JPanel makeDownPanel(JPanel timePanel, JPanel minesPanel)
     {
         JPanel downPanel = new JPanel();
-        downPanel.setLayout(new BorderLayout(0, 20));
+        downPanel.setLayout(downPanelBorderLayout);
         downPanel.add(timePanel, BorderLayout.WEST);
         downPanel.add(minesPanel, BorderLayout.EAST);
         downPanel.setOpaque(false);
@@ -143,8 +145,8 @@ public class UI extends JFrame {
     private JPanel makePanel(String pathToIcon, JLabel label)
     {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(10, 0));
-        JLabel icon = new JLabel("", SwingConstants.CENTER);
+        panel.setLayout(new BorderLayout(BorderLayoutHgap, BorderLayoutVgap)); //whaaaaaaaaaat?
+        JLabel icon = new JLabel(panelIconText, SwingConstants.CENTER);
         icon.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource(pathToIcon))));
         panel.add(icon, BorderLayout.WEST);
         panel.add(label, BorderLayout.CENTER);
@@ -154,10 +156,10 @@ public class UI extends JFrame {
     private JPanel createWindow(JPanel gameBoard, JPanel downPanel)
     {
         JPanel game = new JPanel();
-        game.setLayout(new BorderLayout(0, 10));
+        game.setLayout(windowBorderLayout);
         game.add(gameBoard, BorderLayout.CENTER);
         game.add(downPanel, BorderLayout.SOUTH);
-        game.setBorder(BorderFactory.createEmptyBorder(60, 60, 14, 60));
+        game.setBorder(windowBorder);
         game.setOpaque(false);
         return game;
     }
@@ -170,21 +172,21 @@ public class UI extends JFrame {
     }
     public void endGame(boolean isWin, JDialog dialog, JButton exit, JButton playAgain, JPanel buttons, JPanel c)
     {
-        exit.setText("Exit");
-        playAgain.setText("PlayAgain");
-        JLabel message = new JLabel(isWin?"You win the game":"You lose the game!", SwingConstants.CENTER);
-        buttons.setLayout(new GridLayout(1, 2, 10, 0));
+        exit.setText(exitText);
+        playAgain.setText(playAgainText);
+        JLabel message = new JLabel(isWin?winGameMesage:looseGameMesage, SwingConstants.CENTER);
+        buttons.setLayout(buttonsGridLayout);
         buttons.add(exit);
         buttons.add(playAgain);
-        c.setLayout(new BorderLayout(20, 20));
+        c.setLayout(borderLayout);
         c.add(message, BorderLayout.NORTH);
         c.add(buttons, BorderLayout.SOUTH);
 
-        c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        c.setBorder(endGameBorder);
 
         dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        dialog.setTitle(isWin?"Game Won":"Game Lost");
+        dialog.setTitle(isWin?dialogWinText:dialogLooseText);
         dialog.add(c);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
@@ -214,10 +216,6 @@ public class UI extends JFrame {
         setMines(mines);
     }
 
-    public int getMines() {
-        return mines;
-    }
-
     private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
         Image image = icon.getImage();
         Image resizedImage = image.getScaledInstance(resizedWidth, resizedHeight, java.awt.Image.SCALE_SMOOTH);
@@ -228,23 +226,16 @@ public class UI extends JFrame {
         int offset = buttons[0][1].getInsets().left;
         int width = buttons[0][1].getWidth();
         int height = buttons[0][1].getHeight();
-
-        ImageIcon d;
-
-        d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/redmine.png")));
-        redMine = resizeIcon(d, width - offset, height - offset);
-
-        d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/mine.png")));
-        mine = resizeIcon(d, width - offset, height - offset);
-
-        d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/flag.png")));
-        flag = resizeIcon(d, width - offset, height - offset);
-
-        d = new ImageIcon(Objects.requireNonNull(getClass().getResource("/closet.png")));
-        tile = resizeIcon(d, width - offset, height - offset);
-
+        redMine = setIcon(redminePath,width,height,offset);
+        mine = setIcon(minePath,width,height,offset);
+        flag = setIcon(flagPath,width,height,offset);
+        tile = setIcon(closetPath,width,height,offset);
     }
-
+    public Icon setIcon(String path,int width, int height,int offset)
+    {
+        ImageIcon i = new ImageIcon(Objects.requireNonNull(getClass().getResource(path)));
+        return resizeIcon(i, width - offset, height - offset);
+    }
     public Icon getIconMine() {
         return mine;
     }
@@ -262,9 +253,7 @@ public class UI extends JFrame {
     }
 
 
-    public void setTextColor(JButton b) {
-    ru.nsu.ccfit.berkaev.constants.UI.setTextColor(b);
+    public void setTextColor(JButton button, String number) {
+        button.setForeground((Constants.Digits.getColor(number)));
     }
-
-
 }
