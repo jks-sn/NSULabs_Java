@@ -8,10 +8,12 @@ import carfactory.threadpool.Task;
 public class SellCar implements Task {
     private final long carID;
     private final Storage<Car> carStorage;
+    private int delay;
 
-    public SellCar(CarFabric factory, Storage<Car> carStorage, long carID) {
+    public SellCar(CarFabric factory, int delay, long carID) {
         this.carStorage = factory.getCarStorage();
         this.carID = carID;
+        this.delay = delay;
     }
 
     @Override
@@ -20,13 +22,15 @@ public class SellCar implements Task {
     }
 
     @Override
-    public void performWork() {
+    public void performWork() throws InterruptedException {
         while (!Thread.currentThread().isInterrupted()){
+            Thread.sleep(delay);
             carStorage.get();
         }
     }
 
     @Override
     public void setParameter(int parameter) {
+        this.delay = parameter;
     }
 }

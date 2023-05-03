@@ -30,12 +30,16 @@ public class BuildCar implements Task {
 
     @Override
     public String getName() {
-        return null;
+        return "Build car. Worker ID: " + workerID;
     }
 
     @Override
-    public void performWork() throws InterruptedException {
-
+    public void performWork() {
+        while (!Thread.currentThread().isInterrupted()) {
+            Car car = new Car(generateID(),engineStorage.get(), carBodyStorage.get(), accessoryStorage.get());
+            carStorage.put(car.finishBuild());
+            carFabric.finishCarBuilding();
+        }
     }
 
     @Override
