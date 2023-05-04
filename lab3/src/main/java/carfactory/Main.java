@@ -1,167 +1,115 @@
 package carfactory;
+
 import carfactory.carbuildings.CarFabric;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
-class Main extends Application {
-    private Text carCount;
-    private Text carsInStorage;
-    private Text accessoryInStorage;
-    private Text enginesInStorage;
-    private Text carBodiesInStorage;
+
+public class Main {
+    private final JLabel carCount;
+    private final JLabel carsInStorage;
+    private final JLabel accessoryInStorage;
+    private final JLabel enginesInStorage;
+    private final JLabel carBodiesInStorage;
     private CarFabric fabric;
-
-    @Override
-    public void start(Stage stage) {
+public Main() {
         fabric = new CarFabric();
-        carCount = new Text("Total cars produced: " + fabric.getProducedCarCount());
-        carsInStorage = new Text("Cars in storage: " + fabric.getCarStorageSize());
-        carBodiesInStorage = new Text("Cars bodies in storage: " + fabric.getCarBodyStorageSize());
-        accessoryInStorage = new Text("Accessory in storage: " + fabric.getAccessoryStorageSize());
-        enginesInStorage = new Text("Engines in storage: " + fabric.getEngineStorageSize());
+        carCount = new JLabel("Total cars produced: " + fabric.getProducedCarCount());
+        carsInStorage = new JLabel("Cars in storage: " + fabric.getCarStorageSize());
+        carBodiesInStorage = new JLabel("Cars bodies in storage: " + fabric.getCarBodyStorageSize());
+        accessoryInStorage = new JLabel("Accessory in storage: " + fabric.getAccessoryStorageSize());
+        enginesInStorage = new JLabel("Engines in storage: " + fabric.getEngineStorageSize());
+        }
 
-        int topPadding = 50;
-        int leftPadding = 40;
-        int interval = 40;
+private void updateLabels() {
+        carCount.setText("Total cars produced: " + fabric.getProducedCarCount());
+        carsInStorage.setText("Cars in storage: " + fabric.getCarStorageSize());
+        carBodiesInStorage.setText("Cars bodies in storage: " + fabric.getCarBodyStorageSize());
+        accessoryInStorage.setText("Accessory in storage: " + fabric.getAccessoryStorageSize());
+        enginesInStorage.setText("Engines in storage: " + fabric.getEngineStorageSize());
+        }
 
-        carCount.setX(leftPadding);
-        carCount.setY(topPadding);
+public void createAndShowGUI() {
+    JFrame frame = new JFrame("Car Factory");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(500, 400);
+    JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+    mainPanel.setPreferredSize(new Dimension(400, 300));
 
-        carsInStorage.setX(leftPadding);
-        carsInStorage.setY(topPadding + interval);
+    JPanel countPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    countPanel.setPreferredSize(new Dimension(350, 20));
+    countPanel.add(carCount);
 
-        accessoryInStorage.setX(leftPadding);
-        accessoryInStorage.setY(topPadding + 2 * interval);
+    JPanel carPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    carPanel.setPreferredSize(new Dimension(350, 20));
+    carPanel.add(carsInStorage);
 
-        enginesInStorage.setX(leftPadding);
-        enginesInStorage.setY(topPadding + 3 * interval);
+    JPanel accessoryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    accessoryPanel.setPreferredSize(new Dimension(350, 20));
+    accessoryPanel.add(accessoryInStorage);
 
-        carBodiesInStorage.setX(leftPadding);
-        carBodiesInStorage.setY(topPadding + 4 * interval);
+    JPanel enginesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    enginesPanel.setPreferredSize(new Dimension(350, 20));
+    enginesPanel.add(enginesInStorage);
 
-        VBox sliderBox = new VBox();
-        sliderBox.setPadding(new Insets(leftPadding));
-        sliderBox.setSpacing(20);
-        sliderBox.setLayoutY(250);
+    JPanel carBodiesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    carBodiesPanel.setPreferredSize(new Dimension(350, 20));
+    carBodiesPanel.add(carBodiesInStorage);
 
-        Label accessorySupplierDelay = new Label("Wheel supplier delay in milliseconds:");
-        Label newAccessorySupplierDelay = new Label("-");
-        newAccessorySupplierDelay.setTextFill(Color.DARKGREEN);
-        Slider AccessorySupplierDelaySlider = new Slider();
-        AccessorySupplierDelaySlider.setMin(0);
-        AccessorySupplierDelaySlider.setMax(60000);
-        AccessorySupplierDelaySlider.setValue(1000);
-        AccessorySupplierDelaySlider.setShowTickMarks(true);
-        AccessorySupplierDelaySlider.setBlockIncrement(10);
+    mainPanel.add(countPanel);
+    mainPanel.add(carPanel);
+    mainPanel.add(accessoryPanel);
+    mainPanel.add(enginesPanel);
+    mainPanel.add(carBodiesPanel);
 
-        AccessorySupplierDelaySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    newAccessorySupplierDelay.setText("Current Accessory supplier delay: " + newValue.intValue());
-                    fabric.setAccessorySupplierDelay(newValue.intValue());
-                }
-        );
+    frame.add(mainPanel);
 
-        sliderBox.getChildren().addAll(accessorySupplierDelay, newAccessorySupplierDelay, AccessorySupplierDelaySlider);
+    JPanel sliderBox = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+    sliderBox.setPreferredSize(new Dimension(400, 100));
 
-        // create Engine Supplier Delay Slider
-        Label engineSupplierDelay = new Label("Engine supplier delay in mills:");
-        Label newEngineSupplierDelay = new Label("-");
-        newEngineSupplierDelay.setTextFill(Color.DARKGREEN);
-        Slider engineSupplierDelaySlider = new Slider();
-        engineSupplierDelaySlider.setMin(0);
-        engineSupplierDelaySlider.setMax(60000);
-        engineSupplierDelaySlider.setValue(1000);
-        engineSupplierDelaySlider.setShowTickMarks(true);
-        engineSupplierDelaySlider.setBlockIncrement(10);
+    JSlider accessorySupplierDelaySlider = new JSlider(JSlider.HORIZONTAL, 0, 60000, 1000);
+    accessorySupplierDelaySlider.setMajorTickSpacing(20000);
+    accessorySupplierDelaySlider.setMinorTickSpacing(1000);
+    accessorySupplierDelaySlider.setPaintTicks(true);
+    accessorySupplierDelaySlider.setPaintLabels(true);
+    JSlider engineSupplierDelaySlider = new JSlider(JSlider.HORIZONTAL, 0, 60000, 1000);
+    engineSupplierDelaySlider.setMajorTickSpacing(20000);
+    engineSupplierDelaySlider.setMinorTickSpacing(1000);
+    engineSupplierDelaySlider.setPaintTicks(true);
+    engineSupplierDelaySlider.setPaintLabels(true);
+    engineSupplierDelaySlider.setPreferredSize(new Dimension(350, 50));
+    engineSupplierDelaySlider.addChangeListener(e -> {
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()) {
+            int delay = (int) source.getValue();
+            fabric.setEngineSupplierDelay(delay);
+        }
+    });
 
-        engineSupplierDelaySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    newEngineSupplierDelay.setText("Current engine supplier delay: " + newValue.intValue());
-                    fabric.setEngineSupplierDelay(newValue.intValue());
-                }
-        );
+    sliderBox.add(accessorySupplierDelaySlider);
+    sliderBox.add(engineSupplierDelaySlider);
 
-        sliderBox.getChildren().addAll(engineSupplierDelay, newEngineSupplierDelay, engineSupplierDelaySlider);
+    mainPanel.add(sliderBox);
 
+    JButton startButton = new JButton("Start Production");
+    startButton.addActionListener(e -> fabric.startFabric());
 
-        Label carBodySupplierDelay = new Label("Car body supplier delay in mills:");
-        Label newCarBodySupplierDelay = new Label("-");
-        newCarBodySupplierDelay.setTextFill(Color.DARKGREEN);
-        Slider carBodySupplierDelaySlider = new Slider();
-        carBodySupplierDelaySlider.setMin(0);
-        carBodySupplierDelaySlider.setMax(60000);
-        carBodySupplierDelaySlider.setValue(1000);
-        carBodySupplierDelaySlider.setShowTickMarks(true);
-        carBodySupplierDelaySlider.setBlockIncrement(10);
+    JButton stopButton = new JButton("Stop Production");
+    stopButton.addActionListener(e -> fabric.stopFabric());
 
-        carBodySupplierDelaySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    newCarBodySupplierDelay.setText("Current car body supplier delay: " + newValue.intValue());
-                    fabric.setCarBodySupplierDelay(newValue.intValue());
-                }
-        );
+    mainPanel.add(startButton);
+    mainPanel.add(stopButton);
 
-        sliderBox.getChildren().addAll(carBodySupplierDelay, newCarBodySupplierDelay, carBodySupplierDelaySlider);
+    Timer timer = new Timer(1000, e -> updateLabels());
+    timer.start();
 
-        Label dealerDelay = new Label("Dealer delay in mills:");
-        Label newDealerDelay = new Label("-");
-        newDealerDelay.setTextFill(Color.DARKGREEN);
-        Slider dealerDelaySlider = new Slider();
-        dealerDelaySlider.setMin(0);
-        dealerDelaySlider.setMax(60000);
-        dealerDelaySlider.setValue(1000);
-        dealerDelaySlider.setShowTickMarks(true);
-        dealerDelaySlider.setBlockIncrement(10);
-
-        dealerDelaySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    newDealerDelay.setText("Current dealer delay: " + newValue.intValue());
-                    fabric.setDealerDelay(newValue.intValue());
-                }
-        );
-        sliderBox.getChildren().addAll(dealerDelay, newDealerDelay, dealerDelaySlider);
-
-
-        Group counts = new Group(sliderBox, carCount, carsInStorage, accessoryInStorage, enginesInStorage, carBodiesInStorage);
-        counts.setStyle("-fx-font: 17 arials;");
-
-        Scene scene = new Scene(counts, 600, 900);
-        scene.setFill(Color.PEACHPUFF);
-        stage.setTitle("Car fabric");
-        stage.setScene(scene);
-        stage.show();
-
-        Timer upd = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    carsInStorage.setText("Cars in storage: " + fabric.getCarStorageSize());
-                    carBodiesInStorage.setText("Cars bodies in storage: " + fabric.getCarBodyStorageSize());
-                    accessoryInStorage.setText("Accessory in storage: " + fabric.getAccessoryStorageSize());
-                    enginesInStorage.setText("Engines in storage: " + fabric.getEngineStorageSize());
-                    carCount.setText("Total cars produced: " + fabric.getProducedCarCount());
-                });
-            }
-        };
-
-        upd.schedule(task, 0, 300);
-    }
-    @Override
-    public void stop() throws Exception{
-        fabric.stopFabric();
-        super.stop();
-        System.exit(0);
-    }
+    frame.pack();
+    frame.setVisible(true);
+}
     public static void main(String[] args) {
-        launch(args);
+        Main app = new Main();
+        app.createAndShowGUI();
     }
 }

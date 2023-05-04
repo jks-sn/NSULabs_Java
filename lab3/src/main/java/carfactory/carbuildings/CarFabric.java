@@ -41,13 +41,13 @@ public class CarFabric {
         logger.info("Car Fabric starts");
         try{
             config = new Properties();
-            config.load(this.getClass().getResourceAsStream("config.properties"));
+            config.load(this.getClass().getResourceAsStream("/config.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         engineStorage = new Storage<>(Integer.parseInt(config.getProperty("EngineStorageSize")), "EngineStorage");
         carBodyStorage = new Storage<>(Integer.parseInt(config.getProperty("CarBodyStorageSize")),"CarBodyStorage");
-        accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty("SupplierStorageSize")), "SupplierStorage");
+        accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty("AccessoryStorageSize")), "AccessoryStorage");
         carStorage = new Storage<>(Integer.parseInt(config.getProperty("CarStorageSize")),"CarStorage");
 
         int supplierDelay = Integer.parseInt(config.getProperty("SupplierDelay"));
@@ -65,6 +65,9 @@ public class CarFabric {
 
         buildingOrder = new BuildCar(this);
         sellingOrder = (new SellCar(this, dealerDelay, generateID()));
+    }
+    public void startFabric()
+    {
         Thread work = new Thread(() -> {
             while (carStorage.getNumberItems() < carStorage.getStorageSize()){
                 threadPoolSupplier.addTask(supplyAccessory);
