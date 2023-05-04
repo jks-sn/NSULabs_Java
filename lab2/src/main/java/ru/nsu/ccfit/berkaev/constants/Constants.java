@@ -7,11 +7,13 @@ import java.awt.*;
 public class Constants {
     public static Font font = new Font("Serif", Font.BOLD, 24);
     public static Border border = BorderFactory.createLineBorder(Color.black, 1, true);
-    public static final String FRAME_TITLE = "Minesweeper";
-    public static final int FRAME_WIDTH = 490;
-    public static final int FRAME_HEIGHT = 520;
-    public static final int FRAME_LOC_X = 400;
-    public static final int FRAME_LOC_Y = 20;
+    public static class Frame {
+        public static final String TITLE = "Minesweeper";
+        public static final int WIDTH = 490;
+        public static final int HEIGHT = 520;
+        public static final int LOC_X = 400;
+        public static final int LOC_Y = 20;
+    }
     public static class Paths {
         public static String minePath = "/mine.png";
         public static String timerPath = "/timer.png";

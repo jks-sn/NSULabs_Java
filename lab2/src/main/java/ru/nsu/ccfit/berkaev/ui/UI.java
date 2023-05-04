@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import static ru.nsu.ccfit.berkaev.constants.Constants.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.EndGame.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Frame.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Panel.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Paths.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Window.windowBorder;
@@ -40,9 +41,9 @@ public class UI extends JFrame {
         this.columns = columns;
         this.mines = mines;
 
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        setTitle(FRAME_TITLE);
-        setLocation(FRAME_LOC_X, FRAME_LOC_Y);
+        setSize(Constants.Frame.WIDTH, Constants.Frame.HEIGHT);
+        setTitle(TITLE);
+        setLocation(LOC_X, LOC_Y);
 
         minesLabel = makeLabel();
         timeLabel = makeLabel();
