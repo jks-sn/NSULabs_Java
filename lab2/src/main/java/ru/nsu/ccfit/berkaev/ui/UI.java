@@ -146,7 +146,7 @@ public class UI extends JFrame {
     private JPanel makePanel(String pathToIcon, JLabel label)
     {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(BorderLayoutHgap, BorderLayoutVgap)); //whaaaaaaaaaat?
+        panel.setLayout(new BorderLayout(BorderLayoutHgap, BorderLayoutVgap));
         JLabel icon = new JLabel(panelIconText, SwingConstants.CENTER);
         icon.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource(pathToIcon))));
         panel.add(icon, BorderLayout.WEST);
