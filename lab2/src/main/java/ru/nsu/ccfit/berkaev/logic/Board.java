@@ -1,5 +1,6 @@
 package ru.nsu.ccfit.berkaev.logic;
 
+import static ru.nsu.ccfit.berkaev.constants.Constants.*;
 import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 
 public class Board {
@@ -20,7 +21,7 @@ public class Board {
     }
     public Board()
     {
-        this(9,9,10);
+        this(defaultNumberRows,defaultNumberCols,defaultNumberMines);
     }
     public void createEmptyBoard()
     {
@@ -40,7 +41,6 @@ public class Board {
             y = (int) Math.floor(Math.random() * columns);
             if (!cells[x][y].getMine()) {
                 ++numberMines;
-                System.out.print(x + " " + y + "\n");
                 cells[x][y].setMine();
             }
         }

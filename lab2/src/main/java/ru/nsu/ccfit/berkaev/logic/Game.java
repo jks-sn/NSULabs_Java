@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static ru.nsu.ccfit.berkaev.logic.Cell.states.*;
+import static ru.nsu.ccfit.berkaev.logic.Cell.States.*;
 import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 
 public class Game implements MouseListener, ActionListener, WindowListener {

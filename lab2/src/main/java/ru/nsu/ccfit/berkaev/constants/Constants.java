@@ -5,6 +5,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class Constants {
+    public static final int defaultNumberRows = 9;
+    public static final int defaultNumberCols = 9;
+    public static final int defaultNumberMines = 10;
     public static Font font = new Font("Serif", Font.BOLD, 24);
     public static Border border = BorderFactory.createLineBorder(Color.black, 1, true);
     public static class Frame {

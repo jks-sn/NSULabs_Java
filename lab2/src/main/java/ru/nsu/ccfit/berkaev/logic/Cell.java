@@ -2,7 +2,7 @@ package ru.nsu.ccfit.berkaev.logic;
 
 public class Cell {
     private boolean mine;
-    public enum states{
+    public enum States{
          CLOSE, OPEN, FLAG
     }
     private int state;
@@ -10,12 +10,12 @@ public class Cell {
 
     public Cell() {
         mine = false;
-        state = states.CLOSE.ordinal();
+        state = States.CLOSE.ordinal();
         surroundingMines = 0;
     }
     public void setMine() {
         mine = true;
-        this.state = states.CLOSE.ordinal();
+        this.state = States.CLOSE.ordinal();
     }
     public boolean getMine()
     {
