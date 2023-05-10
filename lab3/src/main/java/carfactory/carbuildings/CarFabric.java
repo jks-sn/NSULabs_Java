@@ -77,14 +77,14 @@ public class CarFabric {
                 threadPoolDealer.addTask(sellingOrder);
             }
         });
-
         work.start();
     }
     public void stopFabric(){
+        logger.info("factory start stop working");
         threadPoolWorker.shutdown();
         threadPoolSupplier.shutdown();
         threadPoolDealer.shutdown();
-        logger.info("Factory stop working");
+        logger.info("Factory finish stop working");
     }
     public void finishCarBuilding(){
         numberCars.getAndIncrement();

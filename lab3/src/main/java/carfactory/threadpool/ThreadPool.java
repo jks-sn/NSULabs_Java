@@ -1,5 +1,5 @@
 package carfactory.threadpool;
-
+import java.util.logging.Logger;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +7,8 @@ import java.util.Set;
 public class ThreadPool implements TaskListener {
     private final ArrayDeque<ThreadPoolTask> taskQueue = new ArrayDeque<>();
     private final Set<PooledThread> availableThreads = new HashSet<>();
+    private static final Logger logger = Logger.getLogger(ThreadPool.class.getName());
+
 
     public ThreadPool(int size) {
         for (int i = 0; i < size; ++i) {
@@ -18,41 +20,47 @@ public class ThreadPool implements TaskListener {
     }
 
     @Override
-    public void taskInterrupted(Task t) {
+    public void taskInterrupted(Task task) {
 
     }
 
     @Override
-    public void taskFinished(Task t) {
-
+    public void taskFinished(Task task) {
+        logger.info("THREAD POOL :: FINISHED " + task.getName());
     }
 
     @Override
-    public void taskStarted(Task t) {
-
+    public void taskStarted(Task task) {
+        logger.info("THREAD POOL :: STARTED " + task.getName());
     }
 
-    public void addTask(Task t) {
-        addTask(t, this);
+    public void addTask(Task task) {
+        addTask(task, this);
     }
 
-    public void addTask(Task t, TaskListener l) {
+    public void addTask(Task task, TaskListener listener) {
         synchronized (taskQueue) {
-            taskQueue.add(new ThreadPoolTask(t, l));
+            logger.fine("THREAD POOL :: ADDING NEW TASK " + task.getName());
+            taskQueue.add(new ThreadPoolTask(task, listener));
             taskQueue.notifyAll();
         }
     }
 
     public void shutdown() {
+        logger.info("THREAD POOL :: SHUTTING DOWN");
         for (PooledThread thread : availableThreads) {
             thread.interruptPooledThread();
+            logger.info("THREAD POOL :: INTERRUPTED " + thread.getName());
         }
 
         for (PooledThread thread : availableThreads) {
             try {
                 thread.join();
+                logger.info("THREAD POOL :: FINISHED " + thread.getName());
             } catch (InterruptedException ignored) {
+                logger.info("THREAD POOL :: INTERRUPTED WHILE JOINING " + thread.getName());
             }
         }
+        logger.info("THREAD POOL :: SHUTDOWN COMPLETED");
     }
 }

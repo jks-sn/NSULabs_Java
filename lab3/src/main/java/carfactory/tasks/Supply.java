@@ -31,14 +31,13 @@ public class Supply<T extends Product> implements Task {
         while (!Thread.currentThread().isInterrupted()){
             try {
                 Thread.sleep(delay);
-                long itemID = generateID();
-                T item = itemClass .getDeclaredConstructor(long.class).newInstance(itemID);
+                T item = itemClass.newInstance();
                 storage.put(item);
             } catch (InterruptedException e) {
                 logger.info(Thread.currentThread().getName() + " :: INTERRUPTED");
                 break;
             }
-            catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
                 Thread.currentThread().interrupt();
             }

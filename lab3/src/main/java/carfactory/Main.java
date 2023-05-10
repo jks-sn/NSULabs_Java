@@ -2,9 +2,20 @@ package carfactory;
 
 import carfactory.carbuildings.CarFabric;
 
+
 import javax.swing.*;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+
+import static carfactory.constants.Constants.*;
+import static carfactory.constants.Constants.JLabelTexts.*;
+import static carfactory.constants.Constants.PanelsConstants.Dimensions.*;
+import static carfactory.constants.Constants.PanelsConstants.FlowLayouts.*;
+import static carfactory.constants.Constants.Slider.SliderConstants.Names.*;
+import static carfactory.constants.Constants.Slider.SliderConstants.sliderBoxDimension;
+import static carfactory.constants.Constants.Slider.SliderConstants.sliderBoxFlowLayout;
+import static carfactory.constants.Constants.frameSize.height;
+import static carfactory.constants.Constants.frameSize.width;
+import static carfactory.ui.Gui.createPanel;
+import static carfactory.ui.Gui.makeSlider;
 
 
 public class Main {
@@ -13,51 +24,41 @@ public class Main {
     private final JLabel accessoryInStorage;
     private final JLabel enginesInStorage;
     private final JLabel carBodiesInStorage;
-    private CarFabric fabric;
+    private final CarFabric fabric;
 public Main() {
         fabric = new CarFabric();
-        carCount = new JLabel("Total cars produced: " + fabric.getProducedCarCount());
-        carsInStorage = new JLabel("Cars in storage: " + fabric.getCarStorageSize());
-        carBodiesInStorage = new JLabel("Cars bodies in storage: " + fabric.getCarBodyStorageSize());
-        accessoryInStorage = new JLabel("Accessory in storage: " + fabric.getAccessoryStorageSize());
-        enginesInStorage = new JLabel("Engines in storage: " + fabric.getEngineStorageSize());
+        carCount = new JLabel(labelCarCountText + fabric.getProducedCarCount());
+        carsInStorage = new JLabel(labelcarsInStorageText + fabric.getCarStorageSize());
+        carBodiesInStorage = new JLabel(labelcarBodiesInStorageText + fabric.getCarBodyStorageSize());
+        accessoryInStorage = new JLabel(labelaccessoryInStorageText + fabric.getAccessoryStorageSize());
+        enginesInStorage = new JLabel(labelenginesInStorageText + fabric.getEngineStorageSize());
         }
 
 private void updateLabels() {
-        carCount.setText("Total cars produced: " + fabric.getProducedCarCount());
-        carsInStorage.setText("Cars in storage: " + fabric.getCarStorageSize());
-        carBodiesInStorage.setText("Cars bodies in storage: " + fabric.getCarBodyStorageSize());
-        accessoryInStorage.setText("Accessory in storage: " + fabric.getAccessoryStorageSize());
-        enginesInStorage.setText("Engines in storage: " + fabric.getEngineStorageSize());
+        carCount.setText(labelCarCountText + fabric.getProducedCarCount());
+        carsInStorage.setText(labelcarsInStorageText + fabric.getCarStorageSize());
+        carBodiesInStorage.setText(labelcarBodiesInStorageText + fabric.getCarBodyStorageSize());
+        accessoryInStorage.setText(labelaccessoryInStorageText + fabric.getAccessoryStorageSize());
+        enginesInStorage.setText(labelenginesInStorageText + fabric.getEngineStorageSize());
         }
 
 public void createAndShowGUI() {
-    JFrame frame = new JFrame("Car Factory");
+    JFrame frame = new JFrame(guiName);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 400);
-    JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
-    mainPanel.setPreferredSize(new Dimension(400, 300));
+    frame.setSize(width, height);
 
-    JPanel countPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    countPanel.setPreferredSize(new Dimension(350, 20));
-    countPanel.add(carCount);
+    JPanel countPanel = createPanel(countPanelFlowLayout,countPanelDimension,carCount);
 
-    JPanel carPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    carPanel.setPreferredSize(new Dimension(350, 20));
-    carPanel.add(carsInStorage);
+    JPanel carPanel = createPanel(carPanelFlowLayout,carPanelDimension,carsInStorage);
 
-    JPanel accessoryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    accessoryPanel.setPreferredSize(new Dimension(350, 20));
-    accessoryPanel.add(accessoryInStorage);
+    JPanel accessoryPanel = createPanel(accessoryPanelFlowLayout,accessoryPanelDimension,accessoryInStorage);
 
-    JPanel enginesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    enginesPanel.setPreferredSize(new Dimension(350, 20));
-    enginesPanel.add(enginesInStorage);
+    JPanel enginesPanel = createPanel(enginesPanelFlowLayout,enginesPanelDimension,enginesInStorage);
 
-    JPanel carBodiesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    carBodiesPanel.setPreferredSize(new Dimension(350, 20));
-    carBodiesPanel.add(carBodiesInStorage);
+    JPanel carBodiesPanel = createPanel(carBodiesPanelFlowLayout,carBodiesPanelDimension,carBodiesInStorage);
 
+    JPanel mainPanel = new JPanel(mainPanelFlowLayout);
+    mainPanel.setPreferredSize(mainPanelDimension);
     mainPanel.add(countPanel);
     mainPanel.add(carPanel);
     mainPanel.add(accessoryPanel);
@@ -66,43 +67,29 @@ public void createAndShowGUI() {
 
     frame.add(mainPanel);
 
-    JPanel sliderBox = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
-    sliderBox.setPreferredSize(new Dimension(400, 100));
+    JSlider accessorySupplierDelaySlider = makeSlider(accessorySupplierDelaySliderName,fabric);
 
-    JSlider accessorySupplierDelaySlider = new JSlider(JSlider.HORIZONTAL, 0, 60000, 1000);
-    accessorySupplierDelaySlider.setMajorTickSpacing(20000);
-    accessorySupplierDelaySlider.setMinorTickSpacing(1000);
-    accessorySupplierDelaySlider.setPaintTicks(true);
-    accessorySupplierDelaySlider.setPaintLabels(true);
-    JSlider engineSupplierDelaySlider = new JSlider(JSlider.HORIZONTAL, 0, 60000, 1000);
-    engineSupplierDelaySlider.setMajorTickSpacing(20000);
-    engineSupplierDelaySlider.setMinorTickSpacing(1000);
-    engineSupplierDelaySlider.setPaintTicks(true);
-    engineSupplierDelaySlider.setPaintLabels(true);
-    engineSupplierDelaySlider.setPreferredSize(new Dimension(350, 50));
-    engineSupplierDelaySlider.addChangeListener(e -> {
-        JSlider source = (JSlider) e.getSource();
-        if (!source.getValueIsAdjusting()) {
-            int delay = (int) source.getValue();
-            fabric.setEngineSupplierDelay(delay);
-        }
-    });
+    JSlider engineSupplierDelaySlider = makeSlider(engineSupplierDelaySliderName, fabric);
 
-    sliderBox.add(accessorySupplierDelaySlider);
-    sliderBox.add(engineSupplierDelaySlider);
+    JSlider carBodyDelaySlider = makeSlider(carBodyDelaySliderName,fabric);
 
-    mainPanel.add(sliderBox);
+    JPanel sliders = new JPanel(sliderBoxFlowLayout);
+    sliders.setPreferredSize(sliderBoxDimension);
+    sliders.add(accessorySupplierDelaySlider);
+    sliders.add(engineSupplierDelaySlider);
+    sliders.add(carBodyDelaySlider);
+    mainPanel.add(sliders);
 
-    JButton startButton = new JButton("Start Production");
+    JButton startButton = new JButton(startButtonText);
     startButton.addActionListener(e -> fabric.startFabric());
 
-    JButton stopButton = new JButton("Stop Production");
+    JButton stopButton = new JButton(stopButtonText);
     stopButton.addActionListener(e -> fabric.stopFabric());
 
     mainPanel.add(startButton);
     mainPanel.add(stopButton);
 
-    Timer timer = new Timer(1000, e -> updateLabels());
+    Timer timer = new Timer(timerDelay, e -> updateLabels());
     timer.start();
 
     frame.pack();

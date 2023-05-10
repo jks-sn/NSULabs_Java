@@ -3,12 +3,13 @@ package carfactory.carbuildings;
 import carfactory.carparts.Product;
 
 import java.util.ArrayDeque;
+import java.util.logging.Logger;
 
 public class Storage<T extends Product>{
     private final ArrayDeque<T> carItems;
     private final int size;
     private final String storageName;
-
+    private static final Logger logger = Logger.getLogger(Storage.class.getName());
     private final Object monitor;
 
     public Storage(int size, String storageName) {
@@ -23,14 +24,18 @@ public class Storage<T extends Product>{
             if(carItems.size() > size)
             {
                 try{
+                    logger.info(storageName + " :: STORAGE IS FULL");
                     monitor.wait();
                 }
                 catch(InterruptedException e){
+                    logger.info(storageName + " :: INTERRUPTED IN WAIT");
 
                 }
             }
+            logger.info(storageName + " :: GOT NEW ITEM :: " + newCarItem.toString());
             carItems.add(newCarItem);
             monitor.notify();
+            logger.info(storageName + " :: NOTIFIED");
         }
     }
     public T get()
@@ -40,18 +45,24 @@ public class Storage<T extends Product>{
             while(true)
             {
                 try{
+                    logger.info(storageName + " SIZE " + carItems.size());
                     if(!carItems.isEmpty())
                     {
                         T carItem = carItems.getLast();
                         carItems.remove();
                         monitor.notify();
+                        logger.info(storageName + " :: PASSING PRODUCT");
                         return carItem;
                     }
                     else
                     {
+                        logger.info(storageName + " :: WAITING FOR A SPARE");
                         monitor.wait();
+                        logger.info(storageName + " :: WOKE UP");
                     }
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    logger.info(storageName + " :: INTERRUPTED IN WAIT");
+                }
             }
         }
     }

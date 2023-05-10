@@ -1,10 +1,12 @@
 package carfactory.carparts;
 
+import static carfactory.utils.GeneratorID.generateID;
+
 public abstract class Product {
     private final long id;
 
-    public Product(long ProductID){
-        id = ProductID;
+    public Product(){
+        id = generateID();
     }
 
     public long getID(){

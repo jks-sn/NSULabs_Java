@@ -36,7 +36,7 @@ public class BuildCar implements Task {
     @Override
     public void performWork() {
         while (!Thread.currentThread().isInterrupted()) {
-            Car car = new Car(generateID(),engineStorage.get(), carBodyStorage.get(), accessoryStorage.get());
+            Car car = new Car(engineStorage.get(), carBodyStorage.get(), accessoryStorage.get());
             carStorage.put(car.finishBuild());
             carFabric.finishCarBuilding();
         }
@@ -44,6 +44,5 @@ public class BuildCar implements Task {
 
     @Override
     public void setParameter(int parameter) {
-
     }
 }

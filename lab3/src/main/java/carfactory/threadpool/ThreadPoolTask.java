@@ -4,9 +4,9 @@ public class ThreadPoolTask {
     private final TaskListener listener;
     private final Task task;
 
-    public ThreadPoolTask(Task t, TaskListener l){
-        listener = l;
-        task = t;
+    public ThreadPoolTask(Task task, TaskListener listener){
+        this.listener = listener;
+        this.task = task;
     }
 
     void prepare(){

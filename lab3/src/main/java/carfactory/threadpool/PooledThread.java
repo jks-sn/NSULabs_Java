@@ -2,10 +2,12 @@ package carfactory.threadpool;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 public class PooledThread extends Thread{
     AtomicBoolean shutdownRequired = new AtomicBoolean(false);
     private final ArrayDeque<ThreadPoolTask> taskQueue;
+    private static final Logger logger = Logger.getLogger(PooledThread.class.getName());
 
     public PooledThread(String name, ArrayDeque<ThreadPoolTask> taskQueue) {
         super(name);
@@ -35,6 +37,7 @@ public class PooledThread extends Thread{
                     try {
                         taskQueue.wait();
                     } catch (InterruptedException e){
+                        logger.info("POOLED THREAD:: THREAD WAS INTERRUPTED: " + getName());
                         break;
                     }
                     continue;
@@ -42,6 +45,7 @@ public class PooledThread extends Thread{
                     task = taskQueue.remove();
                 }
             }
+            logger.info(this.getName() + " :: GOT THE JOB: " + task.getName());
             performTask(task);
         }
     }

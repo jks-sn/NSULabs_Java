@@ -1,7 +1,7 @@
 package carfactory.threadpool;
 
 public interface TaskListener {
-    void taskInterrupted(Task t);
-    void taskFinished(Task t);
-    void taskStarted(Task t);
+    void taskInterrupted(Task task);
+    void taskFinished(Task task);
+    void taskStarted(Task task);
 }
