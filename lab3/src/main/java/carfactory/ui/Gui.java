@@ -3,7 +3,6 @@ package carfactory.ui;
 import carfactory.carbuildings.CarFabric;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;

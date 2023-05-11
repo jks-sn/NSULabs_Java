@@ -16,7 +16,7 @@ public class Constants {
     }
 
     public static class JLabelTexts {
-        public static final String labelCarCountText = "Total cars produced: ";
+        public static final String labelCarCountText = "Total cars sells: ";
         public static final String labelcarsInStorageText = "Cars in storage: ";
         public static final String labelcarBodiesInStorageText = "Cars bodies in storage: ";
         public static final String labelaccessoryInStorageText = "Accessory in storage: ";

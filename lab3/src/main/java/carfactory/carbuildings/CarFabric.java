@@ -116,6 +116,20 @@ public class CarFabric {
         return carBodyStorage.getStorageSize();
     }
     public int getCarStorageSize(){return carStorage.getStorageSize();}
+    public int getEngineStorageNumberCarItems(){
+        return engineStorage.getNumberItems();
+    }
+
+    public int getAccessoryStorageNumberCarItems(){
+        return accessoryStorage.getNumberItems();
+    }
+
+    public int getCarBodyStorageNumberCarItems(){
+        return carBodyStorage.getNumberItems();
+    }
+    public int getCarStorageNumberCarItems(){
+        return carStorage.getNumberItems();
+    }
     public void setDealerDelay(int dealerDelay) {
         sellingOrder.setParameter(dealerDelay);
     }

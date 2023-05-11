@@ -28,18 +28,18 @@ public class Main {
 public Main() {
         fabric = new CarFabric();
         carCount = new JLabel(labelCarCountText + fabric.getProducedCarCount());
-        carsInStorage = new JLabel(labelcarsInStorageText + fabric.getCarStorageSize());
-        carBodiesInStorage = new JLabel(labelcarBodiesInStorageText + fabric.getCarBodyStorageSize());
-        accessoryInStorage = new JLabel(labelaccessoryInStorageText + fabric.getAccessoryStorageSize());
-        enginesInStorage = new JLabel(labelenginesInStorageText + fabric.getEngineStorageSize());
+        carsInStorage = new JLabel(labelcarsInStorageText + fabric.getCarStorageNumberCarItems());
+        carBodiesInStorage = new JLabel(labelcarBodiesInStorageText + fabric.getCarBodyStorageNumberCarItems());
+        accessoryInStorage = new JLabel(labelaccessoryInStorageText + fabric.getAccessoryStorageNumberCarItems());
+        enginesInStorage = new JLabel(labelenginesInStorageText + fabric.getEngineStorageNumberCarItems());
         }
 
 private void updateLabels() {
         carCount.setText(labelCarCountText + fabric.getProducedCarCount());
-        carsInStorage.setText(labelcarsInStorageText + fabric.getCarStorageSize());
-        carBodiesInStorage.setText(labelcarBodiesInStorageText + fabric.getCarBodyStorageSize());
-        accessoryInStorage.setText(labelaccessoryInStorageText + fabric.getAccessoryStorageSize());
-        enginesInStorage.setText(labelenginesInStorageText + fabric.getEngineStorageSize());
+        carsInStorage.setText(labelcarsInStorageText + fabric.getCarStorageNumberCarItems());
+        carBodiesInStorage.setText(labelcarBodiesInStorageText + fabric.getCarBodyStorageNumberCarItems());
+        accessoryInStorage.setText(labelaccessoryInStorageText + fabric.getAccessoryStorageNumberCarItems());
+        enginesInStorage.setText(labelenginesInStorageText + fabric.getEngineStorageNumberCarItems());
         }
 
 public void createAndShowGUI() {

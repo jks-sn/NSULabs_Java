@@ -45,7 +45,7 @@ public class Storage<T extends Product>{
             while(true)
             {
                 try{
-                    logger.info(storageName + " SIZE " + carItems.size());
+                    logger.info(storageName + " NUMBER carItems " + carItems.size());
                     if(!carItems.isEmpty())
                     {
                         T carItem = carItems.getLast();
