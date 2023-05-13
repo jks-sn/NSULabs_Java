@@ -6,14 +6,15 @@ import carfactory.carbuildings.CarFabric;
 import javax.swing.*;
 
 import static carfactory.constants.Constants.*;
-import static carfactory.constants.Constants.JLabelTexts.*;
-import static carfactory.constants.Constants.PanelsConstants.Dimensions.*;
-import static carfactory.constants.Constants.PanelsConstants.FlowLayouts.*;
-import static carfactory.constants.Constants.Slider.SliderConstants.Names.*;
-import static carfactory.constants.Constants.Slider.SliderConstants.sliderBoxDimension;
-import static carfactory.constants.Constants.Slider.SliderConstants.sliderBoxFlowLayout;
-import static carfactory.constants.Constants.frameSize.height;
-import static carfactory.constants.Constants.frameSize.width;
+import static carfactory.constants.Constants.GUIConstants.*;
+import static carfactory.constants.Constants.GUIConstants.FrameSize.height;
+import static carfactory.constants.Constants.GUIConstants.FrameSize.width;
+import static carfactory.constants.Constants.GUIConstants.JLabelTexts.*;
+import static carfactory.constants.Constants.GUIConstants.PanelsConstants.Dimensions.*;
+import static carfactory.constants.Constants.GUIConstants.PanelsConstants.FlowLayouts.*;
+import static carfactory.constants.Constants.GUIConstants.Slider.SliderConstants.Names.*;
+import static carfactory.constants.Constants.GUIConstants.Slider.SliderConstants.sliderBoxDimension;
+import static carfactory.constants.Constants.GUIConstants.Slider.SliderConstants.sliderBoxFlowLayout;
 import static carfactory.ui.Gui.createPanel;
 import static carfactory.ui.Gui.makeSlider;
 

@@ -9,8 +9,9 @@ import javax.swing.JSlider;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import static carfactory.constants.Constants.Slider.SliderConstants.*;
-import static carfactory.constants.Constants.Slider.SliderConstants.Names.*;
+import static carfactory.constants.Constants.GUIConstants.Slider.SliderConstants.*;
+import static carfactory.constants.Constants.GUIConstants.Slider.SliderConstants.Names.*;
+
 
 public class Gui {
     public static @NotNull JSlider makeSlider(String nameSlider, CarFabric fabric) {

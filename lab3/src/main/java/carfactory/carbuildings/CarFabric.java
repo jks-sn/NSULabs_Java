@@ -15,6 +15,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import static carfactory.constants.Constants.ConfigStrings.*;
 import static carfactory.utils.GeneratorID.generateID;
 
 public class CarFabric {
@@ -45,19 +46,19 @@ public class CarFabric {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        engineStorage = new Storage<>(Integer.parseInt(config.getProperty("EngineStorageSize")), "EngineStorage");
-        carBodyStorage = new Storage<>(Integer.parseInt(config.getProperty("CarBodyStorageSize")),"CarBodyStorage");
-        accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty("AccessoryStorageSize")), "AccessoryStorage");
-        carStorage = new Storage<>(Integer.parseInt(config.getProperty("CarStorageSize")),"CarStorage");
+        engineStorage = new Storage<>(Integer.parseInt(config.getProperty(configEngineStorageName)), engineStorageName);
+        carBodyStorage = new Storage<>(Integer.parseInt(config.getProperty(configCarBodyStorageName)),carBodyStorageName);
+        accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty(configAccessoryStorageName)), accessoryStorageName);
+        carStorage = new Storage<>(Integer.parseInt(config.getProperty(configCarStorageName)),carStorageName);
 
-        int supplierDelay = Integer.parseInt(config.getProperty("SupplierDelay"));
-        int dealerDelay = Integer.parseInt(config.getProperty("DealerDelay"));
+        int supplierDelay = Integer.parseInt(config.getProperty(configSupplierDelay));
+        int dealerDelay = Integer.parseInt(config.getProperty(configDealerDelay));
 
         numberCars = new AtomicInteger(0);
 
-        threadPoolSupplier = new ThreadPool(Integer.parseInt(config.getProperty("NumberSuppliers"))*3);
-        threadPoolWorker = new ThreadPool(Integer.parseInt(config.getProperty("NumberWorkers")));
-        threadPoolDealer = new ThreadPool(Integer.parseInt(config.getProperty("NumberDealers")));
+        threadPoolSupplier = new ThreadPool(Integer.parseInt(config.getProperty(configNumberSuppliers))*3);
+        threadPoolWorker = new ThreadPool(Integer.parseInt(config.getProperty(configNumberWorkers)));
+        threadPoolDealer = new ThreadPool(Integer.parseInt(config.getProperty(configNumberDealers)));
 
         supplyAccessory = new Supply<>(accessoryStorage, supplierDelay, Accessory.class);
         supplyEngine = new Supply<>(engineStorage, supplierDelay, Engine.class);
