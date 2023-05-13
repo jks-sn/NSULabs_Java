@@ -1,9 +1,9 @@
-package srs.calculator.operations;
+package calculator.operations;
 
-import srs.calculator.logic.CalculatorStack;
-import srs.calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
+import calculator.exceptions.OperatorException;
 
-import static srs.calculator.exceptions.ExceptionConstants.*;
+import static calculator.exceptions.ExceptionConstants.*;
 
 public class Minus extends Operation {
     public Minus(CalculatorStack context, Object... args) {

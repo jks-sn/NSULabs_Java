@@ -1,4 +1,4 @@
-package srs.calculator.constants;
+package calculator.constants;
 
 public class LogConstants {
     public static final int BUFFER_SIZE = 1024;

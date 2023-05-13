@@ -1,19 +1,18 @@
-package srs.calculator.logic;
+package calculator.logic;
 
-import srs.calculator.exceptions.CalcException;
-import srs.calculator.factory.OperationCreator;
-//import srs.calculator.log.Log;
-import srs.calculator.utils.ArgChecker;
-import srs.calculator.exceptions.RegularSpecialSymbolsException;
+import calculator.exceptions.CalcException;
+import calculator.factory.OperationCreator;
+import calculator.utils.ArgChecker;
+import calculator.exceptions.RegularSpecialSymbolsException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static srs.calculator.constants.CalcConstants.COMMENT_CHARACTER;
-import static srs.calculator.constants.CalcConstants.MESSAGE_EMPTY_STACK;
-import static srs.calculator.exceptions.ExceptionConstants.*;
+import static calculator.constants.CalcConstants.COMMENT_CHARACTER;
+import static calculator.constants.CalcConstants.MESSAGE_EMPTY_STACK;
+import static calculator.exceptions.ExceptionConstants.*;
 
 public class OfflineCalc {
     private final String pathToFile;

@@ -1,4 +1,4 @@
-package srs.calculator.exceptions;
+package calculator.exceptions;
 
 public class ExceptionConstants
 {

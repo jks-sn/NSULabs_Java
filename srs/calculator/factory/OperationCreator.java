@@ -1,8 +1,8 @@
-package srs.calculator.factory;
+package calculator.factory;
 
-import srs.calculator.exceptions.FactoryException;
-import srs.calculator.logic.CalculatorStack;
-import srs.calculator.operations.Operation;
+import calculator.exceptions.FactoryException;
+import calculator.logic.CalculatorStack;
+import calculator.operations.Operation;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

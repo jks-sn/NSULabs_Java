@@ -1,6 +1,6 @@
-package srs.calculator.exceptions;
+package calculator.exceptions;
 
-import static srs.calculator.exceptions.ExceptionConstants.MESSAGE_TRY;
+import static calculator.exceptions.ExceptionConstants.MESSAGE_TRY;
 
 public class CalcException extends Exception {
     protected String problemDescription;

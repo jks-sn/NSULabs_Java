@@ -1,7 +1,7 @@
-package srs.calculator.main;
+package calculator.main;
 
-import srs.calculator.logic.InteractiveCalc;
-import srs.calculator.logic.OfflineCalc;
+import calculator.logic.InteractiveCalc;
+import calculator.logic.OfflineCalc;
 
 public class Main {
     public static void main(String[] args)  {

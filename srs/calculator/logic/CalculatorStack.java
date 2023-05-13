@@ -1,14 +1,14 @@
-package srs.calculator.logic;
+package calculator.logic;
 
-import srs.calculator.exceptions.StackException;
+import calculator.exceptions.StackException;
 //import srs.calculator.log.Log;
-import srs.calculator.utils.ArgChecker;
-import srs.calculator.exceptions.OperatorException;
+import calculator.utils.ArgChecker;
+import calculator.exceptions.OperatorException;
 
 import java.util.HashMap;
 import java.util.Stack;
 
-import static srs.calculator.exceptions.ExceptionConstants.*;
+import static calculator.exceptions.ExceptionConstants.*;
 
 public class CalculatorStack {
     private final Stack<Double> variableStack;

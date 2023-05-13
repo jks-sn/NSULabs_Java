@@ -1,6 +1,6 @@
-package srs.calculator.exceptions;
+package calculator.exceptions;
 
-import static srs.calculator.exceptions.ExceptionConstants.BAD_OPERATION;
+import static calculator.exceptions.ExceptionConstants.BAD_OPERATION;
 
 public class OperatorException extends FactoryException {
     public OperatorException(String problemObjectName, String currentProblem) {
