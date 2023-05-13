@@ -1,6 +1,6 @@
-package srs.calculator.utils;
+package calculator.utils;
 
-import srs.calculator.exceptions.RegularSpecialSymbolsException;
+import calculator.exceptions.RegularSpecialSymbolsException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

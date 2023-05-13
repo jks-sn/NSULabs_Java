@@ -1,7 +1,7 @@
-package srs.calculator.operations;
+package calculator.operations;
 
-import srs.calculator.exceptions.OperatorException;
-import srs.calculator.logic.CalculatorStack;
+import calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
 
 import java.util.Arrays;
 

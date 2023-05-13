@@ -1,9 +1,9 @@
-package srs.calculator.operations;
+package calculator.operations;
 
-import srs.calculator.exceptions.OperatorException;
-import srs.calculator.logic.CalculatorStack;
+import calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
 
-import static srs.calculator.exceptions.ExceptionConstants.*;
+import static calculator.exceptions.ExceptionConstants.*;
 
 public class Divide extends Operation {
     public Divide(CalculatorStack context, Object... args) {

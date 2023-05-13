@@ -1,10 +1,10 @@
-package srs.calculator.operations;
+package calculator.operations;
 
-import srs.calculator.exceptions.OperatorException;
-import srs.calculator.logic.CalculatorStack;
+import calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
 
-import static srs.calculator.exceptions.ExceptionConstants.OPERATION;
-import static srs.calculator.exceptions.ExceptionConstants.WRONG_NUMBER_ARGUMENTS;
+import static calculator.exceptions.ExceptionConstants.OPERATION;
+import static calculator.exceptions.ExceptionConstants.WRONG_NUMBER_ARGUMENTS;
 
 public class Push extends Operation {
     public Push(CalculatorStack context, Object... args) {

@@ -1,4 +1,4 @@
-package srs.calculator.constants;
+package calculator.constants;
 
 public class CalcConstants {
     public static final char COMMENT_CHARACTER = '#';
