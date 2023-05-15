@@ -1,12 +1,12 @@
-package srs.calculator.test;
+package calculator.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import srs.calculator.exceptions.RegularSpecialSymbolsException;
-import srs.calculator.utils.ArgChecker;
+import calculator.exceptions.RegularSpecialSymbolsException;
+import calculator.utils.ArgChecker;
 
 public class ArgCheckerTest {
-    @Test
+    @org.junit.Test
     public void ArgCheckerTest1() {
         if (ArgChecker.isDouble("3"))
             Assertions.assertEquals(0, 0);

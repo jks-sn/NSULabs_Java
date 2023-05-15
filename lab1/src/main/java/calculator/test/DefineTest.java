@@ -1,13 +1,13 @@
-package srs.calculator.test;
+package calculator.test;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import srs.calculator.exceptions.OperatorException;
-import srs.calculator.logic.CalculatorStack;
-import srs.calculator.operations.Define;
-import srs.calculator.operations.Operation;
+import calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
+import calculator.operations.Define;
+import calculator.operations.Operation;
 
 import java.util.ArrayList;
 

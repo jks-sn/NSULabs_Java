@@ -4,10 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import srs.calculator.exceptions.OperatorException;
-import srs.calculator.logic.CalculatorStack;
-import srs.calculator.operations.Pop;
-import srs.calculator.operations.Operation;
+import calculator.exceptions.OperatorException;
+import calculator.logic.CalculatorStack;
+import calculator.operations.Pop;
+import calculator.operations.Operation;
 
 import java.util.ArrayList;
 
