@@ -74,7 +74,8 @@ public void createAndShowGUI() {
 
     JSlider carBodyDelaySlider = makeSlider(carBodyDelaySliderName,fabric);
 
-    JPanel sliders = new JPanel(sliderBoxFlowLayout);
+    JPanel sliders = new JPanel();
+    sliders.setLayout(new BoxLayout(sliders, BoxLayout.Y_AXIS));
     sliders.setPreferredSize(sliderBoxDimension);
     sliders.add(accessorySupplierDelaySlider);
     sliders.add(engineSupplierDelaySlider);

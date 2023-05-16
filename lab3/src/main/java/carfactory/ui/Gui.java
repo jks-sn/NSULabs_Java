@@ -15,7 +15,7 @@ import static carfactory.constants.Constants.GUIConstants.Slider.SliderConstants
 
 public class Gui {
     public static @NotNull JSlider makeSlider(String nameSlider, CarFabric fabric) {
-        JSlider supplierDelaySlider = sliderPreset;
+            JSlider supplierDelaySlider = new JSlider(JSlider.HORIZONTAL, 0, 20000, 1000);;
         supplierDelaySlider.setMajorTickSpacing(sliderMajorTickSpacing);
         supplierDelaySlider.setMinorTickSpacing(sliderMinorTickSpacing);
         supplierDelaySlider.setPaintTicks(true);

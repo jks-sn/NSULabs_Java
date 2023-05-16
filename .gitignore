@@ -12,3 +12,5 @@ lab3/gradlew
 lab3/gradle/wrapper/gradle-wrapper.jar
 lab3/gradle/wrapper/gradle-wrapper.properties
 lab3/build/
+.idea/
+lab1/
