@@ -1,48 +1,173 @@
 package ru.nsu.ccfit.berkaev.logic;
 
+import ru.nsu.ccfit.berkaev.score.Score;
+import ru.nsu.ccfit.berkaev.score.Score.Time;
 import ru.nsu.ccfit.berkaev.timer.Timer;
 import ru.nsu.ccfit.berkaev.ui.UI;
-
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
+import static ru.nsu.ccfit.berkaev.constants.Constants.MenuItems.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Nimbus;
+import static ru.nsu.ccfit.berkaev.constants.Constants.Statictics.*;
 import static ru.nsu.ccfit.berkaev.logic.Cell.States.*;
 import static ru.nsu.ccfit.berkaev.utils.UtilsBoard.countCoordinates;
 
 public class Game implements MouseListener, ActionListener, WindowListener {
-
     private Board board;
 
     private ru.nsu.ccfit.berkaev.timer.Timer timer;
     private boolean playing;
+    private Score score;
     private UI ui;
 
     public Game() {
+        score = new Score();
+        score.populate();
         board = new Board();
         timer = new Timer();
-        UI.setLook("Nimbus");
+        UI.setLook(Nimbus);
         this.ui = new UI(board.getRows(), board.getColumns(), board.getNumberMines());
         this.ui.setButtonListeners(this);
         ui.setVisible(true);
         ui.setIcons();
         newGame();
     }
-
+    public Game(int rows, int cols, int mines) {
+        score = new Score();
+        score.populate();
+        board = new Board(rows,cols,mines);
+        timer = new Timer();
+        UI.setLook(Nimbus);
+        this.ui = new UI(board.getRows(), board.getColumns(), board.getNumberMines());
+        this.ui.setButtonListeners(this);
+        ui.setVisible(true);
+        ui.setIcons();
+        newGame();
+    }
     public void newGame() {
         this.playing = false;
 
         board = new Board();
         ui.initGame();
+        ui.setNumberMines(board.getNumberMines());
         ui.setMines(board.getNumberMines());
         timer.resetTimer(ui);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JMenuItem menuItem = (JMenuItem) e.getSource();
+
+        if (menuItem.getName().equals(menuItemNewGameName)) {
+            timer.endTimer();
+            this.playing = false;
+            newGame();
+            score.incGamesPlayed();
+            score.save(timer.getTimePassed());
+        }
+        else if (menuItem.getName().equals(menuItemExitName))
+        {
+            windowClosing(null);
+        }
+        else
+        {
+            showScore();
+        }
 
     }
+    public void showScore()
+    {
 
+        JDialog dialog = new JDialog(ui, Dialog.ModalityType.DOCUMENT_MODAL);
+
+
+        JPanel bestTimes = new JPanel();
+        bestTimes.setLayout(new GridLayout(5,1));
+
+        ArrayList<Time> bTimes = score.getBestTimes();
+
+        for (Time bTime : bTimes) {
+            JLabel t = new JLabel("  " + bTime.getTimeValue());
+            bestTimes.add(t);
+        }
+
+        if (bTimes.isEmpty())
+        {
+            JLabel t = new JLabel("                               ");
+            bestTimes.add(t);
+        }
+
+        TitledBorder b = BorderFactory.createTitledBorder(titleName);
+        b.setTitleJustification(TitledBorder.LEFT);
+
+        bestTimes.setBorder(b);
+
+        JPanel statistics = new JPanel();
+
+        statistics.setLayout(new GridLayout(6,1,0,10));
+
+        JLabel gPlayed = new JLabel(labelPlayedName + score.getGamesPlayed());
+        JLabel gWon = new JLabel(labelPlayedWon + score.getGamesWon());
+        JLabel gPercentage = new JLabel(labelPercentageName + score.getWinPercentage() + "%");
+        JLabel lWin = new JLabel(labelWinName + score.getLongestWinningStreak());
+        JLabel lLose = new JLabel(labelLoseName + score.getLongestLosingStreak());
+        JLabel currentStreak = new JLabel(labelCurrentStreakName + score.getCurrentStreak());
+
+
+        statistics.add(gPlayed);
+        statistics.add(gWon);
+        statistics.add(gPercentage);
+        statistics.add(lWin);
+        statistics.add(lLose);
+        statistics.add(currentStreak);
+
+        Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        statistics.setBorder(loweredetched);
+
+
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new GridLayout(1,2,10,0));
+
+        JButton close = new JButton(buttonCloseName);
+        JButton reset = new JButton(buttonResetName);
+
+
+        close.addActionListener((ActionEvent e) -> {
+            dialog.dispose();
+        });
+        reset.addActionListener((ActionEvent e) -> {
+                    score.resetScore();
+                    score.save(timer.getTimePassed());
+                    dialog.dispose();
+                    showScore();
+        });
+
+        buttons.add(close);
+        buttons.add(reset);
+
+        if (score.getGamesPlayed() == 0)
+            reset.setEnabled(false);
+
+        JPanel c = new JPanel();
+        c.setLayout(new BorderLayout(20,20));
+        c.add(bestTimes, BorderLayout.WEST);
+        c.add(statistics, BorderLayout.CENTER);
+        c.add(buttons, BorderLayout.SOUTH);
+
+        c.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        dialog.setTitle(menuItemStatisticsName);
+        dialog.add(c);
+        dialog.pack();
+        dialog.setLocationRelativeTo(ui);
+        dialog.setVisible(true);
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -185,7 +310,6 @@ public class Game implements MouseListener, ActionListener, WindowListener {
             }
         }
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
 

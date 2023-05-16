@@ -8,7 +8,10 @@ public class Constants {
     public static final int defaultNumberRows = 9;
     public static final int defaultNumberCols = 9;
     public static final int defaultNumberMines = 10;
+    public static final String Nimbus = "Nimbus";
     public static Font font = new Font("Serif", Font.BOLD, 24);
+
+    public static String PROPERTIES_PATH = "/records.properties";
     public static Border border = BorderFactory.createLineBorder(Color.black, 1, true);
     public static class Frame {
         public static final String TITLE = "Minesweeper";
@@ -99,5 +102,25 @@ public class Constants {
         public static BorderLayout borderLayout = new BorderLayout(20, 20);
         public static Border endGameBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
+    }
+    public static class MenuItems{
+        public static String menuName = "Game";
+        public static String menuItemNewGame = "   New Game";
+        public static String menuItemStatistics = "   Statistics";
+        public static String menuItemExit = "   Exit";
+        public static String menuItemNewGameName = "New Game";
+        public static String menuItemStatisticsName = "Statistics";
+        public static String menuItemExitName = "Exit";
+    }
+    public static class Statictics{
+        public static String titleName = "Best Times";
+        public static String labelPlayedName = "  Games Played:  ";
+        public static String labelPlayedWon = "  Games Won:  ";
+        public static String labelPercentageName = "  Win Percentage:  ";
+        public static String labelWinName = "  Longest Winning Streak:  ";
+        public static String labelLoseName = "  Longest Losing Streak:  ";
+        public static String labelCurrentStreakName = "  Current Streak:  ";
+        public static String buttonCloseName = "Close";
+        public static String buttonResetName = "Reset";
     }
 }

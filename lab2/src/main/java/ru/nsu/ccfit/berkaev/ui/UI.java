@@ -12,6 +12,7 @@ import static ru.nsu.ccfit.berkaev.constants.Constants.EndGame.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Frame.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Panel.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Paths.*;
+import static ru.nsu.ccfit.berkaev.constants.Constants.MenuItems.*;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Window.windowBorder;
 import static ru.nsu.ccfit.berkaev.constants.Constants.Window.windowBorderLayout;
 import static ru.nsu.ccfit.berkaev.constants.Constants.downPanel.downPanelBorderLayout;
@@ -34,6 +35,11 @@ public class UI extends JFrame {
     private Icon mine;
     private Icon flag;
     private Icon tile;
+    private JMenuBar menuBar;
+    private JMenu gameMenu;
+    private JMenuItem newGame;
+    private JMenuItem statistics;
+    private JMenuItem exit;
 
     public UI(int rows, int columns, int mines) {
         buttons = new JButton[columns][rows];
@@ -44,6 +50,26 @@ public class UI extends JFrame {
         setSize(Constants.Frame.WIDTH, Constants.Frame.HEIGHT);
         setTitle(TITLE);
         setLocation(LOC_X, LOC_Y);
+
+
+        menuBar = new JMenuBar();
+
+        gameMenu = new JMenu(menuName);
+
+        newGame = new JMenuItem(menuItemNewGame);
+        statistics = new JMenuItem(menuItemStatistics);
+        exit = new JMenuItem(menuItemExit);
+
+        newGame.setName(menuItemNewGameName);
+        statistics.setName(menuItemStatisticsName);
+        exit.setName(menuItemExitName);
+
+        gameMenu.add(newGame);
+        gameMenu.add(statistics);
+        gameMenu.add(exit);
+
+        menuBar.add(gameMenu);
+
 
         minesLabel = makeLabel();
         timeLabel = makeLabel();
@@ -67,6 +93,7 @@ public class UI extends JFrame {
         add(background);
         background.setLayout(new BorderLayout(0, 0));
         background.add(game, BorderLayout.CENTER);
+        background.add(menuBar,BorderLayout.NORTH);
 
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(minePath)));
     }
@@ -124,6 +151,9 @@ public class UI extends JFrame {
                 buttons[x][y].addMouseListener(game);
             }
         }
+        newGame.addActionListener(game);
+        statistics.addActionListener(game);
+        exit.addActionListener(game);
     }
     private JLabel makeLabel()
     {
@@ -215,6 +245,10 @@ public class UI extends JFrame {
     public void minesMines() {
         mines--;
         setMines(mines);
+    }
+    public void setNumberMines(int numberMines)
+    {
+        this.mines = numberMines;
     }
 
     private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
