@@ -2,7 +2,7 @@ package calculator.constants;
 
 public class CalcConstants {
     public static final char COMMENT_CHARACTER = '#';
-    public static final String PROPETIES_PATH = "Operations.properties";
+    public static final String PROPETIES_PATH = "/Operations.properties";
 
     public static final String MESSAGE_EMPTY_STACK = "Stack is empty";
 

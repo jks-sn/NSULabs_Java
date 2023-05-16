@@ -17,6 +17,11 @@ public class Sqrt extends Operation {
             throw new OperatorException(OPERATION, WRONG_NUMBER_ARGUMENTS);
         if(context.getStackLength() < numberVariablesFromStack)
             throw new OperatorException(OPERATION, LOW_STACK);
+        double argument = context.pop();
+        if(argument < 0 || Double.isNaN(argument) || argument == Double.POSITIVE_INFINITY) {
+            context.push(argument);
+            throw new OperatorException(OPERATION, WRONG_ARGUMENT_SQRT);
+        }
         context.push(Math.sqrt(context.pop()));
     }
 }

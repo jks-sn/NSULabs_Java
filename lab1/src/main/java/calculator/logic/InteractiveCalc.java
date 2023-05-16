@@ -61,11 +61,9 @@ public class InteractiveCalc {
                 factory.getOperation(operationName, args.toArray(new Object[0])).exec();
                 //Log.info("Stack after:");
             } catch (CalcException e) {
-                //Log.error(MESSAGE_ERROR+e.getMessage(), e);
-                System.err.println(MESSAGE_ERROR);
+                System.out.println(MESSAGE_ERROR);
                 e.whatTheProblem();
             } catch (RegularSpecialSymbolsException e) {
-                //Log.error(MESSAGE_SPECIAL_SYMBOLS, e);
                 System.err.println(MESSAGE_SPECIAL_SYMBOLS);
             } finally {
                 args.clear();
