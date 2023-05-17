@@ -1,0 +1,10 @@
+.idea/
+lab1/
+lab2/
+lab3/
+lab4/.gradle/
+lab4/gradle/
+lab4/gradlew
+lab4/gradlew.bat
+lab4/settings.gradle
+lab4/build.gradle
