@@ -4,6 +4,7 @@ import carfactory.carparts.Car;
 import carfactory.carparts.Accessory;
 import carfactory.carparts.CarBody;
 import carfactory.carparts.Engine;
+import carfactory.logger.MyLogger;
 import carfactory.tasks.BuildCar;
 import carfactory.tasks.SellCar;
 import carfactory.tasks.Supply;
@@ -13,13 +14,12 @@ import carfactory.threadpool.ThreadPool;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 import static carfactory.constants.Constants.ConfigStrings.*;
 import static carfactory.utils.GeneratorID.generateID;
 
 public class CarFabric {
-    private static final Logger logger = Logger.getLogger(CarFabric.class.getName());
+    private static final MyLogger logger = new MyLogger(CarFabric.class.getName());
     private Properties config;
     private final Storage<Engine> engineStorage;
     private final Storage<Accessory> accessoryStorage;

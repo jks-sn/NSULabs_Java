@@ -1,5 +1,7 @@
 package carfactory.threadpool;
 
+import carfactory.logger.MyLogger;
+
 import java.util.ArrayDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
@@ -7,7 +9,7 @@ import java.util.logging.Logger;
 public class PooledThread extends Thread{
     AtomicBoolean shutdownRequired = new AtomicBoolean(false);
     private final ArrayDeque<ThreadPoolTask> taskQueue;
-    private static final Logger logger = Logger.getLogger(PooledThread.class.getName());
+    private static final MyLogger logger = new MyLogger(PooledThread.class.getName());
 
     public PooledThread(String name, ArrayDeque<ThreadPoolTask> taskQueue) {
         super(name);

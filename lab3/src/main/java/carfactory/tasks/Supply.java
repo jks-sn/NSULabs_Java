@@ -2,18 +2,15 @@ package carfactory.tasks;
 
 import carfactory.carbuildings.Storage;
 import carfactory.carparts.Product;
+import carfactory.logger.MyLogger;
 import carfactory.threadpool.Task;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Logger;
-
-import static carfactory.utils.GeneratorID.generateID;
 
 public class Supply<T extends Product> implements Task {
     private final Storage<T> storage;
     private int delay;
     private final Class<T> itemClass;
-    private static final Logger logger = Logger.getLogger(Supply.class.getName());
+    private static final MyLogger logger = new MyLogger(Supply.class.getName());
 
     public Supply(Storage<T> storage, int delay, Class<T> itemClass) {
         this.storage = storage;

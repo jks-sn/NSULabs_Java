@@ -1,4 +1,6 @@
 package carfactory.threadpool;
+import carfactory.logger.MyLogger;
+
 import java.util.logging.Logger;
 import java.util.ArrayDeque;
 import java.util.HashSet;
@@ -7,7 +9,7 @@ import java.util.Set;
 public class ThreadPool implements TaskListener {
     private final ArrayDeque<ThreadPoolTask> taskQueue = new ArrayDeque<>();
     private final Set<PooledThread> availableThreads = new HashSet<>();
-    private static final Logger logger = Logger.getLogger(ThreadPool.class.getName());
+    private static final MyLogger logger = new MyLogger(ThreadPool.class.getName());
 
 
     public ThreadPool(int size) {

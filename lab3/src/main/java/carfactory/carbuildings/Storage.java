@@ -1,15 +1,15 @@
 package carfactory.carbuildings;
 
 import carfactory.carparts.Product;
+import carfactory.logger.MyLogger;
 
 import java.util.ArrayDeque;
-import java.util.logging.Logger;
 
 public class Storage<T extends Product>{
     private final ArrayDeque<T> carItems;
     private final int size;
     private final String storageName;
-    private static final Logger logger = Logger.getLogger(Storage.class.getName());
+    private static final MyLogger logger = new MyLogger(Storage.class.getName());
     private final Object monitor;
 
     public Storage(int size, String storageName) {

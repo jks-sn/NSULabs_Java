@@ -14,3 +14,10 @@ lab3/gradle/wrapper/gradle-wrapper.properties
 lab3/build/
 .idea/
 lab1/
+*.txt
+*.lck
+lab3/log.txt.1
+lab3/log.txt.2
+lab3/log.txt.3
+lab3/log.txt.4
+lab3/log.txt.5
