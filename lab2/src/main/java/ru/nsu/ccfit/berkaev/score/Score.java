@@ -21,16 +21,8 @@ public class Score
     int gamesPlayed;
     int gamesWon;
 
-    int longestWinningStreak;
-    int longestLosingStreak;
-
-    int currentStreak;
-
-    int currentWinningStreak;
-    int currentLosingStreak;
-
     public Score() {
-        gamesPlayed = gamesWon = currentStreak = longestLosingStreak = longestWinningStreak = currentWinningStreak = currentLosingStreak = 0;
+        gamesPlayed = gamesWon = 0;
         bestTimes = new ArrayList<>();
         properties = new Properties();
         InputStream stream = Score.class.getResourceAsStream(PROPERTIES_PATH);
@@ -62,30 +54,6 @@ public class Score
         return (int)percentage;
     }
 
-    public int getLongestWinningStreak()
-    {
-        return longestWinningStreak;
-    }
-
-    public int getLongestLosingStreak()
-    {
-        return longestLosingStreak;
-    }
-
-    public int getCurrentStreak()
-    {
-        return currentStreak;
-    }
-
-    public int getCurrentLosingStreak()
-    {
-        return currentLosingStreak;
-    }
-
-    public int getCurrentWinningStreak(){
-        return currentWinningStreak;
-    }
-
     public void incGamesWon()
     {
         gamesWon++;
@@ -96,41 +64,9 @@ public class Score
         gamesPlayed++;
     }
 
-    public void incCurrentStreak()
-    {
-        currentStreak++;
-    }
-
-    public void incCurrentLosingStreak()
-    {
-        currentLosingStreak++;
-
-        if (longestLosingStreak < currentLosingStreak)
-        {
-            longestLosingStreak = currentLosingStreak;
-        }
-    }
-
-    public void incCurrentWinningStreak()
-    {
-        currentWinningStreak++;
-
-        if (longestWinningStreak < currentWinningStreak)
-        {
-            longestWinningStreak = currentWinningStreak;
-        }
-    }
-
-
-    public void decCurrentStreak()
-    {
-        currentStreak--;
-    }
-
-
     public void resetScore()
     {
-        gamesPlayed = gamesWon = currentStreak = longestLosingStreak = longestWinningStreak = currentWinningStreak = currentLosingStreak = 0;
+        gamesPlayed = gamesWon = 0;
     }
 
 
@@ -155,15 +91,6 @@ public class Score
         try {
                 gamesPlayed = Integer.parseInt(this.properties.getProperty("GAMES_PLAYED"));
                 gamesWon = Integer.parseInt(this.properties.getProperty("GAMES_WON"));
-
-                longestWinningStreak = Integer.parseInt(this.properties.getProperty("LWSTREAK"));
-                longestLosingStreak = Integer.parseInt(this.properties.getProperty("LLSTREAK"));
-
-                currentStreak = Integer.parseInt(this.properties.getProperty("CSTREAK"));
-
-                currentWinningStreak = Integer.parseInt(this.properties.getProperty("CWSTREAK"));
-                currentLosingStreak = Integer.parseInt(this.properties.getProperty("CLSTREAK"));
-
 
             for(int i = 0; i < gamesPlayed;++i)
             {

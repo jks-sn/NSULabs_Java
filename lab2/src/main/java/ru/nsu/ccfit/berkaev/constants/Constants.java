@@ -113,7 +113,7 @@ public class Constants {
         public static String menuItemExitName = "Exit";
     }
     public static class Statictics{
-        public static String titleName = "Best Times";
+        public static String titleName = "";
         public static String labelPlayedName = "  Games Played:  ";
         public static String labelPlayedWon = "  Games Won:  ";
         public static String labelPercentageName = "  Win Percentage:  ";

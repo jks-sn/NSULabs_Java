@@ -26,18 +26,6 @@ public class Game implements MouseListener, ActionListener, WindowListener {
     private Score score;
     private UI ui;
 
-    public Game() {
-        score = new Score();
-        score.populate();
-        board = new Board();
-        timer = new Timer();
-        UI.setLook(Nimbus);
-        this.ui = new UI(board.getRows(), board.getColumns(), board.getNumberMines());
-        this.ui.setButtonListeners(this);
-        ui.setVisible(true);
-        ui.setIcons();
-        newGame();
-    }
     public Game(int rows, int cols, int mines) {
         score = new Score();
         score.populate();
@@ -48,12 +36,12 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         this.ui.setButtonListeners(this);
         ui.setVisible(true);
         ui.setIcons();
-        newGame();
+        newGame(cols,rows,mines);
     }
-    public void newGame() {
+    public void newGame(int cols, int rows, int mines) {
         this.playing = false;
 
-        board = new Board();
+        board = new Board(cols,rows,mines);
         ui.initGame();
         ui.setNumberMines(board.getNumberMines());
         ui.setMines(board.getNumberMines());
@@ -67,7 +55,7 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         if (menuItem.getName().equals(menuItemNewGameName)) {
             timer.endTimer();
             this.playing = false;
-            newGame();
+            newGame(board.getRows(),board.getColumns(),board.getNumberMines());
             score.incGamesPlayed();
             score.save(timer.getTimePassed());
         }
@@ -115,17 +103,11 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         JLabel gPlayed = new JLabel(labelPlayedName + score.getGamesPlayed());
         JLabel gWon = new JLabel(labelPlayedWon + score.getGamesWon());
         JLabel gPercentage = new JLabel(labelPercentageName + score.getWinPercentage() + "%");
-        JLabel lWin = new JLabel(labelWinName + score.getLongestWinningStreak());
-        JLabel lLose = new JLabel(labelLoseName + score.getLongestLosingStreak());
-        JLabel currentStreak = new JLabel(labelCurrentStreakName + score.getCurrentStreak());
 
 
         statistics.add(gPlayed);
         statistics.add(gWon);
         statistics.add(gPercentage);
-        statistics.add(lWin);
-        statistics.add(lLose);
-        statistics.add(currentStreak);
 
         Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         statistics.setBorder(loweredetched);
@@ -269,17 +251,22 @@ public class Game implements MouseListener, ActionListener, WindowListener {
         });
         playAgain.addActionListener((ActionEvent e) -> {
             dialog.dispose();
-            newGame();
+            newGame(board.getRows(),board.getColumns(),board.getNumberMines());
         });
 
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                                      @Override
                                      public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                                          dialog.dispose();
-                                         newGame();
+                                         newGame(board.getRows(),board.getColumns(),board.getNumberMines());
                                      }
                                  }
         );
+        if(isWin) {
+            score.save(timer.getTimePassed());
+            score.incGamesWon();
+        }
+        score.incGamesPlayed();
         ui.endGame(isWin,dialog,exit,playAgain,buttons,panel);
     }
     private void showAll() {
