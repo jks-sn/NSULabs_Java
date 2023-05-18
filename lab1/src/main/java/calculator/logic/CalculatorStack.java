@@ -63,6 +63,13 @@ public class CalculatorStack {
         //Log.log(Log.LogType.INFO, message.toString(), null);
     }
 
+    public boolean containsKey(String key) {
+        return variableMap.containsKey(key);
+    }
+    public double get(String key)
+    {
+        return variableMap.get(key);
+    }
     public void clear() {
         variableMap.clear();
         variableStack.clear();

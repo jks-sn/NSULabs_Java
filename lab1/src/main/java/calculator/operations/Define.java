@@ -21,7 +21,10 @@ public class Define extends Operation {
         try {
             if(isDouble((String)args[0]))
                 throw new NumberFormatException();
-            context.createVariable((String) args[0], (Double.parseDouble((String) args[1])));
+            if(context.containsKey((String)args[1]))
+                context.createVariable((String) args[0], (context.get((String)args[1])));
+            else
+                context.createVariable((String) args[0], (Double.parseDouble((String) args[1])));
         } catch (NumberFormatException e) {
             throw new OperatorException(OPERATION, WRONG_ARGUMENTS_DEFINE);
         }
