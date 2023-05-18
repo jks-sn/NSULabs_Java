@@ -10,7 +10,7 @@ public class Main {
             calc.execute();
         }
         else {
-            System.out.println("Hello, World!");
+            //System.out.println("Hello, World!");
             InteractiveCalc calc = new InteractiveCalc();
             calc.execute();
         }
