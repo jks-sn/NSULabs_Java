@@ -4,6 +4,7 @@ lab1/build/
 lab1/gradle/
 lab2/
 lab3/
+lab4/
 /.idea
 lab1/gradle/wrapper/gradle-wrapper.jar
 lab1/gradlew.bat
@@ -11,3 +12,4 @@ lab1/settings.gradle
 lab1/gradlew.bat
 lab1/gradlew
 lab1/build.gradle
+lab1/src/test/
