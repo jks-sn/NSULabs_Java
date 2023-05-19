@@ -37,6 +37,10 @@ public class Message {
     public MessageType getType() {
         return type;
     }
+    public int getSenderID()
+    {
+        return user.getId();
+    }
 
     public Calendar getDate() {
         return date;
