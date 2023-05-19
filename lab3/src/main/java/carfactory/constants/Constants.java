@@ -53,11 +53,11 @@ public class Constants {
                 }
 
                 public static final FlowLayout sliderBoxFlowLayout = new FlowLayout(FlowLayout.LEFT, 20, 20);
-                public static final Dimension sliderBoxDimension = new Dimension(400, 100);
+                public static final Dimension sliderBoxDimension = new Dimension(400, 600);
                 public static final JSlider sliderPreset = new JSlider(JSlider.HORIZONTAL, 0, 20000, 1000);
                 public static final int sliderMajorTickSpacing = 20000;
                 public static final int sliderMinorTickSpacing = 1000;
-                public static final Dimension sliderDimension = new Dimension(350, 50);
+                public static final Dimension sliderDimension = new Dimension(350, 100);
             }
 
         }

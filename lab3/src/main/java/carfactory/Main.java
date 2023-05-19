@@ -5,6 +5,8 @@ import carfactory.carbuildings.CarFabric;
 
 import javax.swing.*;
 
+import java.awt.FlowLayout;
+
 import static carfactory.constants.Constants.GUIConstants.*;
 import static carfactory.constants.Constants.GUIConstants.FrameSize.height;
 import static carfactory.constants.Constants.GUIConstants.FrameSize.width;
@@ -67,18 +69,30 @@ public void createAndShowGUI() {
     frame.add(mainPanel);
 
     JSlider accessorySupplierDelaySlider = makeSlider(accessorySupplierDelaySliderName,fabric);
+    JLabel accessorySliderLabel = new JLabel("Accessory Supplier Delay");
+    JPanel accessorySliderPanel = new JPanel(new FlowLayout());
+    accessorySliderPanel.add(accessorySliderLabel);
+    accessorySliderPanel.add(accessorySupplierDelaySlider);
 
     JSlider engineSupplierDelaySlider = makeSlider(engineSupplierDelaySliderName, fabric);
+    JLabel engineSliderLabel = new JLabel("Engine Supplier Delay");
+    JPanel engineSliderPanel = new JPanel(new FlowLayout());
+    engineSliderPanel.add(engineSliderLabel);
+    engineSliderPanel.add(engineSupplierDelaySlider);
 
     JSlider carBodyDelaySlider = makeSlider(carBodyDelaySliderName,fabric);
+    JLabel carBodySliderLabel = new JLabel("Car Body Supplier Delay");
+    JPanel carBodySliderPanel = new JPanel(new FlowLayout());
+    carBodySliderPanel.add(carBodySliderLabel);
+    carBodySliderPanel.add(carBodyDelaySlider);
 
-    JPanel sliders = new JPanel();
-    sliders.setLayout(new BoxLayout(sliders, BoxLayout.Y_AXIS));
-    sliders.setPreferredSize(sliderBoxDimension);
-    sliders.add(accessorySupplierDelaySlider);
-    sliders.add(engineSupplierDelaySlider);
-    sliders.add(carBodyDelaySlider);
-    mainPanel.add(sliders);
+    JPanel slidersPanel = new JPanel();
+    slidersPanel.setLayout(new BoxLayout(slidersPanel, BoxLayout.Y_AXIS));
+    slidersPanel.setPreferredSize(sliderBoxDimension);
+    slidersPanel.add(accessorySliderPanel);
+    slidersPanel.add(engineSliderPanel);
+    slidersPanel.add(carBodySliderPanel);
+    mainPanel.add(slidersPanel);
 
     JButton startButton = new JButton(startButtonText);
     startButton.addActionListener(e -> fabric.startFabric());
