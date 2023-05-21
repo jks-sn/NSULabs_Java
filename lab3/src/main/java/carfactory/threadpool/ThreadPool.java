@@ -1,4 +1,5 @@
 package carfactory.threadpool;
+
 import carfactory.logger.MyLogger;
 
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class ThreadPool implements TaskListener {
 
     @Override
     public void taskInterrupted(Task task) {
-
+        logger.info("THREAD POOL :: INTERRUPTED " + task.getName());
     }
 
     @Override
@@ -56,13 +57,11 @@ public class ThreadPool implements TaskListener {
         }
 
         for (PooledThread thread : availableThreads) {
-            try {
-                thread.join();
-                logger.info("THREAD POOL :: FINISHED " + thread.getName());
-            } catch (InterruptedException ignored) {
-                logger.info("THREAD POOL :: INTERRUPTED WHILE JOINING " + thread.getName());
-            }
+            thread.interrupt();
+            logger.info("THREAD POOL :: FINISHED " + thread.getName());
         }
+        availableThreads.clear();
+        taskQueue.clear();
         logger.info("THREAD POOL :: SHUTDOWN COMPLETED");
     }
 }

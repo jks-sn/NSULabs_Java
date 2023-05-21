@@ -4,7 +4,7 @@ import carfactory.logger.MyLogger;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Logger;
+
 
 public class PooledThread extends Thread{
     AtomicBoolean shutdownRequired = new AtomicBoolean(false);
@@ -19,6 +19,7 @@ public class PooledThread extends Thread{
     public void interruptPooledThread(){
         this.interrupt();
         shutdownRequired.set(true);
+        taskQueue.clear();
     }
     private void performTask(ThreadPoolTask task){
         task.prepare();

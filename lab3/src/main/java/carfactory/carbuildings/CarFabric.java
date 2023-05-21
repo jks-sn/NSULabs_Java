@@ -13,6 +13,7 @@ import carfactory.threadpool.ThreadPool;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static carfactory.constants.Constants.ConfigStrings.*;
@@ -28,9 +29,10 @@ public class CarFabric {
 
     private final AtomicInteger numberCars;
 
-    private final ThreadPool threadPoolWorker;
-    private final ThreadPool threadPoolDealer;
-    private final ThreadPool threadPoolSupplier;
+    private ThreadPool threadPoolWorker;
+    private static AtomicBoolean isFabricWork;
+    private ThreadPool threadPoolDealer;
+    private ThreadPool threadPoolSupplier;
     private ThreadPool threadPoolController;
     Task supplyAccessory;
     Task supplyEngine;
@@ -46,16 +48,20 @@ public class CarFabric {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        isFabricWork = new AtomicBoolean(true);
         engineStorage = new Storage<>(Integer.parseInt(config.getProperty(configEngineStorageName)), engineStorageName);
         carBodyStorage = new Storage<>(Integer.parseInt(config.getProperty(configCarBodyStorageName)),carBodyStorageName);
         accessoryStorage = new Storage<>(Integer.parseInt(config.getProperty(configAccessoryStorageName)), accessoryStorageName);
         carStorage = new Storage<>(Integer.parseInt(config.getProperty(configCarStorageName)),carStorageName);
 
-        int supplierDelay = Integer.parseInt(config.getProperty(configSupplierDelay));
-        int dealerDelay = Integer.parseInt(config.getProperty(configDealerDelay));
 
         numberCars = new AtomicInteger(0);
 
+    }
+    public void startFabric()
+    {
+        int supplierDelay = Integer.parseInt(config.getProperty(configSupplierDelay));
+        int dealerDelay = Integer.parseInt(config.getProperty(configDealerDelay));
         threadPoolSupplier = new ThreadPool(Integer.parseInt(config.getProperty(configNumberSuppliers))*3);
         threadPoolWorker = new ThreadPool(Integer.parseInt(config.getProperty(configNumberWorkers)));
         threadPoolDealer = new ThreadPool(Integer.parseInt(config.getProperty(configNumberDealers)));
@@ -63,14 +69,12 @@ public class CarFabric {
         supplyAccessory = new Supply<>(accessoryStorage, supplierDelay, Accessory.class);
         supplyEngine = new Supply<>(engineStorage, supplierDelay, Engine.class);
         supplyCarBody = new Supply<>(carBodyStorage, supplierDelay, CarBody.class);
-
         buildingOrder = new BuildCar(this);
         sellingOrder = (new SellCar(this, dealerDelay, generateID()));
-    }
-    public void startFabric()
-    {
+
+        isFabricWork.set(true);
         Thread work = new Thread(() -> {
-            while (carStorage.getNumberItems() < carStorage.getStorageSize()){
+            while ((carStorage.getNumberItems() < carStorage.getStorageSize()) && isFabricWork.get()){
                 threadPoolSupplier.addTask(supplyAccessory);
                 threadPoolSupplier.addTask(supplyEngine);
                 threadPoolSupplier.addTask(supplyCarBody);
@@ -81,11 +85,12 @@ public class CarFabric {
         work.start();
     }
     public void stopFabric(){
-        logger.info("factory start stop working");
+        logger.info("Fabric start stop working");
+        isFabricWork.set(false);
         threadPoolWorker.shutdown();
         threadPoolSupplier.shutdown();
         threadPoolDealer.shutdown();
-        logger.info("Factory finish stop working");
+        logger.info("Fabric finish stop working");
     }
     public void finishCarBuilding(){
         numberCars.getAndIncrement();
