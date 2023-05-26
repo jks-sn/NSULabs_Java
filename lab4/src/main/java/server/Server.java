@@ -1,12 +1,14 @@
 package server;
 
 import connection.Message;
+import connection.Parser;
 import connection.User;
 import exceptions.InvalidUserName;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -16,6 +18,7 @@ public class Server implements Runnable {
     private int port;
     private ServerSocket serverSocket;
     private final ConcurrentHashMap<User, UserHandler> clients= new ConcurrentHashMap<>();
+    private String protocol;
 
     public Server(int port) {
         this.port = port;
@@ -25,6 +28,20 @@ public class Server implements Runnable {
             throw new InvalidUserName("This name is busy", user.getName());
         }
         clients.put(user, handler);
+    }
+    public Set<User> getUserList(){
+        return clients.keySet();
+    }
+    public void removeUser(User user){
+        clients.remove(user);
+    }
+    private boolean userCheck(User user) {
+        for (User u: clients.keySet()){
+            if (u.getName().equals(user.getName())){
+                return false;
+            }
+        }
+        return true;
     }
     void close(){
         if (serverSocket != null){
@@ -65,7 +82,7 @@ public class Server implements Runnable {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 logger.info("Client connected " + clientSocket.getInetAddress() + " " + clientSocket.getPort());
-                Thread t = new Thread(new UserHandler(clientSocket, this,));
+                Thread t = new Thread(new UserHandler(clientSocket, this));
                 t.start();
             }
         }

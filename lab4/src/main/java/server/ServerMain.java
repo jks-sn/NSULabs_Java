@@ -10,7 +10,7 @@ public class ServerMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Server server = new Server(2048);
+        Server server = new Server(80);
         Thread serverThread = new Thread(server);
         serverThread.start();
         serverThread.join();
