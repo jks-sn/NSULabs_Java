@@ -1,7 +1,5 @@
 package server;
 
-import connection.Message;
-import connection.Parser;
 import connection.User;
 import exceptions.InvalidUserName;
 
@@ -10,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class Server implements Runnable {

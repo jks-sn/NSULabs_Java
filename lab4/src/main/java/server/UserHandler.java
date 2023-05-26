@@ -1,16 +1,11 @@
 package server;
 
-import connection.Message;
 import connection.MessageType;
-import connection.Parser;
 import connection.User;
 import exceptions.InvalidUserName;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class UserHandler implements Runnable {

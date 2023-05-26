@@ -1,6 +1,5 @@
 package client;
 
-import connection.Message;
 import connection.MessageType;
 
 import java.io.Closeable;

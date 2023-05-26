@@ -5,10 +5,11 @@ import connection.Message;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ListMessage implements Message, Serializable {
-    private final String messageName = "list";
+public class LogoutMessage implements Serializable, Message {
 
-    public ListMessage() {}
+    private final String messageName = "logout";
+
+    public LogoutMessage() {}
 
     @Override
     public String getName() {

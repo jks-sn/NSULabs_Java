@@ -1,15 +1,13 @@
 package connection.csmessage;
 
 import connection.Message;
-import connection.MessageInterface;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LoginMessage implements Serializable, MessageInterface {
+public class LoginMessage implements Serializable, Message {
 
-    private ArrayList<Object> data = new ArrayList<>();
-    private final String messageName = "login";
+    private final ArrayList<Object> data = new ArrayList<>();
 
     public LoginMessage(String username) {
         data.add(username);
@@ -19,7 +17,7 @@ public class LoginMessage implements Serializable, MessageInterface {
 
     @Override
     public String getName() {
-        return messageName;
+        return "login";
     }
 
     @Override

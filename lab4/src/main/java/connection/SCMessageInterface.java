@@ -1,5 +1,5 @@
 package connection;
 
 public interface SCMessageInterface {
-    public void sendMessage(Integer sessionID, STCMessage message);
+    public void sendMessage(Integer sessionID, Message message);
 }

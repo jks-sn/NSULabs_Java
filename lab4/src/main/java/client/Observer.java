@@ -1,6 +1,5 @@
 package client;
 
-import connection.Message;
 import connection.MessageType;
 
 public class Observer {
