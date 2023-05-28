@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public class FilledListMessage implements STCMessage, Serializable {
 
-    private ArrayList<Object> data = new ArrayList<>();
-
-    private final String messageName = "filledList";
+    private final ArrayList<Object> data = new ArrayList<>();
 
     public FilledListMessage(ArrayList<String> newData) {
         this.data.addAll(newData);
@@ -15,7 +13,7 @@ public class FilledListMessage implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return messageName;
+        return "filledList";
     }
 
     @Override

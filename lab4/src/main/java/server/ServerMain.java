@@ -21,16 +21,14 @@ import stcmessages.LoginStatus;
 
 public class ServerMain {
 
-    private ServerSocket serverSocket;
-    private ConnectionsManager connectionsManager;
-    private ParticipantsList participantsList;
-    private ChatHistory chatHistory;
+    private final ConnectionsManager connectionsManager;
+    private final ParticipantsList participantsList;
+    private final ChatHistory chatHistory;
 
-    private HashMap<Integer, Integer> offsets;
+    private final HashMap<Integer, Integer> offsets;
     private Integer currentChatPointer = 0;
 
-    private int avaliableRecentMessagesCount = 0;
-    private String protocol;
+    private final int availableRecentMessagesCount;
 
     private final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ServerMain.class.getName());
 
@@ -38,10 +36,10 @@ public class ServerMain {
         participantsList = new ParticipantsList();
         PropertiesReader propertiesReader = new PropertiesReader();
         propertiesReader.getAllProperties("/serverConfig.properties");
-        protocol = propertiesReader.getProtocol();
-        serverSocket = new ServerSocket(propertiesReader.getPort());
-        avaliableRecentMessagesCount = propertiesReader.getRecentMessagesCount();
-        if (propertiesReader.getLogFlag() == true) {
+        String protocol = propertiesReader.getProtocol();
+        ServerSocket serverSocket = new ServerSocket(propertiesReader.getPort());
+        availableRecentMessagesCount = propertiesReader.getRecentMessagesCount();
+        if (propertiesReader.getLogFlag()) {
             LogManager.getLogManager().reset();
             java.util.logging.Logger globalLogger = java.util.logging.Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
             globalLogger.setLevel(Level.FINEST);
@@ -58,29 +56,29 @@ public class ServerMain {
         offsets = new HashMap<>();
     }
 
-    public void registrateUser(Integer sessionID, String username) throws IOException, IllegalRequestException {
+    public void registrationUser(Integer sessionID, String username) throws IOException, IllegalRequestException {
         try {
             username = username.replace("\n", "");
             username = username.replace(" ", "");
             participantsList.addNewParcipiant(username, sessionID);
-            offsets.put(sessionID, Integer.valueOf(currentChatPointer.intValue()));
+            offsets.put(sessionID, currentChatPointer);
         } catch (DuplicateNameException e) {
-            connectionsManager.sendMessage(sessionID, new ErrorMessage("user whith this name already exists"));
+            connectionsManager.sendMessage(sessionID, new ErrorMessage("user with this name already exists"));
             return;
         }
-        logger.info("New user whith name " + username + " and ID " + String.valueOf(sessionID) + " had connected to server");
-        LoginStatus reply = new LoginStatus("succes", true);
+        logger.info("New user with name " + username + " and ID " + sessionID + " had connected to server");
+        LoginStatus reply = new LoginStatus("success", true);
         connectionsManager.sendMessage(sessionID, reply);
         currentChatPointer++;
-        chatHistory.addSystemMessage("New user whith name " + username + " and ID " + String.valueOf(sessionID) + " had connected to server");
+        chatHistory.addSystemMessage("New user with name " + username + " and ID " + sessionID + " had connected to server");
         refreshChat();
     }
 
     public void deleteUser(Integer sessionID) throws IllegalRequestException {
         try {
-            logger.info("New user whith name " + participantsList.getNameByID(sessionID) + " and ID " + String.valueOf(sessionID) + " had disconnected from server");
+            logger.info("New user with name " + participantsList.getNameByID(sessionID) + " and ID " + sessionID + " had disconnected from server");
             currentChatPointer++;
-            chatHistory.addSystemMessage("User whith name " + participantsList.getNameByID(sessionID) + " and ID " + String.valueOf(sessionID) + " had disconnected from server");
+            chatHistory.addSystemMessage("User with name " + participantsList.getNameByID(sessionID) + " and ID " + sessionID + " had disconnected from server");
             participantsList.removeParticipant(sessionID);
             offsets.remove(sessionID);
             refreshChat();
@@ -114,7 +112,7 @@ public class ServerMain {
 
     private void refreshChat() {
         FileData fileData = chatHistory.getHistory();
-        if (fileData != null) connectionsManager.broadcastMessage(offsets, fileData, avaliableRecentMessagesCount, chatHistory.getStartLen());
+        if (fileData != null) connectionsManager.broadcastMessage(offsets, fileData, availableRecentMessagesCount, chatHistory.getStartLen());
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {

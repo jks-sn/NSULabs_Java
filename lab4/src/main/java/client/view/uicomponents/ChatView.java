@@ -18,7 +18,7 @@ import client.view.ClientGUI;
 
 public class ChatView {
 
-    private JPanel panel;
+    private final JPanel panel;
     private JTextArea textArea;
     private JTextArea info;
     private JButton textEnter;
@@ -38,26 +38,20 @@ public class ChatView {
         JTextField input = new JTextField(50);
         input.setToolTipText("Type your message here");
         input.setFont(new Font("Dialog", Font.PLAIN, 14));
-        input.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (input.getText().length() > 0) {
-                    clientGUI.sendMessage(input.getText());
-                    input.setText("");
-                }
+        input.addActionListener(e -> {
+            if (input.getText().length() > 0) {
+                clientGUI.sendMessage(input.getText());
+                input.setText("");
             }
         });
 
         textEnter = new JButton("Send");
         textInput.add(input);
         textInput.add(textEnter);
-        textEnter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (input.getText().length() > 0) {
-                    clientGUI.sendMessage(input.getText());
-                    input.setText("");
-                }
+        textEnter.addActionListener(e -> {
+            if (input.getText().length() > 0) {
+                clientGUI.sendMessage(input.getText());
+                input.setText("");
             }
         });
 

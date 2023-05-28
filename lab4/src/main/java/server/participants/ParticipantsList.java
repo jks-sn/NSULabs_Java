@@ -29,15 +29,11 @@ public class ParticipantsList {
     }
 
     public ArrayList<String> getPrintableParticipantsNames() {
-        ArrayList<String> printableTable = new ArrayList<String>();
-        for (String p : participants.values()) {
-            printableTable.add(p);
-        }
-        return printableTable;
+        return new ArrayList<>(participants.values());
     }
 
     public String getNameByID(Integer id) throws DuplicateNameException {
-        if (! idIsRelevant(id)) throw new DuplicateNameException("User whith this id doesn't exist");
+        if (! idIsRelevant(id)) throw new DuplicateNameException("User with this id doesn't exist");
         return participants.get(id);
     }
 

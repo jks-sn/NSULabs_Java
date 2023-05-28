@@ -22,13 +22,13 @@ public class ChatServerThread extends Thread {
 
     private ConnectionsManager connectionsManager;
     private Integer sessionID;
-    private ObjectInputStream objectInputStream = null;
-    private ObjectOutputStream objectOutputStream = null;
+    private final ObjectInputStream objectInputStream;
+    private final ObjectOutputStream objectOutputStream;
 
     private Map<String, Runnable> reactions = new HashMap<>();
     private ArrayList<Object> clientMessageData;
 
-    private String protocol;
+    private final String protocol;
 
     public ChatServerThread(ConnectionsManager connectionsManager, Socket client, Integer sessionID, String protocol) throws ConnectionError {
         setName("chatThread" + sessionID.toString());
@@ -45,30 +45,10 @@ public class ChatServerThread extends Thread {
     }
 
     private void initReactions() {
-        reactions.put("login", new Runnable() {
-            @Override
-            public void run() {
-                connectionsManager.connectUser((String) clientMessageData.get(0), sessionID);
-            }
-        });
-        reactions.put("logout", new Runnable() {
-            @Override
-            public void run() {
-                connectionsManager.disconnectUser(sessionID);
-            }
-        });
-        reactions.put("list", new Runnable() {
-            @Override
-            public void run() {
-                connectionsManager.requestForParticipantsList(sessionID);
-            }
-        });
-        reactions.put("text", new Runnable() {
-            @Override
-            public void run() {
-                connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID);
-            }
-        });
+        reactions.put("login", () -> connectionsManager.connectUser((String) clientMessageData.get(0), sessionID));
+        reactions.put("logout", () -> connectionsManager.disconnectUser(sessionID));
+        reactions.put("list", () -> connectionsManager.requestForParticipantsList(sessionID));
+        reactions.put("text", () -> connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID));
     }
 
     private CTSMessage readClientMessage() throws Exception {
@@ -79,10 +59,7 @@ public class ChatServerThread extends Thread {
             } catch (SocketException e) {
                 e.printStackTrace();
             } 
-            catch (ClassNotFoundException | IOException e) {
-                // e.printStackTrace();
-                throw e;
-            } catch (NullPointerException e) {
+            catch (ClassNotFoundException | IOException | NullPointerException e) {
                 // e.printStackTrace();
                 throw e;
             }
@@ -106,7 +83,7 @@ public class ChatServerThread extends Thread {
                 connectionsManager.disconnectUser(sessionID);
             }
         }
-        System.out.println("connection " + String.valueOf(sessionID) + " interrupted");
+        System.out.println("connection " + sessionID + " interrupted");
     }
 
     public void sendMessage(STCMessage message) {
@@ -119,7 +96,7 @@ public class ChatServerThread extends Thread {
         }
         if (protocol.equals("XML")) {
             ConverterFactory converterFactory = new ServerMessageConvFactory();
-            String strMessage = null;
+            String strMessage;
             try {
                 strMessage = converterFactory.convertToSerializableXML(message.getName(), message.getData());
             } catch (ConvertionException e) {

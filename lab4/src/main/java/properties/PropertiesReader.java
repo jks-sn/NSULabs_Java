@@ -20,20 +20,21 @@ public class PropertiesReader {
             prop.load(inputPropFile);
         }
         catch (IOException err) {
-            System.out.println("ERROR DURING LOADING FILE " + inputPropFile.toString());
+            assert inputPropFile != null;
+            System.out.println("ERROR DURING LOADING FILE " + inputPropFile);
         }
     }
 
     public boolean getLogFlag() {
-        return Boolean.valueOf(prop.getProperty("logSale"));
+        return Boolean.parseBoolean(prop.getProperty("logSale"));
     }
 
     public int getPort() {
-        return Integer.valueOf(prop.getProperty("port"));
+        return Integer.parseInt(prop.getProperty("port"));
     }
 
     public int getRecentMessagesCount() {
-        return Integer.valueOf(prop.getProperty("recentMessages"));
+        return Integer.parseInt(prop.getProperty("recentMessages"));
     }
 
     public String getProtocol() {

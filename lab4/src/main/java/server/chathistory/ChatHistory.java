@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class ChatHistory {
 
-    private String fileName;
-    private int startBufferLen;
+    private final String fileName;
+    private final int startBufferLen;
 
     public ChatHistory(String historyFileName) {
         this.fileName = historyFileName;
@@ -19,16 +19,12 @@ public class ChatHistory {
 
     private int setStartLen() {
         File file = new File(fileName);
-        byte[] buffer = null;
+        byte[] buffer;
         try {
             FileInputStream in = new FileInputStream(file);
             int fileLen = (int) file.length();
             buffer = new byte[fileLen];
-            in.read(buffer);
             in.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return 0;
         } catch (IOException e) {
             e.printStackTrace();
             return 0;
@@ -44,7 +40,7 @@ public class ChatHistory {
     public void addMessageFromUser(String sender, String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append(sender + ":," + message + "\n");
+            writer.append(sender).append(":,").append(message).append("\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,7 +50,7 @@ public class ChatHistory {
     public void addSystemMessage(String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append("system:," + message + "\n");
+            writer.append("system:,").append(message).append("\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,9 +66,6 @@ public class ChatHistory {
             buffer = new byte[fileLen];
             in.read(buffer);
             in.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

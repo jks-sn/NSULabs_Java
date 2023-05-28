@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public class LoginStatus implements STCMessage, Serializable {
 
-    private ArrayList<Object> data = new ArrayList<>();
-
-    private final String messageName = "LoginStatus";
+    private final ArrayList<Object> data = new ArrayList<>();
 
     public LoginStatus(String reason, Boolean isSuccessful) {
         data.add(isSuccessful);
@@ -16,7 +14,7 @@ public class LoginStatus implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return messageName;
+        return "LoginStatus";
     }
 
     @Override

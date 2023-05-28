@@ -3,6 +3,6 @@ package stcmessages;
 import java.util.ArrayList;
 
 public interface STCMessage {
-    public String getName();
-    public ArrayList<Object> getData();
+    String getName();
+    ArrayList<Object> getData();
 }

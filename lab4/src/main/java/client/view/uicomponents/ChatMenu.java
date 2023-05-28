@@ -11,16 +11,16 @@ import java.io.IOException;
 import javax.swing.Box;
 
 import client.Client;
-import exceptions.NoActiveSocetException;
+import exceptions.NoActiveSocketException;
 
 public class ChatMenu implements ActionListener {
     
-    private Button showParticipantsButton;
-    private Button exitButton;
+    private final Button showParticipantsButton;
+    private final Button exitButton;
     
     private Client client = null;
 
-    private Box sideBar;
+    private final Box sideBar;
 
     public ChatMenu() {
         sideBar = Box.createVerticalBox();
@@ -70,7 +70,7 @@ public class ChatMenu implements ActionListener {
         if (e.getSource() == showParticipantsButton.getButton()) {
             try {
                 client.getParticipantsTable();
-            } catch (NoActiveSocetException | IOException e1) {
+            } catch (NoActiveSocketException | IOException e1) {
                 client.processError(e1.getMessage());
             }
         }
@@ -78,9 +78,7 @@ public class ChatMenu implements ActionListener {
         if (e.getSource() == exitButton.getButton()) {
             try {
                 client.disconnect();
-            } catch (IOException e1) {
-                client.processError(e1.getMessage());
-            } catch (NoActiveSocetException e1) {
+            } catch (IOException | NoActiveSocketException e1) {
                 client.processError(e1.getMessage());
             }
         }

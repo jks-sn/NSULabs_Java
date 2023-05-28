@@ -21,10 +21,9 @@ import stcmessages.STCMessage;
 
 public class ChatMessageConverter extends Converter {
 
-    private String pathToTemplate = "src/main/XMLTemplates/chat/clientMessage.xml";
-
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
+        String pathToTemplate = "src/main/XMLTemplates/chat/clientMessage.xml";
         File xmlFile = new File(pathToTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;

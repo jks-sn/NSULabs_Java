@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public class ErrorMessage implements STCMessage, Serializable {
 
-    private ArrayList<Object> data = new ArrayList<>();
-
-    private final String messageName = "error";
+    private final ArrayList<Object> data = new ArrayList<>();
 
     public ErrorMessage(String error) {
         this.data.add(error);
@@ -15,7 +13,7 @@ public class ErrorMessage implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return messageName;
+        return "error";
     }
 
     @Override

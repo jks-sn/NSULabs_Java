@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public interface CTSMessage {
 
-    public String getName();
-    public ArrayList<Object> getData();
-    
+    String getName();
+    ArrayList<Object> getData();
 }

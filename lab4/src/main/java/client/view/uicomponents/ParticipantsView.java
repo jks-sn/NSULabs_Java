@@ -12,8 +12,7 @@ import javax.swing.JPanel;
 
 public class ParticipantsView {
 
-    private JPanel table;
-    private ArrayList<Object> data = null;
+    private final JPanel table;
 
     public ParticipantsView() {
         table = new JPanel();
@@ -22,9 +21,9 @@ public class ParticipantsView {
         table.setVisible(false);
     }
 
-    private class VerticalLayout implements LayoutManager{
+    private static class VerticalLayout implements LayoutManager{
 
-        private int GAP = 5;
+        private final int GAP = 5;
         
         @Override
         public void addLayoutComponent(String name, Component comp) {
@@ -46,7 +45,7 @@ public class ParticipantsView {
             return calculateBestSize(c);
         }
 
-        private Dimension size = new Dimension();
+        private final Dimension size = new Dimension();
 
         private Dimension calculateBestSize(Container c) {
             Component[] comps = c.getComponents();
@@ -67,7 +66,7 @@ public class ParticipantsView {
 
         @Override
         public void layoutContainer(Container c) {
-            Component comps[] = c.getComponents();
+            Component[] comps = c.getComponents();
             int currentY = GAP;
             for (Component comp : comps) {
                 Dimension pref = comp.getPreferredSize();
@@ -84,7 +83,6 @@ public class ParticipantsView {
     }
 
     public void printTable(ArrayList<Object> newData) {
-        this.data = newData;
         table.removeAll();
         
         Color defaultColor = Color.black;
@@ -93,8 +91,8 @@ public class ParticipantsView {
         Dimension prefSize = new Dimension(table.getWidth() - 30, 100);
         Dimension maxSize = new Dimension(table.getWidth() - 30, 100);
 
-        for (int i = 0; i < data.size(); i++){
-            Button button = new Button((String) data.get(i), defaultColor, prefSize, minSize, maxSize, defaultFont, null);
+        for (Object newDatum : newData) {
+            Button button = new Button((String) newDatum, defaultColor, prefSize, minSize, maxSize, defaultFont, null);
             button.getButton().setVerticalAlignment((int) Component.CENTER_ALIGNMENT);
             button.getButton().setBackground(Color.BLUE);
             button.getButton().setVisible(true);

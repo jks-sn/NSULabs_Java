@@ -1,23 +1,28 @@
 package client.connection;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import XMLConverter.ConverterFactory;
 import XMLConverter.ClientToXML.ClientMessageConvFactory;
+import XMLConverter.ConverterFactory;
 import XMLConverter.ServerToXML.ServerMessageConvFactory;
 import client.Client;
 import ctsmessages.CTSMessage;
 import exceptions.ConvertionException;
-import exceptions.NoActiveSocetException;
-import exceptions.SocetStillOpenedException;
+import exceptions.NoActiveSocketException;
+import exceptions.SocketStillOpenedException;
 import stcmessages.STCMessage;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static constants.ClientConstants.*;
+import static constants.ClientSocketConstants.clientInterruptedMessage;
+import static constants.ClientSocketConstants.clientSocketName;
+import static constants.SharedConstants.protocolBasicName;
+import static constants.SharedConstants.protocolXMLName;
 
 public class ReusableSocket extends Thread {
 
@@ -32,19 +37,19 @@ public class ReusableSocket extends Thread {
     private final String protocol;
 
     public ReusableSocket(Client client, String protocol) {
-        setName("Socket");
+        setName(clientSocketName);
         this.protocol = protocol;
         this.client = client;
         initReactions();
     }
 
     private void initReactions() {
-        reactions.put("LoginStatus", () -> client.setRegistrationStatus(true));
-        reactions.put("filledList", () -> client.showParticipantsTable(serverMessageData));
-        reactions.put("chatHistory", () -> client.refreshChatView(serverMessageData));
-        reactions.put("error", () -> {
+        reactions.put(loginStatusCommandName, () -> client.setRegistrationStatus(true));
+        reactions.put(getParticipantListCommandName, () -> client.showParticipantsTable(serverMessageData));
+        reactions.put(getChatHistoryCommandName, () -> client.refreshChatView(serverMessageData));
+        reactions.put(errorCommandName, () -> {
             String error = (String) serverMessageData.get(0);
-            if (error.equals("user with this name already exists") || error.equals("userwiththisnamealreadyexists")) {
+            if (error.equals(lockedUserNameError1) || error.equals(lockedUserNameError2)) {
                 socket = null;
                 client.setRegistrationStatus(false);
                 try {
@@ -57,9 +62,9 @@ public class ReusableSocket extends Thread {
         });
     }
 
-    public synchronized void initNewConnection(String host, int port) throws IOException, SocetStillOpenedException {
+    public synchronized void initNewConnection(String host, int port) throws IOException, SocketStillOpenedException {
         if (socket!= null) {
-            throw new SocetStillOpenedException("There is already a connection");
+            throw new SocketStillOpenedException();
         }
         socket = new Socket(host, port);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -67,9 +72,9 @@ public class ReusableSocket extends Thread {
         notify();
     }
 
-    public void closeConnection() throws IOException, NoActiveSocetException {
+    public void closeConnection() throws IOException, NoActiveSocketException {
         if (socket == null) {
-            throw new NoActiveSocetException("There is no active connection");
+            throw new NoActiveSocketException();
         }
         socket.close();
         objectOutputStream.close();
@@ -83,12 +88,12 @@ public class ReusableSocket extends Thread {
         return socket != null;
     }
 
-    public void sendMessage(CTSMessage message) throws IOException, NoActiveSocetException {
+    public void sendMessage(CTSMessage message) throws IOException, NoActiveSocketException {
         if (socket == null) {
-            throw new NoActiveSocetException("There is no active connection");
+            throw new NoActiveSocketException();
         }
-        if (protocol.equals("Basic")) objectOutputStream.writeObject(message);
-        if (protocol.equals("XML")) {
+        if (protocol.equals(protocolBasicName)) objectOutputStream.writeObject(message);
+        if (protocol.equals(protocolXMLName)) {
             ConverterFactory converterFactory = new ClientMessageConvFactory();
             String strMessage = null;
             try {
@@ -102,10 +107,10 @@ public class ReusableSocket extends Thread {
 
     private STCMessage getMessage() throws ClassNotFoundException, IOException {
         STCMessage serverMessage = null;
-        if (protocol.equals("Basic")) {
+        if (protocol.equals(protocolBasicName)) {
             serverMessage = (STCMessage) objectInputStream.readObject();
         }
-        if (protocol.equals("XML")) {
+        if (protocol.equals(protocolXMLName)) {
             String xmlMessage = (String) objectInputStream.readObject();
             ConverterFactory converterFactory = new ServerMessageConvFactory();
             try {
@@ -134,6 +139,6 @@ public class ReusableSocket extends Thread {
                 }
             }
         }
-        System.out.println("Client socket is interrupted");
+        System.out.println(clientInterruptedMessage);
     }
 }

@@ -18,12 +18,12 @@ import java.util.Map;
 
 public class ConnectionsManager extends Thread implements CTSPassingInterface, STCPassingInterface {
 
-    private ServerMain server;
-    private ServerSocket serverSocket;
+    private final ServerMain server;
+    private final ServerSocket serverSocket;
     private final Map<Integer, ChatServerThread> connections = new HashMap<>();
 
     private Integer nextID = 0;
-    private String protocol;
+    private final String protocol;
 
     public ConnectionsManager(ServerSocket serverSock, ServerMain server, String protocol) {
         this.protocol = protocol;
@@ -55,10 +55,8 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
     @Override
     public synchronized void connectUser(String username, Integer sessionID) {
         try {
-            server.registrateUser(sessionID, username);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalRequestException e) {
+            server.registrationUser(sessionID, username);
+        } catch (IOException | IllegalRequestException e) {
             e.printStackTrace();
         }
     }
@@ -67,7 +65,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
     public synchronized void disconnectUser(Integer sessionID) {
         try {
             server.deleteUser(sessionID);
-        } catch (IllegalRequestException e) {}
+        } catch (IllegalRequestException ignored) {}
         connections.get(sessionID).interrupt();
         connections.remove(sessionID);
     }
@@ -96,6 +94,6 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
             for (Integer i : connections.keySet()) {
                 if (offsets.get(i) != null) sendMessage(i, new ChatHistoryMessage(message, offsets.get(i) - recentMessagesCount + startOffset));
             }
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException ignored) {}
     }
 }

@@ -3,15 +3,15 @@ package ctsmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LogoutMessage implements Serializable, CTSMessage {
+import static constants.SharedConstants.logoutMessage;
 
-    private final String messageName = "logout";
+public class LogoutMessage implements Serializable, CTSMessage {
 
     public LogoutMessage() {}
 
     @Override
     public String getName() {
-        return messageName;
+        return logoutMessage;
     }
 
     @Override

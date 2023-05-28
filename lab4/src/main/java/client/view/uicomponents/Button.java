@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 public class Button {
     
-    private JButton button;
+    private final JButton button;
 
     public Button(String name, Color newColor, Dimension newPrefSize, Dimension newMinSize, Dimension newMaxSize, Font newFont, ActionListener newAcL){
         

@@ -18,20 +18,20 @@ import java.util.ArrayList;
 
 public class ClientGUI {
 
-    private JFrame mainFrame;
-    private JPanel mainWindow;
+    private final JFrame mainFrame;
+    private final JPanel mainWindow;
 
-    private JPanel actionWindow;
-    private JPanel choiseWindow;
+    private final JPanel actionWindow;
+    private final JPanel choiseWindow;
 
-    private MainMenu mainMenu;
-    private ChatMenu chatMenu;
+    private final MainMenu mainMenu;
+    private final ChatMenu chatMenu;
 
-    private ChatView chatView;
-    private DefaultMenu defaultMenu;
-    private ParticipantsView participantsView;
+    private final ChatView chatView;
+    private final DefaultMenu defaultMenu;
+    private final ParticipantsView participantsView;
 
-    private Client client = null;
+    private final Client client;
 
     public ClientGUI(Client client) {
 

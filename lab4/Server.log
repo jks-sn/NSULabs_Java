@@ -1,2 +1,10 @@
-мая 27, 2023 11:19:04 AM server.ServerMain <init>
+мая 28, 2023 3:11:57 PM server.ServerMain <init>
 INFO: Server have been started
+мая 28, 2023 3:12:35 PM server.ServerMain registrationUser
+INFO: New user with name wgfer and ID 0 had connected to server
+мая 28, 2023 3:12:37 PM server.ServerMain sendParticipantsTable
+INFO: Send participants list to wgfer
+мая 28, 2023 3:12:40 PM server.ServerMain sendParticipantsTable
+INFO: Send participants list to wgfer
+мая 28, 2023 3:12:41 PM server.ServerMain deleteUser
+INFO: New user with name wgfer and ID 0 had disconnected from server

@@ -1,9 +1,5 @@
 package client;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-
 import client.connection.ReusableSocket;
 import client.view.ClientGUI;
 import ctsmessages.ListMessage;
@@ -11,9 +7,14 @@ import ctsmessages.LoginMessage;
 import ctsmessages.LogoutMessage;
 import ctsmessages.TextMessage;
 import exceptions.ConnectionError;
-import exceptions.NoActiveSocetException;
-import exceptions.SocetStillOpenedException;
+import exceptions.NoActiveSocketException;
+import exceptions.SocketStillOpenedException;
 import properties.PropertiesReader;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import static constants.ClientConstants.*;
 
 public class Client {
 
@@ -22,33 +23,32 @@ public class Client {
     private int port = -1;
     private boolean isConnected = false;
 
-    private final ReusableSocket socet;
+    private final ReusableSocket socket;
 
-    private ClientGUI clientGUI;
-    private String protocol;
+    private final ClientGUI clientGUI;
 
     public Client() {
-        Thread.currentThread().setName("Client");
+        Thread.currentThread().setName(clientName);
         PropertiesReader propertiesReader = new PropertiesReader();
-        propertiesReader.getAllProperties("/clientConfig.properties");
-        protocol = propertiesReader.getProtocol();
-        this.socet = new ReusableSocket(this, protocol);
-        this.socet.start();
+        propertiesReader.getAllProperties(pathToClientPropertiesFile);
+        String protocol = propertiesReader.getProtocol();
+        this.socket = new ReusableSocket(this, protocol);
+        this.socket.start();
         clientGUI = new ClientGUI(this);
     }
 
     public synchronized void connect() throws ConnectionError {
         try {
-            if (! socet.isConnected()) {
-                socet.initNewConnection(host, port);
-                socet.sendMessage(userInfo);
+            if (! socket.isConnected()) {
+                socket.initNewConnection(host, port);
+                socket.sendMessage(userInfo);
             }
         }
-        catch (SocetStillOpenedException e) {
-            throw new ConnectionError("Client has active connection");
+        catch (SocketStillOpenedException e) {
+            throw new ConnectionError(activeConnectionClientMessage);
         } catch (IOException e) {
-            throw new ConnectionError("Unknown host or port");
-        } catch (NoActiveSocetException e) {}
+            throw new ConnectionError(unknownPortHostClientMessage);
+        } catch (NoActiveSocketException ignored) {}
 
         try {
             wait();
@@ -58,7 +58,7 @@ public class Client {
             return;
         }
         if (isConnected) openChat();
-        else processError("user whith this name already exists");
+        else processError(lockedUserNameError1);
     }
 
     public synchronized void setRegistrationStatus(Boolean status) {
@@ -67,12 +67,12 @@ public class Client {
     }
 
     public void processError(String err) {
-        if (err.equals("Connection reset")) {
-            System.out.println("reset");
+        if (err.equals(connectionResetClientMessage)) {
+            System.out.println(resetMessage);
             try {
                 clientGUI.closeChat();
-                socet.closeConnection();
-            } catch (IOException | NoActiveSocetException e) {
+                socket.closeConnection();
+            } catch (IOException | NoActiveSocketException e) {
                 processError(err);
             }
         }
@@ -83,11 +83,11 @@ public class Client {
         clientGUI.openChat();
     }
 
-    public void disconnect() throws IOException, NoActiveSocetException {
-        if (socet.isConnected()) {
+    public void disconnect() throws IOException, NoActiveSocketException {
+        if (socket.isConnected()) {
             clientGUI.closeChat();
-            socet.sendMessage(new LogoutMessage());
-            socet.closeConnection();
+            socket.sendMessage(new LogoutMessage());
+            socket.closeConnection();
         }
     }
 
@@ -108,17 +108,17 @@ public class Client {
     }
 
     public void closeClient() {
-        if (socet.isConnected())
+        if (socket.isConnected())
             try {
-                socet.closeConnection();
-            } catch (IOException | NoActiveSocetException e) {
+                socket.closeConnection();
+            } catch (IOException | NoActiveSocketException e) {
                 clientGUI.displayError(e.getMessage());
             }
-        socet.interrupt();
+        socket.interrupt();
     }
 
-    public void getParticipantsTable() throws IOException, NoActiveSocetException {
-        socet.sendMessage(new ListMessage());
+    public void getParticipantsTable() throws IOException, NoActiveSocketException {
+        socket.sendMessage(new ListMessage());
     }
 
     public void showParticipantsTable(ArrayList<Object> participants) {
@@ -131,12 +131,12 @@ public class Client {
 
     public void sendChatMessageToServer(String message) {
         try {
-            socet.sendMessage(new TextMessage(message));
-        } catch (IOException | NoActiveSocetException e) {
+            socket.sendMessage(new TextMessage(message));
+        } catch (IOException | NoActiveSocketException e) {
             e.printStackTrace();
         }
     }
-    public static void main(String[] args) throws UnknownHostException, IOException, ConnectionError {
+    public static void main(String[] args) throws IOException, ConnectionError {
         @SuppressWarnings("unused")
         Client client = new Client();
     }

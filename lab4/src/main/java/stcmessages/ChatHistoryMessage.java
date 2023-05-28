@@ -9,8 +9,6 @@ public class ChatHistoryMessage implements STCMessage, Serializable {
 
     private ArrayList<Object> data = new ArrayList<>();
 
-    private final String messageName = "chatHistory";
-
     public ChatHistoryMessage(ArrayList<String> newData) {
         this.data.addAll(newData);
     }
@@ -21,7 +19,7 @@ public class ChatHistoryMessage implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return messageName;
+        return "chatHistory";
     }
 
     @Override

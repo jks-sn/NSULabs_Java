@@ -1,7 +1,7 @@
 package exceptions;
 
 public class IllegalRequestException extends Exception {
-    public IllegalRequestException(String err) {
-        super(err);
+    public IllegalRequestException(String message) {
+        super(message);
     }
 }

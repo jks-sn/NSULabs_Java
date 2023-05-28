@@ -10,20 +10,30 @@ public class ClientMessageConvFactory extends ConverterFactory {
 
     @Override
     protected Converter createConverter(String messageName, ArrayList<Object> params) {
-        if (messageName.equals("login")) return new LoginMessageConverter();
-        if (messageName.equals("logout")) return new LogoutMessageConverter();
-        if (messageName.equals("text")) return new ChatMessageConverter();
-        if (messageName.equals("list")) return new ListMessageConverter();
-        return null;
+        return parseConverterName(messageName);
     }
 
     @Override
     protected Converter createConverter(String serializedXML) throws ConvertionException {
-        String name = Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute("name");
-        if (name.equals("login")) return new LoginMessageConverter();
-        if (name.equals("logout")) return new LogoutMessageConverter();
-        if (name.equals("text")) return new ChatMessageConverter();
-        if (name.equals("list")) return new ListMessageConverter();
-        return null;
+        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute("name"));
+    }
+    protected Converter parseConverterName(String converterName){
+        switch (converterName) {
+            case "login" -> {
+                return new LoginMessageConverter();
+            }
+            case "logout" -> {
+                return new LogoutMessageConverter();
+            }
+            case "text" -> {
+                return new ChatMessageConverter();
+            }
+            case "list" -> {
+                return new ListMessageConverter();
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }

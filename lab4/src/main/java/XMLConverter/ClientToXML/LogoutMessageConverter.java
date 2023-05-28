@@ -19,14 +19,13 @@ import stcmessages.STCMessage;
 
 public class LogoutMessageConverter extends Converter {
 
-    private String pathToTemplate = "src/main/XMLTemplates/logout/clientMessage.xml";
-
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
+        String pathToTemplate = "src/main/XMLTemplates/logout/clientMessage.xml";
         File xmlFile = new File(pathToTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        Document document = null;
+        DocumentBuilder builder;
+        Document document;
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
@@ -38,8 +37,7 @@ public class LogoutMessageConverter extends Converter {
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        CTSMessage message = new LogoutMessage();
-        return message;
+        return new LogoutMessage();
     }
 
     @Override

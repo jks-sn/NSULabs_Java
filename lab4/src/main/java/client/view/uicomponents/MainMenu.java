@@ -26,13 +26,13 @@ import exceptions.ConnectionError;
 
 public class MainMenu implements ActionListener {
 
-    private Button connectButton;
-    private Button exitButton;
+    private final Button connectButton;
+    private final Button exitButton;
     
-    private JFrame mainFrame = null;
+    private final JFrame mainFrame;
     private Client client = null;
 
-    private Box sideBar;
+    private final Box sideBar;
 
     public MainMenu(JFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -101,14 +101,9 @@ public class MainMenu implements ActionListener {
 
     private class LoginDialog extends JDialog {
 
-        private JTextField usernameField;
-        private JTextField hostField;
-        private JTextField portField;
-        private JLabel lbUsername;
-        private JLabel lbHost;
-        private JLabel lbPort;
-        private JButton btnLogin;
-        private JButton btnExit;
+        private final JTextField usernameField;
+        private final JTextField hostField;
+        private final JTextField portField;
         private boolean succeeded;
     
         public LoginDialog(JFrame parent) {
@@ -118,8 +113,8 @@ public class MainMenu implements ActionListener {
             GridBagConstraints cs = new GridBagConstraints();
     
             cs.fill = GridBagConstraints.HORIZONTAL;
-    
-            lbHost = new JLabel("Set host: ");
+
+            JLabel lbHost = new JLabel("Set host: ");
             cs.gridx = 0;
             cs.gridy = 0;
             cs.gridwidth = 1;
@@ -130,8 +125,8 @@ public class MainMenu implements ActionListener {
             cs.gridy = 0;
             cs.gridwidth = 2;
             panel.add(hostField, cs);
-    
-            lbPort = new JLabel("Set port: ");
+
+            JLabel lbPort = new JLabel("Set port: ");
             cs.gridx = 0;
             cs.gridy = 1;
             cs.gridwidth = 1;
@@ -143,7 +138,7 @@ public class MainMenu implements ActionListener {
             cs.gridwidth = 2;
             panel.add(portField, cs);
 
-            lbUsername = new JLabel("Set username: ");
+            JLabel lbUsername = new JLabel("Set username: ");
             cs.gridx = 0;
             cs.gridy = 2;
             cs.gridwidth = 1;
@@ -156,14 +151,14 @@ public class MainMenu implements ActionListener {
             panel.add(usernameField, cs);
 
             panel.setBorder(new LineBorder(Color.GRAY));
-    
-            btnLogin = new JButton("Confirm");
+
+            JButton btnLogin = new JButton("Confirm");
             cs.gridx = 0;
             cs.gridy = 3;
             cs.gridwidth = 3;
             panel.add(btnLogin, cs);
 
-            btnExit = new JButton("Exit");
+            JButton btnExit = new JButton("Exit");
             cs.gridx = 0;
             cs.gridy = 4;
             cs.gridwidth = 3;
@@ -171,26 +166,21 @@ public class MainMenu implements ActionListener {
 
             getContentPane().add(panel, BorderLayout.CENTER);
     
-            btnLogin.addActionListener(new ActionListener() {
-    
-                public void actionPerformed(ActionEvent e) {
-                    if (getHost().length() == 0 || getPort().length() == 0 || getUsername().length() == 0) {
-                        succeeded = false;
-                        return;
-                    }
-                    client.setHost(getHost());
-                    client.setPort(Integer.valueOf(getPort()));
-                    client.setUserInfo(new LoginMessage(getUsername()));
-                    succeeded = true;
-                    dispose();
+            btnLogin.addActionListener(e -> {
+                if (getHost().length() == 0 || getPort().length() == 0 || getUsername().length() == 0) {
+                    succeeded = false;
+                    return;
                 }
+                client.setHost(getHost());
+                client.setPort(Integer.parseInt(getPort()));
+                client.setUserInfo(new LoginMessage(getUsername()));
+                succeeded = true;
+                dispose();
             });
 
-            btnExit.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    succeeded = false;
-                    dispose();
-                }
+            btnExit.addActionListener(e -> {
+                succeeded = false;
+                dispose();
             });
 
             pack();

@@ -21,14 +21,13 @@ import stcmessages.STCMessage;
 
 public class LoginMessageConverter extends Converter {
 
-    private String pathToTemplate = "src/main/XMLTemplates/registration/clientMessage.xml";
-
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
+        String pathToTemplate = "src/main/XMLTemplates/registration/clientMessage.xml";
         File xmlFile = new File(pathToTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        Document document = null;
+        DocumentBuilder builder;
+        Document document;
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
@@ -45,8 +44,7 @@ public class LoginMessageConverter extends Converter {
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
         String userName = serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent();
-        CTSMessage message = new LoginMessage(userName);
-        return message;
+        return new LoginMessage(userName);
     }
 
     @Override

@@ -12,17 +12,17 @@ import javax.swing.Box;
 
 import client.Client;
 import client.view.ClientGUI;
-import exceptions.NoActiveSocetException;
+import exceptions.NoActiveSocketException;
 
 public class DefaultMenu implements ActionListener {
 
-    private Button backButton;
-    private Button refreshButton;
+    private final Button backButton;
+    private final Button refreshButton;
     
     private ClientGUI clientGUI;
     private Client client;
 
-    private Box sideBar;
+    private final Box sideBar;
 
     public DefaultMenu(){
         sideBar = Box.createVerticalBox();
@@ -79,7 +79,7 @@ public class DefaultMenu implements ActionListener {
         if (e.getSource() == refreshButton.getButton()){
             try {
                 client.getParticipantsTable();
-            } catch (NoActiveSocetException | IOException e1) {
+            } catch (NoActiveSocketException | IOException e1) {
                 client.processError(e1.getMessage());
                 e1.printStackTrace();
             }

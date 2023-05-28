@@ -1,7 +1,7 @@
 package exceptions;
 
 public class ConvertionException extends Exception {
-    public ConvertionException(String err) {
-        super(err);
+    public ConvertionException(String message) {
+        super(message);
     }   
 }

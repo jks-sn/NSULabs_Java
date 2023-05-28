@@ -2,11 +2,12 @@ package server.chathistory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FileData implements Serializable {
 
-    private byte[] data;
-    private int messagesCount;
+    private final byte[] data;
+    private final int messagesCount;
 
     public FileData(byte[] data) {
         this.data = data;
@@ -20,10 +21,6 @@ public class FileData implements Serializable {
         if (offset > messagesCount) offset = messagesCount;
         String s = new String(data);
         String[] buf = s.split("\n");
-        ArrayList<Object> ret = new ArrayList<>();
-        for (int i = offset; i < buf.length; i++) {
-            ret.add(buf[i]);
-        }
-        return ret;
+        return new ArrayList<>(Arrays.asList(buf).subList(offset, buf.length));
     }
 }

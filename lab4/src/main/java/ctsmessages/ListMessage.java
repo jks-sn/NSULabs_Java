@@ -3,15 +3,15 @@ package ctsmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ListMessage implements CTSMessage, Serializable {
+import static constants.SharedConstants.listMessage;
 
-    private final String messageName = "list";
+public class ListMessage implements CTSMessage, Serializable {
 
     public ListMessage() {}
 
     @Override
     public String getName() {
-        return messageName;
+        return listMessage;
     }
 
     @Override
