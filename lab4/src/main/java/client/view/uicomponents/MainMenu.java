@@ -24,6 +24,8 @@ import client.Client;
 import ctsmessages.LoginMessage;
 import exceptions.ConnectionError;
 
+import static constants.ClientGUIConstants.*;
+
 public class MainMenu implements ActionListener {
 
     private final Button connectButton;
@@ -37,29 +39,13 @@ public class MainMenu implements ActionListener {
     public MainMenu(JFrame mainFrame) {
         this.mainFrame = mainFrame;
         sideBar = Box.createVerticalBox();
-
-        Color defaultColor = Color.black;
-        Font defaultFont = new Font("Arial", Font.BOLD, 20);
-        Dimension minSize = new Dimension(300, 100);
-        Dimension prefSize = new Dimension(300, 100);
-        Dimension maxSize = new Dimension(300, 100);
-
-        connectButton = new Button("Connect", defaultColor, prefSize, minSize, maxSize, defaultFont, this);
-        exitButton = new Button("Exit", defaultColor, prefSize, minSize, maxSize, defaultFont, this);
-
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dm = toolkit.getScreenSize();
-        int fillerHeight = (dm.height - 400 - 25) / 3;
-
-        Dimension fillerDim = new Dimension(5, fillerHeight);
-        Box.Filler filler_1 = new Box.Filler(fillerDim, fillerDim, fillerDim);
-
+        connectButton = defaultConnectButton(this);
+        exitButton = defaultExitButton(this);
+        Dimension fillerDim = defaultFillerDim(Toolkit.getDefaultToolkit().getScreenSize().height);
         sideBar.add(connectButton.getButton());
-        sideBar.add(filler_1);
+        sideBar.add(new Box.Filler(fillerDim, fillerDim, fillerDim));
         sideBar.add(exitButton.getButton());
-
         sideBar.setVisible(false);
-
     }
 
     public void showMenu() {

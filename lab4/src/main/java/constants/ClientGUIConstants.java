@@ -20,6 +20,19 @@ public class ClientGUIConstants {
     public static Button defaultExitButton(ActionListener actionListener){
         return new Button("Exit", Color.black, new Dimension(300, 100), new Dimension(300, 100), new Dimension(300, 100), new Font("Arial", Font.BOLD, 20), actionListener);
     }
+    public static Button defaultBackButton(ActionListener actionListener)
+    {
+        return new Button("Return", Color.black, new Dimension(300, 100), new Dimension(300, 100), new Dimension(300, 100), new Font("Arial", Font.BOLD, 20), actionListener);
+    }
+    public static Button defaultRefreshButton(ActionListener actionListener)
+    {
+        return new Button("Refresh", Color.black, new Dimension(300, 100), new Dimension(300, 100), new Dimension(300, 100), new Font("Arial", Font.BOLD, 20), actionListener);
+    }
+    public static Button defaultConnectButton(ActionListener actionListener)
+    {
+        return new Button("Connect", Color.black, new Dimension(300, 100), new Dimension(300, 100), new Dimension(300, 100), new Font("Arial", Font.BOLD, 20), actionListener);
+    }
+
     public static JPanel defaultPanel(){
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());

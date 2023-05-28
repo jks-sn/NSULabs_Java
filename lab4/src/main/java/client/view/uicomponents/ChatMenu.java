@@ -24,10 +24,10 @@ public class ChatMenu implements ActionListener {
 
     public ChatMenu() {
         sideBar = Box.createVerticalBox();
-        Dimension fillerDim = defaultFillerDim(Toolkit.getDefaultToolkit().getScreenSize().height);
         showParticipantsButton = defaultShowParticipantsButton(this);
         exitButton = defaultExitButton(this);
         sideBar.add(showParticipantsButton.getButton());
+        Dimension fillerDim = defaultFillerDim(Toolkit.getDefaultToolkit().getScreenSize().height);
         sideBar.add(new Box.Filler(fillerDim, fillerDim, fillerDim));
         sideBar.add(exitButton.getButton());
         sideBar.setVisible(false);

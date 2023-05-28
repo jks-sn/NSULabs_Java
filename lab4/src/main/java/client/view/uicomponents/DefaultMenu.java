@@ -14,6 +14,8 @@ import client.Client;
 import client.view.ClientGUI;
 import exceptions.NoActiveSocketException;
 
+import static constants.ClientGUIConstants.*;
+
 public class DefaultMenu implements ActionListener {
 
     private final Button backButton;
@@ -26,29 +28,13 @@ public class DefaultMenu implements ActionListener {
 
     public DefaultMenu(){
         sideBar = Box.createVerticalBox();
-
-        Color defaultColor = Color.black;
-        Font defaultFont = new Font("Arial", Font.BOLD, 20);
-        Dimension minSize = new Dimension(300, 100);
-        Dimension prefSize = new Dimension(300, 100);
-        Dimension maxSize = new Dimension(300, 100);
-
-        backButton = new Button("Return", defaultColor, prefSize, minSize, maxSize, defaultFont, this);
-        refreshButton = new Button("Refresh", defaultColor, prefSize, minSize, maxSize, defaultFont, this);
-
+        backButton = defaultBackButton(this);
+        refreshButton = defaultRefreshButton(this);
+        Dimension fillerDim = defaultFillerDim(Toolkit.getDefaultToolkit().getScreenSize().height);
+        sideBar.add(new Box.Filler(fillerDim, fillerDim, fillerDim));
         sideBar.add(refreshButton.getButton());
-
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dm = toolkit.getScreenSize();
-        int fillerHeight = (dm.height - 400 - 25) / 3;
-        Dimension fillerDim = new Dimension(5, fillerHeight);
-        Box.Filler filler_1 = new Box.Filler(fillerDim, fillerDim, fillerDim);
-
-        sideBar.add(filler_1);
         sideBar.add(backButton.getButton());
-
         sideBar.setVisible(false);
-
     }
     
     public void showMenu(){
