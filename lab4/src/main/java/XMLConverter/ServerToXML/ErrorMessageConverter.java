@@ -19,16 +19,17 @@ import exceptions.ConvertionException;
 import stcmessages.ErrorMessage;
 import stcmessages.STCMessage;
 
-public class ErrorMessageConverter extends Converter {
+import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.pathToXMLErrorTemplate;
 
-    private String pathToTemplate = "src/main/XMLTemplates/errors/serverErrorMessage.xml";
+public class ErrorMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToTemplate);
+        File xmlFile = new File(pathToXMLErrorTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        Document document = null;
+        DocumentBuilder builder;
+        Document document;
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
@@ -39,7 +40,6 @@ public class ErrorMessageConverter extends Converter {
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
         children.item(0).setTextContent(params.get(0).toString());
-        // System.out.println(document.getDocumentElement().getChildNodes().item(0).getTextContent());
         return serializeDocument(document);
     }
 
@@ -48,13 +48,12 @@ public class ErrorMessageConverter extends Converter {
         String reason = serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent();
         reason = reason.replace("\n", "");
         reason = reason.replace(" ", "");
-        STCMessage message = new ErrorMessage(reason);
-        return message;
+        return new ErrorMessage(reason);
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException("Unsupported conversion");
+        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
     }
     
 }

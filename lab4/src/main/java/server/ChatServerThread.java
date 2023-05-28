@@ -18,20 +18,24 @@ import exceptions.ConvertionException;
 import server.connectmanager.ConnectionsManager;
 import stcmessages.STCMessage;
 
+import static constants.ErrorConstants.cantConnectNewClientMessage;
+import static constants.ServerSocketConstants.*;
+import static constants.SharedConstants.*;
+
 public class ChatServerThread extends Thread {
 
-    private ConnectionsManager connectionsManager;
-    private Integer sessionID;
+    private final ConnectionsManager connectionsManager;
+    private final Integer sessionID;
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
 
-    private Map<String, Runnable> reactions = new HashMap<>();
+    private final Map<String, Runnable> reactions = new HashMap<>();
     private ArrayList<Object> clientMessageData;
 
     private final String protocol;
 
     public ChatServerThread(ConnectionsManager connectionsManager, Socket client, Integer sessionID, String protocol) throws ConnectionError {
-        setName("chatThread" + sessionID.toString());
+        setName(serverThreadName + sessionID.toString());
         this.sessionID = sessionID;
         this.protocol = protocol;
         this.connectionsManager = connectionsManager;
@@ -39,32 +43,28 @@ public class ChatServerThread extends Thread {
             objectInputStream = new ObjectInputStream(client.getInputStream());
             objectOutputStream = new ObjectOutputStream(client.getOutputStream());
         } catch (IOException e) {
-            throw new ConnectionError("Cannot connect to new client : " + getName());
+            throw new ConnectionError(cantConnectNewClientMessage + getName());
         }
         initReactions();
     }
 
     private void initReactions() {
-        reactions.put("login", () -> connectionsManager.connectUser((String) clientMessageData.get(0), sessionID));
-        reactions.put("logout", () -> connectionsManager.disconnectUser(sessionID));
-        reactions.put("list", () -> connectionsManager.requestForParticipantsList(sessionID));
-        reactions.put("text", () -> connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID));
+        reactions.put(loginCommandName, () -> connectionsManager.connectUser((String) clientMessageData.get(0), sessionID));
+        reactions.put(logoutCommandName, () -> connectionsManager.disconnectUser(sessionID));
+        reactions.put(listCommandName, () -> connectionsManager.requestForParticipantsList(sessionID));
+        reactions.put(textCommandName, () -> connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID));
     }
 
     private CTSMessage readClientMessage() throws Exception {
         CTSMessage message = null;
-        if (protocol.equals("Basic")) {
+        if (protocol.equals(protocolBasicName)) {
             try {
                 message = (CTSMessage) objectInputStream.readObject();
             } catch (SocketException e) {
                 e.printStackTrace();
-            } 
-            catch (ClassNotFoundException | IOException | NullPointerException e) {
-                // e.printStackTrace();
-                throw e;
             }
         }
-        if (protocol.equals("XML")) {
+        if (protocol.equals(protocolXMLName)) {
             String XMLMessage = (String) objectInputStream.readObject();
             ConverterFactory converterFactory = new ClientMessageConvFactory();
             message = converterFactory.convertFromSerializableXMLtoCM(XMLMessage);
@@ -83,18 +83,18 @@ public class ChatServerThread extends Thread {
                 connectionsManager.disconnectUser(sessionID);
             }
         }
-        System.out.println("connection " + sessionID + " interrupted");
+        System.out.println(interruptedConnectionMessage(sessionID));
     }
 
     public void sendMessage(STCMessage message) {
-        if (protocol.equals("Basic")) {
+        if (protocol.equals(protocolBasicName)) {
             try {
                 objectOutputStream.writeObject(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (protocol.equals("XML")) {
+        if (protocol.equals(protocolXMLName)) {
             ConverterFactory converterFactory = new ServerMessageConvFactory();
             String strMessage;
             try {

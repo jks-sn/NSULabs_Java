@@ -19,16 +19,18 @@ import exceptions.ConvertionException;
 import stcmessages.LoginStatus;
 import stcmessages.STCMessage;
 
+import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.dataSuccessfulName;
+import static constants.SharedConstants.pathToXMLServerReplyTemplate;
+
 public class LoginStatusConverter extends Converter {
-    
-    private String pathToTemplate = "src/main/XMLTemplates/registration/serverReply.xml";
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToTemplate);
+        File xmlFile = new File(pathToXMLServerReplyTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        Document document = null;
+        DocumentBuilder builder;
+        Document document;
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
@@ -44,13 +46,12 @@ public class LoginStatusConverter extends Converter {
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        String is_successful = serializedXML.getDocumentElement().getElementsByTagName("successful").item(0).getTextContent();
-        STCMessage message = new LoginStatus("", Boolean.parseBoolean(is_successful));
-        return message;
+        String is_successful = serializedXML.getDocumentElement().getElementsByTagName(dataSuccessfulName).item(0).getTextContent();
+        return new LoginStatus("", Boolean.parseBoolean(is_successful));
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException("Unsupported conversion");
+        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
     }
 }

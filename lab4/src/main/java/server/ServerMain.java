@@ -19,6 +19,9 @@ import stcmessages.ErrorMessage;
 import stcmessages.FilledListMessage;
 import stcmessages.LoginStatus;
 
+import static constants.ErrorConstants.userAlreadyConnectedMessage;
+import static constants.SharedConstants.*;
+
 public class ServerMain {
 
     private final ConnectionsManager connectionsManager;
@@ -35,7 +38,7 @@ public class ServerMain {
     public ServerMain() throws IOException {
         participantsList = new ParticipantsList();
         PropertiesReader propertiesReader = new PropertiesReader();
-        propertiesReader.getAllProperties("/serverConfig.properties");
+        propertiesReader.getAllProperties(serverPropertiesPath);
         String protocol = propertiesReader.getProtocol();
         ServerSocket serverSocket = new ServerSocket(propertiesReader.getPort());
         availableRecentMessagesCount = propertiesReader.getRecentMessagesCount();
@@ -44,7 +47,7 @@ public class ServerMain {
             java.util.logging.Logger globalLogger = java.util.logging.Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
             globalLogger.setLevel(Level.FINEST);
 
-            FileHandler fh = new FileHandler("Server.log", 6000, 1, false);
+            FileHandler fh = new FileHandler(serverLogPath, 6000, 1, false);
             fh.setFormatter(new SimpleFormatter());
             logger.addHandler(fh);
             logger.setLevel(Level.FINEST);
@@ -52,7 +55,7 @@ public class ServerMain {
         logger.info("Server have been started");
         connectionsManager = new ConnectionsManager(serverSocket, this, protocol);
         connectionsManager.start();
-        chatHistory = new ChatHistory("serverHistory.csv");
+        chatHistory = new ChatHistory(chatHistoryPath);
         offsets = new HashMap<>();
     }
 
@@ -63,22 +66,22 @@ public class ServerMain {
             participantsList.addNewParcipiant(username, sessionID);
             offsets.put(sessionID, currentChatPointer);
         } catch (DuplicateNameException e) {
-            connectionsManager.sendMessage(sessionID, new ErrorMessage("user with this name already exists"));
+            connectionsManager.sendMessage(sessionID, new ErrorMessage(userAlreadyConnectedMessage));
             return;
         }
-        logger.info("New user with name " + username + " and ID " + sessionID + " had connected to server");
-        LoginStatus reply = new LoginStatus("success", true);
+        logger.info(newUserConnectedMessage(username,sessionID));
+        LoginStatus reply = new LoginStatus(LoginSuccessMessage, true);
         connectionsManager.sendMessage(sessionID, reply);
         currentChatPointer++;
-        chatHistory.addSystemMessage("New user with name " + username + " and ID " + sessionID + " had connected to server");
+        chatHistory.addSystemMessage(newUserConnectedMessage(username,sessionID));
         refreshChat();
     }
 
     public void deleteUser(Integer sessionID) throws IllegalRequestException {
         try {
-            logger.info("New user with name " + participantsList.getNameByID(sessionID) + " and ID " + sessionID + " had disconnected from server");
+            logger.info(newUserDisconnectedMessage(participantsList.getNameByID(sessionID),sessionID));
             currentChatPointer++;
-            chatHistory.addSystemMessage("User with name " + participantsList.getNameByID(sessionID) + " and ID " + sessionID + " had disconnected from server");
+            chatHistory.addSystemMessage(newUserDisconnectedMessage(participantsList.getNameByID(sessionID),sessionID));
             participantsList.removeParticipant(sessionID);
             offsets.remove(sessionID);
             refreshChat();
@@ -116,7 +119,6 @@ public class ServerMain {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        @SuppressWarnings("unused")
         ServerMain serverMain = new ServerMain();
     }
 }

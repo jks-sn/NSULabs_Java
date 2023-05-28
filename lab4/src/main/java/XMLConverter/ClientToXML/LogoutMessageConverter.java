@@ -17,12 +17,14 @@ import ctsmessages.LogoutMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
+import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.pathToXMLLogoutTemplate;
+
 public class LogoutMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        String pathToTemplate = "src/main/XMLTemplates/logout/clientMessage.xml";
-        File xmlFile = new File(pathToTemplate);
+        File xmlFile = new File(pathToXMLLogoutTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -42,6 +44,6 @@ public class LogoutMessageConverter extends Converter {
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        throw new UnsupportedOperationException("Unsupported conversion");
+        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
     }
 }

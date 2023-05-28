@@ -6,6 +6,9 @@ import XMLConverter.Converter;
 import XMLConverter.ConverterFactory;
 import exceptions.ConvertionException;
 
+import static constants.ErrorConstants.nameAttributeName;
+import static constants.ServerSocketConstants.*;
+
 public class ClientMessageConvFactory extends ConverterFactory {
 
     @Override
@@ -15,20 +18,20 @@ public class ClientMessageConvFactory extends ConverterFactory {
 
     @Override
     protected Converter createConverter(String serializedXML) throws ConvertionException {
-        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute("name"));
+        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute(nameAttributeName));
     }
     protected Converter parseConverterName(String converterName){
         switch (converterName) {
-            case "login" -> {
+            case loginCommandName -> {
                 return new LoginMessageConverter();
             }
-            case "logout" -> {
+            case logoutCommandName -> {
                 return new LogoutMessageConverter();
             }
-            case "text" -> {
+            case textCommandName -> {
                 return new ChatMessageConverter();
             }
-            case "list" -> {
+            case listCommandName -> {
                 return new ListMessageConverter();
             }
             default -> {

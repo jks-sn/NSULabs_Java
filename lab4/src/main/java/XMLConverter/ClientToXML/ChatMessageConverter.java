@@ -19,15 +19,17 @@ import ctsmessages.TextMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
+import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.pathToXMLChatTemplate;
+
 public class ChatMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        String pathToTemplate = "src/main/XMLTemplates/chat/clientMessage.xml";
-        File xmlFile = new File(pathToTemplate);
+        File xmlFile = new File(pathToXMLChatTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        Document document = null;
+        DocumentBuilder builder;
+        Document document;
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
@@ -42,13 +44,11 @@ public class ChatMessageConverter extends Converter {
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        String text = serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent();
-        CTSMessage message = new TextMessage(text);
-        return message;
+        return new TextMessage(serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent());
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        throw new UnsupportedOperationException("Unimplemented method 'convertFromSerializableXMLtoSM'");
+        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
     }
 }

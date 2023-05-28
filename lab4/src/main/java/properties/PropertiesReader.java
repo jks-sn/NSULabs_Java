@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static constants.ErrorConstants.loadingDataExceptionMessage;
+import static constants.SharedConstants.*;
+
 public class PropertiesReader {
 
     Properties prop;
@@ -21,23 +24,23 @@ public class PropertiesReader {
         }
         catch (IOException err) {
             assert inputPropFile != null;
-            System.out.println("ERROR DURING LOADING FILE " + inputPropFile);
+            System.out.println(loadingDataExceptionMessage + inputPropFile);
         }
     }
 
     public boolean getLogFlag() {
-        return Boolean.parseBoolean(prop.getProperty("logSale"));
+        return Boolean.parseBoolean(prop.getProperty(logSalePropertyName));
     }
 
     public int getPort() {
-        return Integer.parseInt(prop.getProperty("port"));
+        return Integer.parseInt(prop.getProperty(portPropertyName));
     }
 
     public int getRecentMessagesCount() {
-        return Integer.parseInt(prop.getProperty("recentMessages"));
+        return Integer.parseInt(prop.getProperty(recentMessagesPropertyName));
     }
 
     public String getProtocol() {
-        return String.valueOf(prop.getProperty("protocol"));
+        return String.valueOf(prop.getProperty(protocolName));
     }
 }

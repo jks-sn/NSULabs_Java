@@ -6,24 +6,37 @@ import XMLConverter.Converter;
 import XMLConverter.ConverterFactory;
 import exceptions.ConvertionException;
 
+import static constants.ErrorConstants.nameAttributeName;
+import static constants.SharedConstants.*;
+
 public class ServerMessageConvFactory extends ConverterFactory {
     
     @Override
     protected Converter createConverter(String messageName, ArrayList<Object> params) {
-        if (messageName.equals("LoginStatus")) return new LoginStatusConverter();
-        if (messageName.equals("chatHistory")) return new ChatHistoryConverter();
-        if (messageName.equals("error")) return new ErrorMessageConverter();
-        if (messageName.equals("filledList")) return new ParticipantsListConverter();
-        return null;
+        return parseConverterName(messageName);
     }
 
     @Override
     protected Converter createConverter(String serializedXML) throws ConvertionException {
-        String name = Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute("name");
-        if (name.equals("LoginStatus")) return new LoginStatusConverter();
-        if (name.equals("chatHistory")) return new ChatHistoryConverter();
-        if (name.equals("error")) return new ErrorMessageConverter();
-        if (name.equals("filledList")) return new ParticipantsListConverter();
-        return null;
+        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute(nameAttributeName));
+    }
+    protected Converter parseConverterName(String converterName){
+        switch (converterName) {
+            case loginStatusMessage -> {
+                return new LoginStatusConverter();
+            }
+            case chatHistoryMessage -> {
+                return new ChatHistoryConverter();
+            }
+            case errorCommandName -> {
+                return new ErrorMessageConverter();
+            }
+            case getParticipantListCommandName -> {
+                return new ParticipantsListConverter();
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }

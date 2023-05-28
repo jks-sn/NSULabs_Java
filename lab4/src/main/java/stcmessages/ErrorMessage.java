@@ -3,6 +3,8 @@ package stcmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static constants.SharedConstants.errorCommandName;
+
 public class ErrorMessage implements STCMessage, Serializable {
 
     private final ArrayList<Object> data = new ArrayList<>();
@@ -13,7 +15,7 @@ public class ErrorMessage implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return "error";
+        return errorCommandName;
     }
 
     @Override

@@ -137,7 +137,6 @@ public class Client {
         }
     }
     public static void main(String[] args) throws IOException, ConnectionError {
-        @SuppressWarnings("unused")
         Client client = new Client();
     }
 }

@@ -40,7 +40,7 @@ public class ChatHistory {
     public void addMessageFromUser(String sender, String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append(sender).append(":,").append(message).append("\n");
+            writer.append(sender).append(": ").append(message).append("\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class ChatHistory {
     public void addSystemMessage(String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append("system:,").append(message).append("\n");
+            writer.append("system: ").append(message).append("\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,7 +59,7 @@ public class ChatHistory {
 
     public FileData getHistory() {
         File file = new File(fileName);
-        byte[] buffer = null;
+        byte[] buffer;
         try {
             FileInputStream in = new FileInputStream(file);
             int fileLen = (int) file.length();

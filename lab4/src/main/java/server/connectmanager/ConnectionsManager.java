@@ -16,6 +16,9 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import static constants.SharedConstants.cantCreateConnectMessage;
+import static constants.SharedConstants.connectionsManagerName;
+
 public class ConnectionsManager extends Thread implements CTSPassingInterface, STCPassingInterface {
 
     private final ServerMain server;
@@ -29,7 +32,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
         this.protocol = protocol;
         this.server = server;
         this.serverSocket = serverSock;
-        setName("Manager");
+        setName(connectionsManagerName);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
                     nextID++;
                     newConnection.start();
                 } catch (ConnectionError e) {
-                    new ObjectOutputStream(newClient.getOutputStream()).writeObject(new ErrorMessage("Cannot create connection"));
+                    new ObjectOutputStream(newClient.getOutputStream()).writeObject(new ErrorMessage(cantCreateConnectMessage));
                     e.printStackTrace();
                 }
             } catch (IOException e) {

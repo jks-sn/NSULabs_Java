@@ -19,12 +19,14 @@ import ctsmessages.LoginMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
+import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.pathToXMLLoginMessageTemplate;
+
 public class LoginMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        String pathToTemplate = "src/main/XMLTemplates/registration/clientMessage.xml";
-        File xmlFile = new File(pathToTemplate);
+        File xmlFile = new File(pathToXMLLoginMessageTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -49,6 +51,6 @@ public class LoginMessageConverter extends Converter {
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        throw new UnsupportedOperationException("Unsupported conversion");
+        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
     }
 }

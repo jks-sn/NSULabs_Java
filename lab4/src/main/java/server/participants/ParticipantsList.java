@@ -5,9 +5,11 @@ import java.util.HashMap;
 
 import exceptions.DuplicateNameException;
 
+import static constants.ErrorConstants.*;
+
 public class ParticipantsList {
 
-    private HashMap<Integer, String> participants;
+    private final HashMap<Integer, String> participants;
 
     public ParticipantsList() {
         participants = new HashMap<>();
@@ -18,14 +20,14 @@ public class ParticipantsList {
             (participants.size() == 0 || ! idIsRelevant(participantID))) {
             participants.put(participantID, participant);
         }
-        else throw new DuplicateNameException("User whith this name is already connected");
+        else throw new DuplicateNameException(userAlreadyConnectedMessage);
     }
 
     public void removeParticipant(Integer participantID) throws DuplicateNameException {
         if (idIsRelevant(participantID)) {
             participants.remove(participantID);
         }
-        else throw new DuplicateNameException("User whith this name doesn't exist");
+        else throw new DuplicateNameException(userNoNameAlreadyMessage);
     }
 
     public ArrayList<String> getPrintableParticipantsNames() {
@@ -33,7 +35,7 @@ public class ParticipantsList {
     }
 
     public String getNameByID(Integer id) throws DuplicateNameException {
-        if (! idIsRelevant(id)) throw new DuplicateNameException("User with this id doesn't exist");
+        if (! idIsRelevant(id)) throw new DuplicateNameException(userNoIDAlreadyMessage);
         return participants.get(id);
     }
 

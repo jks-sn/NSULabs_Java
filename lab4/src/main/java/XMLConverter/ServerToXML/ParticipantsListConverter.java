@@ -19,16 +19,18 @@ import exceptions.ConvertionException;
 import stcmessages.FilledListMessage;
 import stcmessages.STCMessage;
 
-public class ParticipantsListConverter extends Converter {
+import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.dataName;
+import static constants.SharedConstants.pathToXMLParticipantsListServerReplyTemplate;
 
-    private String pathToTemplate = "src/main/XMLTemplates/participantsList/serverreply.xml";
+public class ParticipantsListConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToTemplate);
+        File xmlFile = new File(pathToXMLParticipantsListServerReplyTemplate);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        Document document = null;
+        DocumentBuilder builder;
+        Document document;
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(xmlFile);
@@ -37,9 +39,9 @@ public class ParticipantsListConverter extends Converter {
         }
 
         Element root = document.getDocumentElement();
-        for (Object o : params) {
-            Element newDataElement = document.createElement("data");
-            newDataElement.setTextContent((String) o);
+        for (Object object : params) {
+            Element newDataElement = document.createElement(dataName);
+            newDataElement.setTextContent((String) object);
             root.appendChild(newDataElement);
         }
         return serializeDocument(document);
@@ -47,20 +49,19 @@ public class ParticipantsListConverter extends Converter {
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException("Unimplemented method 'convertFromSerializableXMLtoCM'");
+        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         NodeList children = serializedXML.getDocumentElement().getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             String tmp = children.item(i).getTextContent();
             if (!tmp.contains(" ") && tmp.length() > 0 && !tmp.contains("\n")) 
                 list.add(tmp);
         }
-        STCMessage ret = new FilledListMessage(list);
-        return ret;
+        return new FilledListMessage(list);
     }
     
 }

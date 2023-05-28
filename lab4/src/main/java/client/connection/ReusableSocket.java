@@ -21,8 +21,7 @@ import java.util.Map;
 import static constants.ClientConstants.*;
 import static constants.ClientSocketConstants.clientInterruptedMessage;
 import static constants.ClientSocketConstants.clientSocketName;
-import static constants.SharedConstants.protocolBasicName;
-import static constants.SharedConstants.protocolXMLName;
+import static constants.SharedConstants.*;
 
 public class ReusableSocket extends Thread {
 
