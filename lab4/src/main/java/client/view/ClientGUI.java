@@ -16,13 +16,15 @@ import client.view.uicomponents.ParticipantsView;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static constants.ClientConstants.ClientGUIName;
+
 public class ClientGUI {
 
     private final JFrame mainFrame;
     private final JPanel mainWindow;
 
     private final JPanel actionWindow;
-    private final JPanel choiseWindow;
+    private final JPanel choiceWindow;
 
     private final MainMenu mainMenu;
     private final ChatMenu chatMenu;
@@ -42,7 +44,7 @@ public class ClientGUI {
         mainWindow.setLayout(new BorderLayout());
 
         actionWindow = new JPanel();
-        choiseWindow = new JPanel();
+        choiceWindow = new JPanel();
         
         mainMenu = new MainMenu(mainFrame);
         mainMenu.setClient(client);
@@ -54,12 +56,12 @@ public class ClientGUI {
         actionWindow.setBackground(Color.GRAY);
         actionWindow.setLayout(new BorderLayout());
         
-        choiseWindow.setBackground(Color.YELLOW);
-        choiseWindow.setLayout(new BorderLayout());
-        choiseWindow.add(mainMenu.getMenu(), BorderLayout.CENTER);
+        choiceWindow.setBackground(Color.YELLOW);
+        choiceWindow.setLayout(new BorderLayout());
+        choiceWindow.add(mainMenu.getMenu(), BorderLayout.CENTER);
 
         mainWindow.add(actionWindow, BorderLayout.CENTER);
-        mainWindow.add(choiseWindow, BorderLayout.WEST);
+        mainWindow.add(choiceWindow, BorderLayout.WEST);
 
         chatView = new ChatView(this);
         defaultMenu = new DefaultMenu();
@@ -70,7 +72,7 @@ public class ClientGUI {
         mainWindow.revalidate();
         mainFrame.revalidate();
         actionWindow.revalidate();
-        choiseWindow.revalidate();
+        choiceWindow.revalidate();
     }
     
     private JFrame getJFrame() {
@@ -83,13 +85,13 @@ public class ClientGUI {
 
         jframe.setLocation(0, 0);
         jframe.setSize(dm.width, dm.height);
-        jframe.setTitle("CHAT");
+        jframe.setTitle(ClientGUIName);
         return  jframe;
     }
 
     public void openChat() {
-        choiseWindow.remove(mainMenu.getMenu());
-        choiseWindow.add(chatMenu.getMenu());
+        choiceWindow.remove(mainMenu.getMenu());
+        choiceWindow.add(chatMenu.getMenu());
         chatMenu.showMenu();
 
         actionWindow.removeAll();
@@ -109,10 +111,10 @@ public class ClientGUI {
         if (this.chatMenu.getMenu().isVisible()){
             chatMenu.hideMenu();
         }
-        choiseWindow.removeAll();
-        choiseWindow.add(mainMenu.getMenu());
-        choiseWindow.revalidate();
-        choiseWindow.repaint();
+        choiceWindow.removeAll();
+        choiceWindow.add(mainMenu.getMenu());
+        choiceWindow.revalidate();
+        choiceWindow.repaint();
 
         actionWindow.removeAll();
         actionWindow.setBackground(Color.GRAY);
@@ -125,11 +127,11 @@ public class ClientGUI {
     }
 
     public void showParticipants(ArrayList<Object> newData) {
-        choiseWindow.remove(chatMenu.getMenu());
-        choiseWindow.add(defaultMenu.getMenu());
+        choiceWindow.remove(chatMenu.getMenu());
+        choiceWindow.add(defaultMenu.getMenu());
         defaultMenu.getMenu().setVisible(true);
-        choiseWindow.revalidate();
-        choiseWindow.repaint();
+        choiceWindow.revalidate();
+        choiceWindow.repaint();
 
         actionWindow.removeAll();
         participantsView.getTable().setSize(actionWindow.getWidth(), actionWindow.getHeight());
@@ -144,10 +146,10 @@ public class ClientGUI {
 
     public void returnToPrevView(){
 
-        choiseWindow.removeAll();
-        choiseWindow.add(chatMenu.getMenu());
-        choiseWindow.revalidate();
-        choiseWindow.repaint();
+        choiceWindow.removeAll();
+        choiceWindow.add(chatMenu.getMenu());
+        choiceWindow.revalidate();
+        choiceWindow.repaint();
 
         actionWindow.removeAll();
         actionWindow.add(chatView.getTable());

@@ -27,12 +27,10 @@ public class ParticipantsView {
         
         @Override
         public void addLayoutComponent(String name, Component comp) {
-            return;
         }
 
         @Override
         public void removeLayoutComponent(Component comp) {
-            return;
         }
 
         @Override
@@ -93,7 +91,7 @@ public class ParticipantsView {
 
         for (Object newDatum : newData) {
             Button button = new Button((String) newDatum, defaultColor, prefSize, minSize, maxSize, defaultFont, null);
-            button.getButton().setVerticalAlignment((int) Component.CENTER_ALIGNMENT);
+            button.getButton().setVerticalAlignment(0);
             button.getButton().setBackground(Color.BLUE);
             button.getButton().setVisible(true);
             table.add(button.getButton());

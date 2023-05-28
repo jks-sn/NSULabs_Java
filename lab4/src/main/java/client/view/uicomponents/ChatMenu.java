@@ -1,8 +1,6 @@
 package client.view.uicomponents;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,40 +11,26 @@ import javax.swing.Box;
 import client.Client;
 import exceptions.NoActiveSocketException;
 
+import static constants.ClientGUIConstants.*;
+
 public class ChatMenu implements ActionListener {
-    
+
     private final Button showParticipantsButton;
     private final Button exitButton;
-    
+
     private Client client = null;
 
     private final Box sideBar;
 
     public ChatMenu() {
         sideBar = Box.createVerticalBox();
-
-        Color defaultColor = Color.black;
-        Font defaultFont = new Font("Arial", Font.BOLD, 20);
-        Dimension minSize = new Dimension(300, 100);
-        Dimension prefSize = new Dimension(300, 100);
-        Dimension maxSize = new Dimension(300, 100);
-
-        showParticipantsButton = new Button("All Participants", defaultColor, prefSize, minSize, maxSize, defaultFont, this);
-        exitButton = new Button("Exit", defaultColor, prefSize, minSize, maxSize, defaultFont, this);
-
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dm = toolkit.getScreenSize();
-        int fillerHeight = (dm.height - 400 - 25) / 3;
-
-        Dimension fillerDim = new Dimension(5, fillerHeight);
-        Box.Filler filler_1 = new Box.Filler(fillerDim, fillerDim, fillerDim);
-
+        Dimension fillerDim = defaultFillerDim(Toolkit.getDefaultToolkit().getScreenSize().height);
+        showParticipantsButton = defaultShowParticipantsButton(this);
+        exitButton = defaultExitButton(this);
         sideBar.add(showParticipantsButton.getButton());
-        sideBar.add(filler_1);
+        sideBar.add(new Box.Filler(fillerDim, fillerDim, fillerDim));
         sideBar.add(exitButton.getButton());
-
         sideBar.setVisible(false);
-
     }
 
     public void showMenu() {

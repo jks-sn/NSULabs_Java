@@ -9,4 +9,5 @@ public class ClientConstants {
     public static final String unknownPortHostClientMessage = "Unknown host or port";
     public static final String connectionResetClientMessage = "Connection reset";
     public static final String resetMessage = "reset";
+    public static final String ClientGUIName = "CHAT";
 }
