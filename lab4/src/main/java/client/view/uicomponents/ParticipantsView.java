@@ -4,11 +4,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+
+import static constants.ClientGUIConstants.*;
 
 public class ParticipantsView {
 
@@ -21,10 +22,10 @@ public class ParticipantsView {
         table.setVisible(false);
     }
 
-    private static class VerticalLayout implements LayoutManager{
+    private static class VerticalLayout implements LayoutManager {
 
-        private final int GAP = 5;
-        
+        private final int GAP = defaultGap;
+
         @Override
         public void addLayoutComponent(String name, Component comp) {
         }
@@ -82,18 +83,9 @@ public class ParticipantsView {
 
     public void printTable(ArrayList<Object> newData) {
         table.removeAll();
-        
-        Color defaultColor = Color.black;
-        Font defaultFont = new Font("Arial", Font.BOLD, 20);
-        Dimension minSize = new Dimension(table.getWidth() - 30, 100);
-        Dimension prefSize = new Dimension(table.getWidth() - 30, 100);
-        Dimension maxSize = new Dimension(table.getWidth() - 30, 100);
 
         for (Object newDatum : newData) {
-            Button button = new Button((String) newDatum, defaultColor, prefSize, minSize, maxSize, defaultFont, null);
-            button.getButton().setVerticalAlignment(0);
-            button.getButton().setBackground(Color.BLUE);
-            button.getButton().setVisible(true);
+            Button button = defaultParticipantsButton(table, newDatum.toString());
             table.add(button.getButton());
         }
 

@@ -102,7 +102,14 @@ public class ClientGUIConstants {
     public static String loginButtonText = "Confirm";
     public static String exitButtonText = "Exit";
     public static int defaultNumberColumnsForField = 20;
-
+    public static Button defaultParticipantsButton(JPanel table, String newDatum)
+    {
+        Button button = new Button(newDatum, Color.black, new Dimension(table.getWidth() - 30, 100), new Dimension(table.getWidth() - 30, 100), new Dimension(table.getWidth() - 30, 100), new Font("Arial", Font.BOLD, 20), null);
+        button.getButton().setVerticalAlignment(0);
+        button.getButton().setBackground(Color.BLUE);
+        button.getButton().setVisible(true);
+        return button;
+    }
     public static GridBagConstraints gridBagConstraintsForHostLabel()
     {
         GridBagConstraints cs = new GridBagConstraints();
@@ -175,6 +182,7 @@ public class ClientGUIConstants {
         cs.gridwidth = 3;
         return cs;
     }
+    public static int defaultGap = 5;
     public static boolean isInteger(String str) {
         if (str == null) {
             return false;
