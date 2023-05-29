@@ -3,7 +3,6 @@ package client.view.uicomponents;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -93,67 +92,47 @@ public class MainMenu implements ActionListener {
         private boolean succeeded;
     
         public LoginDialog(JFrame parent) {
-            super(parent, "Login", true);
-
+            super(parent, loginDialogName, true);
             JPanel panel = new JPanel(new GridBagLayout());
-            GridBagConstraints cs = new GridBagConstraints();
-    
-            cs.fill = GridBagConstraints.HORIZONTAL;
 
-            JLabel lbHost = new JLabel("Set host: ");
-            cs.gridx = 0;
-            cs.gridy = 0;
-            cs.gridwidth = 1;
+            JLabel lbHost = new JLabel(hostLabelText);
+            GridBagConstraints cs = gridBagConstraintsForHostLabel();
             panel.add(lbHost, cs);
     
-            hostField = new JTextField(20);
-            cs.gridx = 1;
-            cs.gridy = 0;
-            cs.gridwidth = 2;
+            hostField = new JTextField(defaultNumberColumnsForField);
+            cs = gridBagConstraintsForHostField();
             panel.add(hostField, cs);
 
-            JLabel lbPort = new JLabel("Set port: ");
-            cs.gridx = 0;
-            cs.gridy = 1;
-            cs.gridwidth = 1;
+            JLabel lbPort = new JLabel(portLabelText);
+            cs = gridBagConstraintsForPortLabel();
             panel.add(lbPort, cs);
     
-            portField = new JTextField(20);
-            cs.gridx = 1;
-            cs.gridy = 1;
-            cs.gridwidth = 2;
+            portField = new JTextField(defaultNumberColumnsForField);
+            cs = gridBagConstraintsForPortField();
             panel.add(portField, cs);
 
-            JLabel lbUsername = new JLabel("Set username: ");
-            cs.gridx = 0;
-            cs.gridy = 2;
-            cs.gridwidth = 1;
+            JLabel lbUsername = new JLabel(usernameLabelText);
+            cs = gridBagConstraintsForUsernameLabel();
             panel.add(lbUsername, cs);
     
-            usernameField = new JTextField(20);
-            cs.gridx = 1;
-            cs.gridy = 2;
-            cs.gridwidth = 2;
+            usernameField = new JTextField(defaultNumberColumnsForField);
+            cs = gridBagConstraintsForUsernameField();
             panel.add(usernameField, cs);
 
             panel.setBorder(new LineBorder(Color.GRAY));
 
-            JButton btnLogin = new JButton("Confirm");
-            cs.gridx = 0;
-            cs.gridy = 3;
-            cs.gridwidth = 3;
+            JButton btnLogin = new JButton(loginButtonText);
+            cs = gridBagConstraintsForLoginButton();
             panel.add(btnLogin, cs);
 
-            JButton btnExit = new JButton("Exit");
-            cs.gridx = 0;
-            cs.gridy = 4;
-            cs.gridwidth = 3;
+            JButton btnExit = new JButton(exitButtonText);
+            cs = gridBagConstraintsForExitButton();
             panel.add(btnExit, cs);
 
             getContentPane().add(panel, BorderLayout.CENTER);
     
             btnLogin.addActionListener(e -> {
-                if (getHost().length() == 0 || getPort().length() == 0 || getUsername().length() == 0) {
+                if (!isInteger(getHost()) || !isInteger(getPort()) || getUsername().isEmpty()) {
                     succeeded = false;
                     return;
                 }
@@ -189,5 +168,6 @@ public class MainMenu implements ActionListener {
         public boolean isSucceeded() {
             return succeeded;
         }
+
     } 
 }

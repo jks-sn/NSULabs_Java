@@ -91,8 +91,111 @@ public class ClientGUIConstants {
         info.setForeground(Color.BLACK);
         return info;
     }
+    public static String loginDialogName = "Login";
     public static String yourNameIsText(String userName)
     {
         return "Your user name is : " + userName;
+    }
+    public static String hostLabelText = "Set host: ";
+    public static String portLabelText = "Set port: ";
+    public static String usernameLabelText = "Set username: ";
+    public static String loginButtonText = "Confirm";
+    public static String exitButtonText = "Exit";
+    public static int defaultNumberColumnsForField = 20;
+
+    public static GridBagConstraints gridBagConstraintsForHostLabel()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 0;
+        cs.gridy = 0;
+        cs.gridwidth = 1;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForHostField()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 1;
+        cs.gridy = 0;
+        cs.gridwidth = 2;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForPortLabel()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 0;
+        cs.gridy = 1;
+        cs.gridwidth = 1;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForPortField()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 1;
+        cs.gridy = 1;
+        cs.gridwidth = 2;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForUsernameLabel()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 0;
+        cs.gridy = 2;
+        cs.gridwidth = 1;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForUsernameField()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 1;
+        cs.gridy = 2;
+        cs.gridwidth = 2;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForLoginButton()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 0;
+        cs.gridy = 3;
+        cs.gridwidth = 3;
+        return cs;
+    }
+    public static GridBagConstraints gridBagConstraintsForExitButton()
+    {
+        GridBagConstraints cs = new GridBagConstraints();
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.gridx = 0;
+        cs.gridy = 4;
+        cs.gridwidth = 3;
+        return cs;
+    }
+    public static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 }
