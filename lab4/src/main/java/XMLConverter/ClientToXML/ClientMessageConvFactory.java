@@ -6,7 +6,7 @@ import XMLConverter.Converter;
 import XMLConverter.ConverterFactory;
 import exceptions.ConvertionException;
 
-import static constants.ErrorConstants.nameAttributeName;
+import static constants.ErrorConstants.NAME_ATTRIBUTE_NAME;
 import static constants.ServerSocketConstants.*;
 
 public class ClientMessageConvFactory extends ConverterFactory {
@@ -18,20 +18,20 @@ public class ClientMessageConvFactory extends ConverterFactory {
 
     @Override
     protected Converter createConverter(String serializedXML) throws ConvertionException {
-        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute(nameAttributeName));
+        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute(NAME_ATTRIBUTE_NAME));
     }
     protected Converter parseConverterName(String converterName){
         switch (converterName) {
-            case loginCommandName -> {
+            case LOGIN_COMMAND_NAME -> {
                 return new LoginMessageConverter();
             }
-            case logoutCommandName -> {
+            case LOGOUT_COMMAND_NAME -> {
                 return new LogoutMessageConverter();
             }
-            case textCommandName -> {
+            case TEXT_COMMAND_NAME -> {
                 return new ChatMessageConverter();
             }
-            case listCommandName -> {
+            case LIST_COMMAND_NAME -> {
                 return new ListMessageConverter();
             }
             default -> {

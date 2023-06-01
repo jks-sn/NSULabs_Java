@@ -19,14 +19,14 @@ import exceptions.ConvertionException;
 import stcmessages.LoginStatus;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
 import static constants.SharedConstants.*;
 
 public class LoginStatusConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLServerReplyTemplate);
+        File xmlFile = new File(PATH_TO_XML_SERVER_REPLY_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -39,18 +39,18 @@ public class LoginStatusConverter extends Converter {
 
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(firstElement).setTextContent(params.get(firstElement).toString());
+        children.item(FIRST_ELEMENT).setTextContent(params.get(FIRST_ELEMENT).toString());
         return serializeDocument(document);
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        String is_successful = serializedXML.getDocumentElement().getElementsByTagName(dataSuccessfulName).item(firstElement).getTextContent();
-        return new LoginStatus(nothing, Boolean.parseBoolean(is_successful));
+        String is_successful = serializedXML.getDocumentElement().getElementsByTagName(DATA_SUCCESSFUL_NAME).item(FIRST_ELEMENT).getTextContent();
+        return new LoginStatus(NOTHING, Boolean.parseBoolean(is_successful));
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
 }

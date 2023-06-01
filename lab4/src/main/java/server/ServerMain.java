@@ -19,7 +19,7 @@ import stcmessages.ErrorMessage;
 import stcmessages.FilledListMessage;
 import stcmessages.LoginStatus;
 
-import static constants.ErrorConstants.userAlreadyConnectedMessage;
+import static constants.ErrorConstants.USER_ALREADY_CONNECTED_MESSAGE;
 import static constants.LoggerConstants.loggerFileLimit;
 import static constants.LoggerConstants.loggerFileNumber;
 import static constants.SharedConstants.*;
@@ -31,7 +31,7 @@ public class ServerMain {
     private final ChatHistory chatHistory;
 
     private final HashMap<Integer, Integer> offsets;
-    private Integer currentChatPointer = defaultCurrentChatPointer;
+    private Integer currentChatPointer = DEFAULT_CURRENT_CHAT_POINTER;
 
     private final int availableRecentMessagesCount;
 
@@ -40,7 +40,7 @@ public class ServerMain {
     public ServerMain() throws IOException {
         participantsList = new ParticipantsList();
         PropertiesReader propertiesReader = new PropertiesReader();
-        propertiesReader.getAllProperties(serverPropertiesPath);
+        propertiesReader.getAllProperties(SERVER_PROPERTIES_PATH);
         String protocol = propertiesReader.getProtocol();
         ServerSocket serverSocket = new ServerSocket(propertiesReader.getPort());
         availableRecentMessagesCount = propertiesReader.getRecentMessagesCount();
@@ -49,7 +49,7 @@ public class ServerMain {
             java.util.logging.Logger globalLogger = java.util.logging.Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
             globalLogger.setLevel(Level.FINEST);
 
-            FileHandler fh = new FileHandler(serverLogPath, loggerFileLimit, loggerFileNumber, false);
+            FileHandler fh = new FileHandler(SERVER_LOG_PATH, loggerFileLimit, loggerFileNumber, false);
             fh.setFormatter(new SimpleFormatter());
             logger.addHandler(fh);
             logger.setLevel(Level.FINEST);
@@ -57,22 +57,22 @@ public class ServerMain {
         logger.info("Server have been started");
         connectionsManager = new ConnectionsManager(serverSocket, this, protocol);
         connectionsManager.start();
-        chatHistory = new ChatHistory(chatHistoryPath);
+        chatHistory = new ChatHistory(CHAT_HISTORY_PATH);
         offsets = new HashMap<>();
     }
 
     public void registrationUser(Integer sessionID, String username) throws IOException, IllegalRequestException {
         try {
-            username = username.replace(delimiterNewLine, nothing);
-            username = username.replace(delimiterNewWord, nothing);
+            username = username.replace(DELIMITER_NEW_LINE, NOTHING);
+            username = username.replace(DELIMITER_NEW_WORD, NOTHING);
             participantsList.addNewParcipiant(username, sessionID);
             offsets.put(sessionID, currentChatPointer);
         } catch (DuplicateNameException e) {
-            connectionsManager.sendMessage(sessionID, new ErrorMessage(userAlreadyConnectedMessage));
+            connectionsManager.sendMessage(sessionID, new ErrorMessage(USER_ALREADY_CONNECTED_MESSAGE));
             return;
         }
         logger.info(newUserConnectedMessage(username,sessionID));
-        LoginStatus reply = new LoginStatus(LoginSuccessMessage, true);
+        LoginStatus reply = new LoginStatus(LOGIN_SUCCESS_MESSAGE, true);
         connectionsManager.sendMessage(sessionID, reply);
         currentChatPointer++;
         chatHistory.addSystemMessage(newUserConnectedMessage(username,sessionID));
@@ -103,8 +103,8 @@ public class ServerMain {
     }
 
     public void addMessageToChatHistory(String message, Integer sessionID) {
-        message = message.replace(delimiterNewLine, nothing);
-        message = message.replace(delimiterNewWord, nothing);
+        message = message.replace(DELIMITER_NEW_LINE, NOTHING);
+        message = message.replace(DELIMITER_NEW_WORD, NOTHING);
         try {
             logger.info("User " + participantsList.getNameByID(sessionID) + " sent message");
             currentChatPointer++;

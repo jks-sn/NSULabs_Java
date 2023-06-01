@@ -18,7 +18,7 @@ import exceptions.ConvertionException;
 import server.connectmanager.ConnectionsManager;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.cantConnectNewClientMessage;
+import static constants.ErrorConstants.CANT_CONNECT_NEW_CLIENT_MESSAGE;
 import static constants.ServerSocketConstants.*;
 import static constants.SharedConstants.*;
 
@@ -35,7 +35,7 @@ public class ChatServerThread extends Thread {
     private final String protocol;
 
     public ChatServerThread(ConnectionsManager connectionsManager, Socket client, Integer sessionID, String protocol) throws ConnectionError {
-        setName(serverThreadName + sessionID.toString());
+        setName(SERVER_THREAD_NAME + sessionID.toString());
         this.sessionID = sessionID;
         this.protocol = protocol;
         this.connectionsManager = connectionsManager;
@@ -43,28 +43,28 @@ public class ChatServerThread extends Thread {
             objectInputStream = new ObjectInputStream(client.getInputStream());
             objectOutputStream = new ObjectOutputStream(client.getOutputStream());
         } catch (IOException e) {
-            throw new ConnectionError(cantConnectNewClientMessage + getName());
+            throw new ConnectionError(CANT_CONNECT_NEW_CLIENT_MESSAGE + getName());
         }
         initReactions();
     }
 
     private void initReactions() {
-        reactions.put(loginCommandName, () -> connectionsManager.connectUser((String) clientMessageData.get(0), sessionID));
-        reactions.put(logoutCommandName, () -> connectionsManager.disconnectUser(sessionID));
-        reactions.put(listCommandName, () -> connectionsManager.requestForParticipantsList(sessionID));
-        reactions.put(textCommandName, () -> connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID));
+        reactions.put(LOGIN_COMMAND_NAME, () -> connectionsManager.connectUser((String) clientMessageData.get(0), sessionID));
+        reactions.put(LOGOUT_COMMAND_NAME, () -> connectionsManager.disconnectUser(sessionID));
+        reactions.put(LIST_COMMAND_NAME, () -> connectionsManager.requestForParticipantsList(sessionID));
+        reactions.put(TEXT_COMMAND_NAME, () -> connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID));
     }
 
     private CTSMessage readClientMessage() throws Exception {
         CTSMessage message = null;
-        if (protocol.equals(protocolBasicName)) {
+        if (protocol.equals(PROTOCOL_BASIC_NAME)) {
             try {
                 message = (CTSMessage) objectInputStream.readObject();
             } catch (SocketException e) {
                 e.printStackTrace();
             }
         }
-        if (protocol.equals(protocolXMLName)) {
+        if (protocol.equals(PROTOCOL_XML_NAME)) {
             String XMLMessage = (String) objectInputStream.readObject();
             ConverterFactory converterFactory = new ClientMessageConvFactory();
             message = converterFactory.convertFromSerializableXMLtoCM(XMLMessage);
@@ -87,14 +87,14 @@ public class ChatServerThread extends Thread {
     }
 
     public void sendMessage(STCMessage message) {
-        if (protocol.equals(protocolBasicName)) {
+        if (protocol.equals(PROTOCOL_BASIC_NAME)) {
             try {
                 objectOutputStream.writeObject(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (protocol.equals(protocolXMLName)) {
+        if (protocol.equals(PROTOCOL_XML_NAME)) {
             ConverterFactory converterFactory = new ServerMessageConvFactory();
             String strMessage;
             try {

@@ -3,7 +3,7 @@ package stcmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static constants.SharedConstants.loginStatusCommandName;
+import static constants.SharedConstants.LOGIN_STATUS_COMMAND_NAME;
 
 public class LoginStatus implements STCMessage, Serializable {
 
@@ -16,7 +16,7 @@ public class LoginStatus implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return loginStatusCommandName;
+        return LOGIN_STATUS_COMMAND_NAME;
     }
 
     @Override

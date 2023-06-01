@@ -19,15 +19,15 @@ import ctsmessages.LoginMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.firstElement;
-import static constants.SharedConstants.pathToXMLLoginMessageTemplate;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
+import static constants.SharedConstants.FIRST_ELEMENT;
+import static constants.SharedConstants.PATH_TO_XML_LOGIN_MESSAGE_TEMPLATE;
 
 public class LoginMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLLoginMessageTemplate);
+        File xmlFile = new File(PATH_TO_XML_LOGIN_MESSAGE_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -40,18 +40,18 @@ public class LoginMessageConverter extends Converter {
 
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(firstElement).setTextContent((String) params.get(firstElement));
+        children.item(FIRST_ELEMENT).setTextContent((String) params.get(FIRST_ELEMENT));
         return serializeDocument(document);
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        String userName = serializedXML.getDocumentElement().getChildNodes().item(firstElement).getTextContent();
+        String userName = serializedXML.getDocumentElement().getChildNodes().item(FIRST_ELEMENT).getTextContent();
         return new LoginMessage(userName);
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
 }

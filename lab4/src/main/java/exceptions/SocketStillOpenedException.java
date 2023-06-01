@@ -1,9 +1,9 @@
 package exceptions;
 
-import static constants.ErrorConstants.socketStillOpenedExceptionMessage;
+import static constants.ErrorConstants.SOCKET_STILL_OPENED_EXCEPTION_MESSAGE;
 
 public class SocketStillOpenedException extends Exception {
     public SocketStillOpenedException() {
-        super(socketStillOpenedExceptionMessage);
+        super(SOCKET_STILL_OPENED_EXCEPTION_MESSAGE);
     }
 }

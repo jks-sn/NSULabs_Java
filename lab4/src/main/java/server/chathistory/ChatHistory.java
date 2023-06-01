@@ -2,11 +2,10 @@ package server.chathistory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static constants.ServerConstants.systemName;
+import static constants.ServerConstants.SYSTEM_NAME;
 import static constants.SharedConstants.*;
 
 
@@ -33,7 +32,7 @@ public class ChatHistory {
             return 0;
         }
         String s = new String(buffer);
-        return (s.length() - s.replace(delimiterNewLine, nothing).length());
+        return (s.length() - s.replace(DELIMITER_NEW_LINE, NOTHING).length());
     }
 
     public int getStartLen() {
@@ -43,7 +42,7 @@ public class ChatHistory {
     public void addMessageFromUser(String sender, String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append(sender).append(delimiterData + delimiterNewWord).append(message).append(delimiterNewLine);
+            writer.append(sender).append(DELIMITER_DATA + DELIMITER_NEW_WORD).append(message).append(DELIMITER_NEW_LINE);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,7 +52,7 @@ public class ChatHistory {
     public void addSystemMessage(String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append(systemName + delimiterData + delimiterNewWord).append(message).append(delimiterNewLine);
+            writer.append(SYSTEM_NAME + DELIMITER_DATA + DELIMITER_NEW_WORD).append(message).append(DELIMITER_NEW_LINE);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

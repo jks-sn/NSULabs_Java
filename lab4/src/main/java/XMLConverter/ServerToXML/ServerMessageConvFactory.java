@@ -6,7 +6,7 @@ import XMLConverter.Converter;
 import XMLConverter.ConverterFactory;
 import exceptions.ConvertionException;
 
-import static constants.ErrorConstants.nameAttributeName;
+import static constants.ErrorConstants.NAME_ATTRIBUTE_NAME;
 import static constants.SharedConstants.*;
 
 public class ServerMessageConvFactory extends ConverterFactory {
@@ -18,20 +18,20 @@ public class ServerMessageConvFactory extends ConverterFactory {
 
     @Override
     protected Converter createConverter(String serializedXML) throws ConvertionException {
-        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute(nameAttributeName));
+        return parseConverterName(Converter.deserializeDocument(serializedXML).getDocumentElement().getAttribute(NAME_ATTRIBUTE_NAME));
     }
     protected Converter parseConverterName(String converterName){
         switch (converterName) {
-            case loginStatusMessage -> {
+            case LOGIN_STATUS_MESSAGE -> {
                 return new LoginStatusConverter();
             }
-            case chatHistoryMessage -> {
+            case CHAT_HISTORY_MESSAGE -> {
                 return new ChatHistoryConverter();
             }
-            case errorCommandName -> {
+            case ERROR_COMMAND_NAME -> {
                 return new ErrorMessageConverter();
             }
-            case getParticipantListCommandName -> {
+            case GET_PARTICIPANT_LIST_COMMAND_NAME -> {
                 return new ParticipantsListConverter();
             }
             default -> {

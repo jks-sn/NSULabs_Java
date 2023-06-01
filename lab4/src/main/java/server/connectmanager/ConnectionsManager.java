@@ -24,14 +24,14 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
     private final ServerSocket serverSocket;
     private final Map<Integer, ChatServerThread> connections = new HashMap<>();
 
-    private Integer nextID = firstElement;
+    private Integer nextID = FIRST_ELEMENT;
     private final String protocol;
 
     public ConnectionsManager(ServerSocket serverSock, ServerMain server, String protocol) {
         this.protocol = protocol;
         this.server = server;
         this.serverSocket = serverSock;
-        setName(connectionsManagerName);
+        setName(CONNECTIONS_MANAGER_NAME);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
                     nextID++;
                     newConnection.start();
                 } catch (ConnectionError e) {
-                    new ObjectOutputStream(newClient.getOutputStream()).writeObject(new ErrorMessage(cantCreateConnectMessage));
+                    new ObjectOutputStream(newClient.getOutputStream()).writeObject(new ErrorMessage(CANT_CREATE_CONNECT_MESSAGE));
                     e.printStackTrace();
                 }
             } catch (IOException e) {

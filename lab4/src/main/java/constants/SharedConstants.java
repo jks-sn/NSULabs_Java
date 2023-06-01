@@ -1,50 +1,50 @@
 package constants;
 
 public class SharedConstants {
-    public static final String serverPropertiesPath = "/serverConfig.properties";
-    public static final String clientPropertiesPath = "/clientConfig.properties";
-    public static final String chatHistoryPath = "serverHistory.csv";
-    public static final String serverLogPath = "Server.log";
-    public static final String pathToXMLChatTemplate = "src/main/XMLTemplates/chat/clientMessage.xml";
-    public static final String pathToXMLListMessageTemplate = "src/main/XMLTemplates/participantsList/clientMessage.xml";
-    public static final String pathToXMLLoginMessageTemplate = "src/main/XMLTemplates/registration/clientMessage.xml";
-    public static final String pathToXMLLogoutTemplate = "src/main/XMLTemplates/logout/clientMessage.xml";
-    public static final String pathToXMLErrorTemplate = "src/main/XMLTemplates/errors/serverErrorMessage.xml";
-    public static final String pathToXMLBroadcastTemplate = "src/main/XMLTemplates/chat/serverBroadcast.xml";
-    public static final String pathToXMLServerReplyTemplate = "src/main/XMLTemplates/registration/serverReply.xml";
-    public static final String pathToXMLParticipantsListServerReplyTemplate = "src/main/XMLTemplates/participantsList/serverreply.xml";
-    public static final String protocolBasicName = "Basic";
-    public static final String protocolXMLName = "XML";
-    public static final String listMessage = "list";
-    public static final String loginMessage = "login";
-    public static final String loginStatusMessage = "LoginStatus";
-    public static final String chatHistoryMessage = "chatHistory";
-    public static final String logoutMessage = "logout";
-    public static final String textMessage = "text";
-    public static final String logSalePropertyName = "logSale";
-    public static final String portPropertyName = "port";
-    public static final String recentMessagesPropertyName = "recentMessages";
-    public static final String protocolName = "protocol";
-    public static final String connectionsManagerName = "Manager";
-    public static final String cantCreateConnectMessage = "Cannot create connection";
-    public static final String LoginSuccessMessage = "success";
-    public static final String dataSuccessfulName = "success";
-    public static final String dataName = "data";
+    public static final String SERVER_PROPERTIES_PATH = "/serverConfig.properties";
+    public static final String CLIENT_PROPERTIES_PATH = "/clientConfig.properties";
+    public static final String CHAT_HISTORY_PATH = "serverHistory.csv";
+    public static final String SERVER_LOG_PATH = "Server.log";
+    public static final String PATH_TO_XML_CHAT_TEMPLATE = "src/main/XMLTemplates/chat/clientMessage.xml";
+    public static final String PATH_TO_XML_LIST_MESSAGE_TEMPLATE = "src/main/XMLTemplates/participantsList/clientMessage.xml";
+    public static final String PATH_TO_XML_LOGIN_MESSAGE_TEMPLATE = "src/main/XMLTemplates/registration/clientMessage.xml";
+    public static final String PATH_TO_XML_LOGOUT_TEMPLATE = "src/main/XMLTemplates/logout/clientMessage.xml";
+    public static final String PATH_TO_XML_ERROR_TEMPLATE = "src/main/XMLTemplates/errors/serverErrorMessage.xml";
+    public static final String PATH_TO_XML_BROADCAST_TEMPLATE = "src/main/XMLTemplates/chat/serverBroadcast.xml";
+    public static final String PATH_TO_XML_SERVER_REPLY_TEMPLATE = "src/main/XMLTemplates/registration/serverReply.xml";
+    public static final String PATH_TO_XML_PARTICIPANTS_LIST_SERVER_REPLY_TEMPLATE = "src/main/XMLTemplates/participantsList/serverreply.xml";
+    public static final String PROTOCOL_BASIC_NAME = "Basic";
+    public static final String PROTOCOL_XML_NAME = "XML";
+    public static final String LIST_MESSAGE = "list";
+    public static final String LOGIN_MESSAGE = "login";
+    public static final String LOGIN_STATUS_MESSAGE = "LoginStatus";
+    public static final String CHAT_HISTORY_MESSAGE = "chatHistory";
+    public static final String LOGOUT_MESSAGE = "logout";
+    public static final String TEXT_MESSAGE = "text";
+    public static final String LOG_SALE_PROPERTY_NAME = "logSale";
+    public static final String PORT_PROPERTY_NAME = "port";
+    public static final String RECENT_MESSAGES_PROPERTY_NAME = "recentMessages";
+    public static final String PROTOCOL_NAME = "protocol";
+    public static final String CONNECTIONS_MANAGER_NAME = "Manager";
+    public static final String CANT_CREATE_CONNECT_MESSAGE = "Cannot create connection";
+    public static final String LOGIN_SUCCESS_MESSAGE = "success";
+    public static final String DATA_SUCCESSFUL_NAME = "success";
+    public static final String DATA_NAME = "data";
     public static String interruptedConnectionMessage(Integer id)
     {
         return "connection " + id + " interrupted";
     }
     public static String newUserConnectedMessage(String username, Integer sessionID){return "New user with name " + username + " and ID " + sessionID + " had connected to server";}
     public static String newUserDisconnectedMessage(String username, Integer sessionID){return "New user with name " + username + " and ID " + sessionID + " had disconnected from server";}
-    public static final String getChatHistoryCommandName = "chatHistory";
-    public static final String loginStatusCommandName = "LoginStatus";
-    public static final String getParticipantListCommandName = "filledList";
-    public static final String errorCommandName = "error";
-    public static final String delimiterNewLine = "\n";
-    public static final String delimiterNewWord = " ";
-    public static final String delimiterData= ":";
-    public static final int firstElement = 0;
-    public static final String nothing = "";
-    public static final int defaultCurrentChatPointer = 0;
+    public static final String GET_CHAT_HISTORY_COMMAND_NAME = "chatHistory";
+    public static final String LOGIN_STATUS_COMMAND_NAME = "LoginStatus";
+    public static final String GET_PARTICIPANT_LIST_COMMAND_NAME = "filledList";
+    public static final String ERROR_COMMAND_NAME = "error";
+    public static final String DELIMITER_NEW_LINE = "\n";
+    public static final String DELIMITER_NEW_WORD = " ";
+    public static final String DELIMITER_DATA = ":";
+    public static final int FIRST_ELEMENT = 0;
+    public static final String NOTHING = "";
+    public static final int DEFAULT_CURRENT_CHAT_POINTER = 0;
 
 }

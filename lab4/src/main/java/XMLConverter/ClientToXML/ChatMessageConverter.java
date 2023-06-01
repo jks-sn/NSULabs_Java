@@ -19,15 +19,15 @@ import ctsmessages.TextMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.firstElement;
-import static constants.SharedConstants.pathToXMLChatTemplate;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
+import static constants.SharedConstants.FIRST_ELEMENT;
+import static constants.SharedConstants.PATH_TO_XML_CHAT_TEMPLATE;
 
 public class ChatMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLChatTemplate);
+        File xmlFile = new File(PATH_TO_XML_CHAT_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -39,17 +39,17 @@ public class ChatMessageConverter extends Converter {
         }
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(firstElement).setTextContent((String) params.get(firstElement));
+        children.item(FIRST_ELEMENT).setTextContent((String) params.get(FIRST_ELEMENT));
         return serializeDocument(document);
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        return new TextMessage(serializedXML.getDocumentElement().getChildNodes().item(firstElement).getTextContent());
+        return new TextMessage(serializedXML.getDocumentElement().getChildNodes().item(FIRST_ELEMENT).getTextContent());
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
 }

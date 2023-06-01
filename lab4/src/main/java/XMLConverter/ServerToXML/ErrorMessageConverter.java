@@ -20,14 +20,14 @@ import exceptions.ConvertionException;
 import stcmessages.ErrorMessage;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
 import static constants.SharedConstants.*;
 
 public class ErrorMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLErrorTemplate);
+        File xmlFile = new File(PATH_TO_XML_ERROR_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -40,21 +40,21 @@ public class ErrorMessageConverter extends Converter {
 
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(firstElement).setTextContent(params.get(firstElement).toString());
+        children.item(FIRST_ELEMENT).setTextContent(params.get(FIRST_ELEMENT).toString());
         return serializeDocument(document);
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        String reason = serializedXML.getDocumentElement().getChildNodes().item(firstElement).getTextContent();
-        reason = reason.replace(SharedConstants.delimiterNewLine, nothing);
-        reason = reason.replace(delimiterNewWord, nothing);
+        String reason = serializedXML.getDocumentElement().getChildNodes().item(FIRST_ELEMENT).getTextContent();
+        reason = reason.replace(SharedConstants.DELIMITER_NEW_LINE, NOTHING);
+        reason = reason.replace(DELIMITER_NEW_WORD, NOTHING);
         return new ErrorMessage(reason);
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
     
 }

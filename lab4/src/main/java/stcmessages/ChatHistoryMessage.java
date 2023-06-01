@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import server.chathistory.FileData;
 
-import static constants.SharedConstants.getChatHistoryCommandName;
+import static constants.SharedConstants.GET_CHAT_HISTORY_COMMAND_NAME;
 
 public class ChatHistoryMessage implements STCMessage, Serializable {
 
@@ -21,7 +21,7 @@ public class ChatHistoryMessage implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return getChatHistoryCommandName;
+        return GET_CHAT_HISTORY_COMMAND_NAME;
     }
 
     @Override

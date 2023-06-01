@@ -17,14 +17,14 @@ import ctsmessages.ListMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.pathToXMLListMessageTemplate;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
+import static constants.SharedConstants.PATH_TO_XML_LIST_MESSAGE_TEMPLATE;
 
 public class ListMessageConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLListMessageTemplate);
+        File xmlFile = new File(PATH_TO_XML_LIST_MESSAGE_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -44,7 +44,7 @@ public class ListMessageConverter extends Converter {
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
     
 }

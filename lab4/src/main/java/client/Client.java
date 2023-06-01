@@ -15,13 +15,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static constants.ClientConstants.*;
-import static constants.ClientSocketConstants.beginningDATA;
+import static constants.ClientSocketConstants.BEGINNING_DATA;
 
 public class Client {
 
     private LoginMessage userInfo = null;
     private String host = null;
-    private int port = defaultPort;
+    private int port = DEFAULT_PORT;
     private boolean isConnected = false;
 
     private final ReusableSocket socket;
@@ -29,9 +29,9 @@ public class Client {
     private final ClientGUI clientGUI;
 
     public Client() {
-        Thread.currentThread().setName(clientName);
+        Thread.currentThread().setName(CLIENT_NAME);
         PropertiesReader propertiesReader = new PropertiesReader();
-        propertiesReader.getAllProperties(pathToClientPropertiesFile);
+        propertiesReader.getAllProperties(PATH_TO_CLIENT_PROPERTIES_FILE);
         String protocol = propertiesReader.getProtocol();
         this.socket = new ReusableSocket(this, protocol);
         this.socket.start();
@@ -46,9 +46,9 @@ public class Client {
             }
         }
         catch (SocketStillOpenedException e) {
-            throw new ConnectionError(activeConnectionClientMessage);
+            throw new ConnectionError(ACTIVE_CONNECTION_CLIENT_MESSAGE);
         } catch (IOException e) {
-            throw new ConnectionError(unknownPortHostClientMessage);
+            throw new ConnectionError(UNKNOWN_PORT_HOST_CLIENT_MESSAGE);
         } catch (NoActiveSocketException ignored) {}
 
         try {
@@ -59,7 +59,7 @@ public class Client {
             return;
         }
         if (isConnected) openChat();
-        else processError(lockedUserNameError1);
+        else processError(LOCKED_USER_NAME_ERROR_1);
     }
 
     public synchronized void setRegistrationStatus(Boolean status) {
@@ -68,8 +68,8 @@ public class Client {
     }
 
     public void processError(String err) {
-        if (err.equals(connectionResetClientMessage)) {
-            System.out.println(resetMessage);
+        if (err.equals(CONNECTION_RESET_CLIENT_MESSAGE)) {
+            System.out.println(RESET_MESSAGE);
             try {
                 clientGUI.closeChat();
                 socket.closeConnection();
@@ -105,7 +105,7 @@ public class Client {
     }
 
     public String getUserName() {
-        return (String) userInfo.getData().get(beginningDATA);
+        return (String) userInfo.getData().get(BEGINNING_DATA);
     }
 
     public void closeClient() {

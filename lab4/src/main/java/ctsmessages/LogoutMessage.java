@@ -3,7 +3,7 @@ package ctsmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static constants.SharedConstants.logoutMessage;
+import static constants.SharedConstants.LOGOUT_MESSAGE;
 
 public class LogoutMessage implements Serializable, CTSMessage {
 
@@ -11,7 +11,7 @@ public class LogoutMessage implements Serializable, CTSMessage {
 
     @Override
     public String getName() {
-        return logoutMessage;
+        return LOGOUT_MESSAGE;
     }
 
     @Override

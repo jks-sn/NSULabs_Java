@@ -20,14 +20,14 @@ import exceptions.ConvertionException;
 import stcmessages.FilledListMessage;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
 import static constants.SharedConstants.*;
 
 public class ParticipantsListConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLParticipantsListServerReplyTemplate);
+        File xmlFile = new File(PATH_TO_XML_PARTICIPANTS_LIST_SERVER_REPLY_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -40,7 +40,7 @@ public class ParticipantsListConverter extends Converter {
 
         Element root = document.getDocumentElement();
         for (Object object : params) {
-            Element newDataElement = document.createElement(dataName);
+            Element newDataElement = document.createElement(DATA_NAME);
             newDataElement.setTextContent((String) object);
             root.appendChild(newDataElement);
         }
@@ -49,7 +49,7 @@ public class ParticipantsListConverter extends Converter {
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ParticipantsListConverter extends Converter {
         NodeList children = serializedXML.getDocumentElement().getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             String tmp = children.item(i).getTextContent();
-            if (!tmp.contains(delimiterNewWord) && tmp.length() > 0 && !tmp.contains(SharedConstants.delimiterNewLine))
+            if (!tmp.contains(DELIMITER_NEW_WORD) && tmp.length() > 0 && !tmp.contains(SharedConstants.DELIMITER_NEW_LINE))
                 list.add(tmp);
         }
         return new FilledListMessage(list);

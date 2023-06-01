@@ -16,7 +16,7 @@ import client.view.uicomponents.ParticipantsView;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static constants.ClientConstants.ClientGUIName;
+import static constants.ClientConstants.CLIENT_GUI_NAME;
 
 public class ClientGUI {
 
@@ -85,7 +85,7 @@ public class ClientGUI {
 
         jframe.setLocation(0, 0);
         jframe.setSize(dm.width, dm.height);
-        jframe.setTitle(ClientGUIName);
+        jframe.setTitle(CLIENT_GUI_NAME);
         return  jframe;
     }
 

@@ -20,14 +20,14 @@ public class ParticipantsList {
             (participants.isEmpty() || ! idIsRelevant(participantID))) {
             participants.put(participantID, participant);
         }
-        else throw new DuplicateNameException(userAlreadyConnectedMessage);
+        else throw new DuplicateNameException(USER_ALREADY_CONNECTED_MESSAGE);
     }
 
     public void removeParticipant(Integer participantID) throws DuplicateNameException {
         if (idIsRelevant(participantID)) {
             participants.remove(participantID);
         }
-        else throw new DuplicateNameException(userNoNameAlreadyMessage);
+        else throw new DuplicateNameException(USER_NO_NAME_ALREADY_MESSAGE);
     }
 
     public ArrayList<String> getPrintableParticipantsNames() {
@@ -35,7 +35,7 @@ public class ParticipantsList {
     }
 
     public String getNameByID(Integer id) throws DuplicateNameException {
-        if (! idIsRelevant(id)) throw new DuplicateNameException(userNoIDAlreadyMessage);
+        if (! idIsRelevant(id)) throw new DuplicateNameException(USER_NO_ID_ALREADY_MESSAGE);
         return participants.get(id);
     }
 

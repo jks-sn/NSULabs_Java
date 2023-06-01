@@ -19,16 +19,16 @@ import exceptions.ConvertionException;
 import stcmessages.ChatHistoryMessage;
 import stcmessages.STCMessage;
 
-import static constants.ErrorConstants.dataElementName;
-import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.delimiterData;
-import static constants.SharedConstants.pathToXMLBroadcastTemplate;
+import static constants.ErrorConstants.DATA_ELEMENT_NAME;
+import static constants.ErrorConstants.UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE;
+import static constants.SharedConstants.DELIMITER_DATA;
+import static constants.SharedConstants.PATH_TO_XML_BROADCAST_TEMPLATE;
 
 public class ChatHistoryConverter extends Converter {
 
     @Override
     public String convertToSerializableXML(ArrayList<Object> params) throws ConvertionException {
-        File xmlFile = new File(pathToXMLBroadcastTemplate);
+        File xmlFile = new File(PATH_TO_XML_BROADCAST_TEMPLATE);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document document;
@@ -41,7 +41,7 @@ public class ChatHistoryConverter extends Converter {
 
         Element root = document.getDocumentElement();
         for (Object object : params) {
-            Element newDataElement = document.createElement(dataElementName);
+            Element newDataElement = document.createElement(DATA_ELEMENT_NAME);
             newDataElement.setTextContent((String) object);
             root.appendChild(newDataElement);
         }
@@ -50,7 +50,7 @@ public class ChatHistoryConverter extends Converter {
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        throw new UnsupportedOperationException(unsupportedOperationConversionExceptionMessage);
+        throw new UnsupportedOperationException(UNSUPPORTED_OPERATION_CONVERSION_EXCEPTION_MESSAGE);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ChatHistoryConverter extends Converter {
         NodeList children = serializedXML.getDocumentElement().getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             String tmp = children.item(i).getTextContent();
-            if (tmp.contains(delimiterData))
+            if (tmp.contains(DELIMITER_DATA))
                 list.add(tmp);
         }
         return new ChatHistoryMessage(list);

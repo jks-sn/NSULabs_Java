@@ -3,7 +3,7 @@ package ctsmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static constants.SharedConstants.loginMessage;
+import static constants.SharedConstants.LOGIN_MESSAGE;
 
 public class LoginMessage implements Serializable, CTSMessage {
 
@@ -17,7 +17,7 @@ public class LoginMessage implements Serializable, CTSMessage {
 
     @Override
     public String getName() {
-        return loginMessage;
+        return LOGIN_MESSAGE;
     }
 
     @Override

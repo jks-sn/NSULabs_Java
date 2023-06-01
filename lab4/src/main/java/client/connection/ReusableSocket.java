@@ -35,19 +35,19 @@ public class ReusableSocket extends Thread {
     private final String protocol;
 
     public ReusableSocket(Client client, String protocol) {
-        setName(clientSocketName);
+        setName(CLIENT_SOCKET_NAME);
         this.protocol = protocol;
         this.client = client;
         initReactions();
     }
 
     private void initReactions() {
-        reactions.put(loginStatusCommandName, () -> client.setRegistrationStatus(true));
-        reactions.put(getParticipantListCommandName, () -> client.showParticipantsTable(serverMessageData));
-        reactions.put(getChatHistoryCommandName, () -> client.refreshChatView(serverMessageData));
-        reactions.put(errorCommandName, () -> {
-            String error = (String) serverMessageData.get(beginningDATA);
-            if (error.equals(lockedUserNameError1) || error.equals(lockedUserNameError2)) {
+        reactions.put(LOGIN_STATUS_COMMAND_NAME, () -> client.setRegistrationStatus(true));
+        reactions.put(GET_PARTICIPANT_LIST_COMMAND_NAME, () -> client.showParticipantsTable(serverMessageData));
+        reactions.put(GET_CHAT_HISTORY_COMMAND_NAME, () -> client.refreshChatView(serverMessageData));
+        reactions.put(ERROR_COMMAND_NAME, () -> {
+            String error = (String) serverMessageData.get(BEGINNING_DATA);
+            if (error.equals(LOCKED_USER_NAME_ERROR_1) || error.equals(LOCKED_USER_NAME_ERROR_2)) {
                 socket = null;
                 client.setRegistrationStatus(false);
                 try {
@@ -56,7 +56,7 @@ public class ReusableSocket extends Thread {
                     Thread.currentThread().interrupt();
                 }
             }
-            else client.processError((String) serverMessageData.get(beginningDATA));
+            else client.processError((String) serverMessageData.get(BEGINNING_DATA));
         });
     }
 
@@ -90,8 +90,8 @@ public class ReusableSocket extends Thread {
         if (socket == null) {
             throw new NoActiveSocketException();
         }
-        if (protocol.equals(protocolBasicName)) objectOutputStream.writeObject(message);
-        if (protocol.equals(protocolXMLName)) {
+        if (protocol.equals(PROTOCOL_BASIC_NAME)) objectOutputStream.writeObject(message);
+        if (protocol.equals(PROTOCOL_XML_NAME)) {
             ConverterFactory converterFactory = new ClientMessageConvFactory();
             String strMessage = null;
             try {
@@ -105,10 +105,10 @@ public class ReusableSocket extends Thread {
 
     private STCMessage getMessage() throws ClassNotFoundException, IOException {
         STCMessage serverMessage = null;
-        if (protocol.equals(protocolBasicName)) {
+        if (protocol.equals(PROTOCOL_BASIC_NAME)) {
             serverMessage = (STCMessage) objectInputStream.readObject();
         }
-        if (protocol.equals(protocolXMLName)) {
+        if (protocol.equals(PROTOCOL_XML_NAME)) {
             String xmlMessage = (String) objectInputStream.readObject();
             ConverterFactory converterFactory = new ServerMessageConvFactory();
             try {
@@ -137,6 +137,6 @@ public class ReusableSocket extends Thread {
                 }
             }
         }
-        System.out.println(clientInterruptedMessage);
+        System.out.println(CLIENT_INTERRUPTED_MESSAGE);
     }
 }

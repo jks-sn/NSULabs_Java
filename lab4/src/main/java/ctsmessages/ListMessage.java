@@ -3,7 +3,7 @@ package ctsmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static constants.SharedConstants.listMessage;
+import static constants.SharedConstants.LIST_MESSAGE;
 
 public class ListMessage implements CTSMessage, Serializable {
 
@@ -11,7 +11,7 @@ public class ListMessage implements CTSMessage, Serializable {
 
     @Override
     public String getName() {
-        return listMessage;
+        return LIST_MESSAGE;
     }
 
     @Override

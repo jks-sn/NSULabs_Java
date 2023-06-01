@@ -3,7 +3,7 @@ package stcmessages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static constants.SharedConstants.getParticipantListCommandName;
+import static constants.SharedConstants.GET_PARTICIPANT_LIST_COMMAND_NAME;
 
 public class FilledListMessage implements STCMessage, Serializable {
 
@@ -15,7 +15,7 @@ public class FilledListMessage implements STCMessage, Serializable {
 
     @Override
     public String getName() {
-        return getParticipantListCommandName;
+        return GET_PARTICIPANT_LIST_COMMAND_NAME;
     }
 
     @Override

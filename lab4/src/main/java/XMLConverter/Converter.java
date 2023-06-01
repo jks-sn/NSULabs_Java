@@ -19,7 +19,7 @@ import ctsmessages.CTSMessage;
 import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
-import static constants.XMLConstants.XMLYes;
+import static constants.XMLConstants.XML_YES;
 
 public abstract class Converter {
     
@@ -31,7 +31,7 @@ public abstract class Converter {
     try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, XMLYes);
+            transformer.setOutputProperty(OutputKeys.INDENT, XML_YES);
             
             StringWriter writer = new StringWriter();
             transformer.transform(new DOMSource(document), new StreamResult(writer));
