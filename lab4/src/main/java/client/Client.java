@@ -15,12 +15,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static constants.ClientConstants.*;
+import static constants.ClientSocketConstants.beginningDATA;
 
 public class Client {
 
     private LoginMessage userInfo = null;
     private String host = null;
-    private int port = -1;
+    private int port = defaultPort;
     private boolean isConnected = false;
 
     private final ReusableSocket socket;
@@ -104,7 +105,7 @@ public class Client {
     }
 
     public String getUserName() {
-        return (String) userInfo.getData().get(0);
+        return (String) userInfo.getData().get(beginningDATA);
     }
 
     public void closeClient() {

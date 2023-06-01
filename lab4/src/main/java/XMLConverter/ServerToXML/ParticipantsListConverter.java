@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import constants.SharedConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,8 +21,7 @@ import stcmessages.FilledListMessage;
 import stcmessages.STCMessage;
 
 import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.dataName;
-import static constants.SharedConstants.pathToXMLParticipantsListServerReplyTemplate;
+import static constants.SharedConstants.*;
 
 public class ParticipantsListConverter extends Converter {
 
@@ -58,7 +58,7 @@ public class ParticipantsListConverter extends Converter {
         NodeList children = serializedXML.getDocumentElement().getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             String tmp = children.item(i).getTextContent();
-            if (!tmp.contains(" ") && tmp.length() > 0 && !tmp.contains("\n")) 
+            if (!tmp.contains(delimiterNewWord) && tmp.length() > 0 && !tmp.contains(SharedConstants.delimiterNewLine))
                 list.add(tmp);
         }
         return new FilledListMessage(list);

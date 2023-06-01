@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static constants.ServerConstants.systemName;
+import static constants.SharedConstants.*;
+
 
 public class ChatHistory {
 
@@ -30,7 +33,7 @@ public class ChatHistory {
             return 0;
         }
         String s = new String(buffer);
-        return (s.length() - s.replace("\n", "").length());
+        return (s.length() - s.replace(delimiterNewLine, nothing).length());
     }
 
     public int getStartLen() {
@@ -40,7 +43,7 @@ public class ChatHistory {
     public void addMessageFromUser(String sender, String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append(sender).append(": ").append(message).append("\n");
+            writer.append(sender).append(delimiterData + delimiterNewWord).append(message).append(delimiterNewLine);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +53,7 @@ public class ChatHistory {
     public void addSystemMessage(String message) {
         try {
             FileWriter writer = new FileWriter(fileName, true);
-            writer.append("system: ").append(message).append("\n");
+            writer.append(systemName + delimiterData + delimiterNewWord).append(message).append(delimiterNewLine);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

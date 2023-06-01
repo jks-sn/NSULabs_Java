@@ -20,8 +20,7 @@ import stcmessages.LoginStatus;
 import stcmessages.STCMessage;
 
 import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.dataSuccessfulName;
-import static constants.SharedConstants.pathToXMLServerReplyTemplate;
+import static constants.SharedConstants.*;
 
 public class LoginStatusConverter extends Converter {
 
@@ -40,14 +39,14 @@ public class LoginStatusConverter extends Converter {
 
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(0).setTextContent(params.get(0).toString());
+        children.item(firstElement).setTextContent(params.get(firstElement).toString());
         return serializeDocument(document);
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        String is_successful = serializedXML.getDocumentElement().getElementsByTagName(dataSuccessfulName).item(0).getTextContent();
-        return new LoginStatus("", Boolean.parseBoolean(is_successful));
+        String is_successful = serializedXML.getDocumentElement().getElementsByTagName(dataSuccessfulName).item(firstElement).getTextContent();
+        return new LoginStatus(nothing, Boolean.parseBoolean(is_successful));
     }
 
     @Override

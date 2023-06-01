@@ -20,6 +20,7 @@ import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
 import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.firstElement;
 import static constants.SharedConstants.pathToXMLChatTemplate;
 
 public class ChatMessageConverter extends Converter {
@@ -38,13 +39,13 @@ public class ChatMessageConverter extends Converter {
         }
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(0).setTextContent((String) params.get(0));
+        children.item(firstElement).setTextContent((String) params.get(firstElement));
         return serializeDocument(document);
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        return new TextMessage(serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent());
+        return new TextMessage(serializedXML.getDocumentElement().getChildNodes().item(firstElement).getTextContent());
     }
 
     @Override

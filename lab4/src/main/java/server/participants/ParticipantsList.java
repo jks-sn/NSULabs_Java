@@ -16,8 +16,8 @@ public class ParticipantsList {
     }
 
     public void addNewParcipiant(String participant, Integer participantID) throws DuplicateNameException {
-        if ((participants.size() == 0 || ! usernameIsRelevant(participant)) && 
-            (participants.size() == 0 || ! idIsRelevant(participantID))) {
+        if ((participants.isEmpty() || ! usernameIsRelevant(participant)) &&
+            (participants.isEmpty() || ! idIsRelevant(participantID))) {
             participants.put(participantID, participant);
         }
         else throw new DuplicateNameException(userAlreadyConnectedMessage);
@@ -44,8 +44,8 @@ public class ParticipantsList {
     }
 
     private boolean usernameIsRelevant(String username) {
-        for (String p : participants.values()) {
-            if (p.equals(username)) return true;
+        for (String participant : participants.values()) {
+            if (participant.equals(username)) return true;
         }
         return false;
     }

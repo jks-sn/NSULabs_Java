@@ -21,6 +21,7 @@ import stcmessages.STCMessage;
 
 import static constants.ErrorConstants.dataElementName;
 import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.delimiterData;
 import static constants.SharedConstants.pathToXMLBroadcastTemplate;
 
 public class ChatHistoryConverter extends Converter {
@@ -39,9 +40,9 @@ public class ChatHistoryConverter extends Converter {
         }
 
         Element root = document.getDocumentElement();
-        for (Object o : params) {
+        for (Object object : params) {
             Element newDataElement = document.createElement(dataElementName);
-            newDataElement.setTextContent((String) o);
+            newDataElement.setTextContent((String) object);
             root.appendChild(newDataElement);
         }
         return serializeDocument(document);
@@ -58,7 +59,7 @@ public class ChatHistoryConverter extends Converter {
         NodeList children = serializedXML.getDocumentElement().getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             String tmp = children.item(i).getTextContent();
-            if (tmp.contains(":")) 
+            if (tmp.contains(delimiterData))
                 list.add(tmp);
         }
         return new ChatHistoryMessage(list);

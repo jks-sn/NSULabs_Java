@@ -20,6 +20,7 @@ import exceptions.ConvertionException;
 import stcmessages.STCMessage;
 
 import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
+import static constants.SharedConstants.firstElement;
 import static constants.SharedConstants.pathToXMLLoginMessageTemplate;
 
 public class LoginMessageConverter extends Converter {
@@ -39,13 +40,13 @@ public class LoginMessageConverter extends Converter {
 
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(0).setTextContent((String) params.get(0));
+        children.item(firstElement).setTextContent((String) params.get(firstElement));
         return serializeDocument(document);
     }
 
     @Override
     public CTSMessage convertFromSerializableXMLtoCM(Document serializedXML) {
-        String userName = serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent();
+        String userName = serializedXML.getDocumentElement().getChildNodes().item(firstElement).getTextContent();
         return new LoginMessage(userName);
     }
 

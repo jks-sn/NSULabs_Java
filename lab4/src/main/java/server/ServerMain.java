@@ -20,6 +20,8 @@ import stcmessages.FilledListMessage;
 import stcmessages.LoginStatus;
 
 import static constants.ErrorConstants.userAlreadyConnectedMessage;
+import static constants.LoggerConstants.loggerFileLimit;
+import static constants.LoggerConstants.loggerFileNumber;
 import static constants.SharedConstants.*;
 
 public class ServerMain {
@@ -29,7 +31,7 @@ public class ServerMain {
     private final ChatHistory chatHistory;
 
     private final HashMap<Integer, Integer> offsets;
-    private Integer currentChatPointer = 0;
+    private Integer currentChatPointer = defaultCurrentChatPointer;
 
     private final int availableRecentMessagesCount;
 
@@ -47,7 +49,7 @@ public class ServerMain {
             java.util.logging.Logger globalLogger = java.util.logging.Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
             globalLogger.setLevel(Level.FINEST);
 
-            FileHandler fh = new FileHandler(serverLogPath, 6000, 1, false);
+            FileHandler fh = new FileHandler(serverLogPath, loggerFileLimit, loggerFileNumber, false);
             fh.setFormatter(new SimpleFormatter());
             logger.addHandler(fh);
             logger.setLevel(Level.FINEST);
@@ -61,8 +63,8 @@ public class ServerMain {
 
     public void registrationUser(Integer sessionID, String username) throws IOException, IllegalRequestException {
         try {
-            username = username.replace("\n", "");
-            username = username.replace(" ", "");
+            username = username.replace(delimiterNewLine, nothing);
+            username = username.replace(delimiterNewWord, nothing);
             participantsList.addNewParcipiant(username, sessionID);
             offsets.put(sessionID, currentChatPointer);
         } catch (DuplicateNameException e) {
@@ -101,8 +103,8 @@ public class ServerMain {
     }
 
     public void addMessageToChatHistory(String message, Integer sessionID) {
-        message = message.replace("\n", "");
-        message = message.replace(" ", "");
+        message = message.replace(delimiterNewLine, nothing);
+        message = message.replace(delimiterNewWord, nothing);
         try {
             logger.info("User " + participantsList.getNameByID(sessionID) + " sent message");
             currentChatPointer++;

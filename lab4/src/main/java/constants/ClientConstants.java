@@ -10,4 +10,5 @@ public class ClientConstants {
     public static final String connectionResetClientMessage = "Connection reset";
     public static final String resetMessage = "reset";
     public static final String ClientGUIName = "CHAT";
+    public static final int defaultPort = -1;
 }

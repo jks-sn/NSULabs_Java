@@ -16,8 +16,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import static constants.SharedConstants.cantCreateConnectMessage;
-import static constants.SharedConstants.connectionsManagerName;
+import static constants.SharedConstants.*;
 
 public class ConnectionsManager extends Thread implements CTSPassingInterface, STCPassingInterface {
 
@@ -25,7 +24,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
     private final ServerSocket serverSocket;
     private final Map<Integer, ChatServerThread> connections = new HashMap<>();
 
-    private Integer nextID = 0;
+    private Integer nextID = firstElement;
     private final String protocol;
 
     public ConnectionsManager(ServerSocket serverSock, ServerMain server, String protocol) {

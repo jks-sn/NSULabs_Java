@@ -19,8 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static constants.ClientConstants.*;
-import static constants.ClientSocketConstants.clientInterruptedMessage;
-import static constants.ClientSocketConstants.clientSocketName;
+import static constants.ClientSocketConstants.*;
 import static constants.SharedConstants.*;
 
 public class ReusableSocket extends Thread {
@@ -47,7 +46,7 @@ public class ReusableSocket extends Thread {
         reactions.put(getParticipantListCommandName, () -> client.showParticipantsTable(serverMessageData));
         reactions.put(getChatHistoryCommandName, () -> client.refreshChatView(serverMessageData));
         reactions.put(errorCommandName, () -> {
-            String error = (String) serverMessageData.get(0);
+            String error = (String) serverMessageData.get(beginningDATA);
             if (error.equals(lockedUserNameError1) || error.equals(lockedUserNameError2)) {
                 socket = null;
                 client.setRegistrationStatus(false);
@@ -57,7 +56,7 @@ public class ReusableSocket extends Thread {
                     Thread.currentThread().interrupt();
                 }
             }
-            else client.processError((String) serverMessageData.get(0));
+            else client.processError((String) serverMessageData.get(beginningDATA));
         });
     }
 

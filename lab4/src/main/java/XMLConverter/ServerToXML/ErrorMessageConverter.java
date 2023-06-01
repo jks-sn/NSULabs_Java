@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import constants.SharedConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,7 +21,7 @@ import stcmessages.ErrorMessage;
 import stcmessages.STCMessage;
 
 import static constants.ErrorConstants.unsupportedOperationConversionExceptionMessage;
-import static constants.SharedConstants.pathToXMLErrorTemplate;
+import static constants.SharedConstants.*;
 
 public class ErrorMessageConverter extends Converter {
 
@@ -39,15 +40,15 @@ public class ErrorMessageConverter extends Converter {
 
         Element root = document.getDocumentElement();
         NodeList children = root.getChildNodes();
-        children.item(0).setTextContent(params.get(0).toString());
+        children.item(firstElement).setTextContent(params.get(firstElement).toString());
         return serializeDocument(document);
     }
 
     @Override
     public STCMessage convertFromSerializableXMLtoSM(Document serializedXML) {
-        String reason = serializedXML.getDocumentElement().getChildNodes().item(0).getTextContent();
-        reason = reason.replace("\n", "");
-        reason = reason.replace(" ", "");
+        String reason = serializedXML.getDocumentElement().getChildNodes().item(firstElement).getTextContent();
+        reason = reason.replace(SharedConstants.delimiterNewLine, nothing);
+        reason = reason.replace(delimiterNewWord, nothing);
         return new ErrorMessage(reason);
     }
 

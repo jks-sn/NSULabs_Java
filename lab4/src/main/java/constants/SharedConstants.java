@@ -40,4 +40,11 @@ public class SharedConstants {
     public static final String loginStatusCommandName = "LoginStatus";
     public static final String getParticipantListCommandName = "filledList";
     public static final String errorCommandName = "error";
+    public static final String delimiterNewLine = "\n";
+    public static final String delimiterNewWord = " ";
+    public static final String delimiterData= ":";
+    public static final int firstElement = 0;
+    public static final String nothing = "";
+    public static final int defaultCurrentChatPointer = 0;
+
 }
