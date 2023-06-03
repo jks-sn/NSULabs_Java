@@ -22,7 +22,7 @@ import static constants.ClientConstants.*;
 import static constants.ClientSocketConstants.*;
 import static constants.SharedConstants.*;
 
-public class ReusableSocket extends Thread {
+public class ClientSocket extends Thread {
 
     private final Client client;
     private Socket socket = null;
@@ -34,7 +34,7 @@ public class ReusableSocket extends Thread {
 
     private final String protocol;
 
-    public ReusableSocket(Client client, String protocol) {
+    public ClientSocket(Client client, String protocol) {
         setName(CLIENT_SOCKET_NAME);
         this.protocol = protocol;
         this.client = client;
