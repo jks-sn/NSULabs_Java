@@ -1,6 +1,6 @@
 package client;
 
-import client.connection.ReusableSocket;
+import client.connection.ClientSocket;
 import client.view.ClientGUI;
 import ctsmessages.ListMessage;
 import ctsmessages.LoginMessage;
@@ -24,7 +24,7 @@ public class Client {
     private int port = DEFAULT_PORT;
     private boolean isConnected = false;
 
-    private final ReusableSocket socket;
+    private final ClientSocket socket;
 
     private final ClientGUI clientGUI;
 
@@ -33,7 +33,7 @@ public class Client {
         PropertiesReader propertiesReader = new PropertiesReader();
         propertiesReader.getAllProperties(PATH_TO_CLIENT_PROPERTIES_FILE);
         String protocol = propertiesReader.getProtocol();
-        this.socket = new ReusableSocket(this, protocol);
+        this.socket = new ClientSocket(this, protocol);
         this.socket.start();
         clientGUI = new ClientGUI(this);
     }
