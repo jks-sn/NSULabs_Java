@@ -1,14 +1,2 @@
-мая 28, 2023 7:24:26 PM server.ServerMain <init>
+июн. 14, 2023 3:25:11 PM ru.nsu.ccfit.berkaev.server.ServerMain <init>
 INFO: Server have been started
-мая 28, 2023 7:25:42 PM server.ServerMain registrationUser
-INFO: New user with name babacaba and ID 0 had connected to server
-мая 28, 2023 7:26:14 PM server.ServerMain addMessageToChatHistory
-INFO: User babacaba sent message
-мая 28, 2023 7:26:18 PM server.ServerMain sendParticipantsTable
-INFO: Send participants list to babacaba
-мая 28, 2023 7:26:19 PM server.ServerMain sendParticipantsTable
-INFO: Send participants list to babacaba
-мая 28, 2023 7:26:20 PM server.ServerMain sendParticipantsTable
-INFO: Send participants list to babacaba
-мая 28, 2023 7:26:22 PM server.ServerMain deleteUser
-INFO: New user with name babacaba and ID 0 had disconnected from server
