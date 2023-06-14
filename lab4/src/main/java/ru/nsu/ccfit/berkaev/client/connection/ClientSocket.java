@@ -1,22 +1,20 @@
 package ru.nsu.ccfit.berkaev.client.connection;
 
-import ru.nsu.ccfit.berkaev.XMLConverter.ClientToXML.ClientMessageConvFactory;
-import ru.nsu.ccfit.berkaev.XMLConverter.ConverterFactory;
-import ru.nsu.ccfit.berkaev.XMLConverter.ServerToXML.ServerMessageConvFactory;
 import ru.nsu.ccfit.berkaev.client.Client;
 import ru.nsu.ccfit.berkaev.ctsmessages.CTSMessage;
-import ru.nsu.ccfit.berkaev.exceptions.ConvertionException;
 import ru.nsu.ccfit.berkaev.exceptions.NoActiveSocketException;
+import ru.nsu.ccfit.berkaev.exceptions.SocketPropertyGetError;
 import ru.nsu.ccfit.berkaev.exceptions.SocketStillOpenedException;
+import ru.nsu.ccfit.berkaev.protocolInterface.MessageProtocolFabric;
 import ru.nsu.ccfit.berkaev.stcmessages.STCMessage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static ru.nsu.ccfit.berkaev.constants.ClientConstants.*;
 import static ru.nsu.ccfit.berkaev.constants.ClientSocketConstants.*;
@@ -32,16 +30,29 @@ public class ClientSocket extends Thread {
     private final Map<String, Runnable> reactions = new HashMap<>();
     private ArrayList<Object> serverMessageData;
 
-    private final String protocol;
+    private final MessageProtocolFabric messageProtocolFabric;
 
     public ClientSocket(Client client, String protocol) {
         setName(CLIENT_SOCKET_NAME);
-        this.protocol = protocol;
-        this.client = client;
-        initReactions();
-    }
+        Properties prop = new Properties();
+        try {
 
-    private void initReactions() {
+            InputStream stream = ClientSocket.class.getResourceAsStream(SOCKET_PROPERTIES_PATH);
+            prop.load(stream);
+            String className = prop.getProperty(protocol);
+            if (className == null) //check
+            {
+                throw new SocketPropertyGetError();
+            }
+            messageProtocolFabric = (MessageProtocolFabric) Class.forName(className).getConstructor().newInstance();
+            this.client = client;
+            initReactions();
+        }  catch (IOException | ClassNotFoundException | NoSuchMethodException | SocketPropertyGetError |
+                  InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+        private void initReactions() {
         reactions.put(LOGIN_STATUS_COMMAND_NAME, () -> client.setRegistrationStatus(true));
         reactions.put(GET_PARTICIPANT_LIST_COMMAND_NAME, () -> client.showParticipantsTable(serverMessageData));
         reactions.put(GET_CHAT_HISTORY_COMMAND_NAME, () -> client.refreshChatView(serverMessageData));
@@ -87,37 +98,11 @@ public class ClientSocket extends Thread {
     }
 
     public void sendMessage(CTSMessage message) throws IOException, NoActiveSocketException {
-        if (socket == null) {
-            throw new NoActiveSocketException();
-        }
-        if (protocol.equals(PROTOCOL_BASIC_NAME)) objectOutputStream.writeObject(message);
-        if (protocol.equals(PROTOCOL_XML_NAME)) {
-            ConverterFactory converterFactory = new ClientMessageConvFactory();
-            String strMessage = null;
-            try {
-                strMessage = converterFactory.convertToSerializableXML(message.getName(), message.getData());
-            } catch (ConvertionException e) {
-                client.processError(e.getMessage());
-            }
-            objectOutputStream.writeObject(strMessage);
-        }
+        messageProtocolFabric.sendMessage(message,socket,objectOutputStream,client);
     }
 
     private STCMessage getMessage() throws ClassNotFoundException, IOException {
-        STCMessage serverMessage = null;
-        if (protocol.equals(PROTOCOL_BASIC_NAME)) {
-            serverMessage = (STCMessage) objectInputStream.readObject();
-        }
-        if (protocol.equals(PROTOCOL_XML_NAME)) {
-            String xmlMessage = (String) objectInputStream.readObject();
-            ConverterFactory converterFactory = new ServerMessageConvFactory();
-            try {
-                serverMessage = converterFactory.convertFromSerializableXMLtoSM(xmlMessage);
-            } catch (ConvertionException e) {
-                client.processError(e.getMessage());
-            }
-        }
-        return serverMessage;
+        return messageProtocolFabric.getMessage(objectInputStream,client);
     }
 
     @Override

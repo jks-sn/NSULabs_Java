@@ -2,7 +2,6 @@ package ru.nsu.ccfit.berkaev.XMLConverter.ServerToXML;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -36,10 +35,7 @@ public class ServerMessageConvFactory extends ConverterFactory {
             {
                 throw new ConvertionException(LOADING_DATA_EXCEPTION_MESSAGE);
             }
-            Constructor<Converter> constructor;
-            Class<Converter> commandClass = (Class<Converter>) Class.forName(className);
-            constructor = commandClass.getConstructor();
-            return constructor.newInstance();
+            return (Converter) Class.forName(className).getConstructor().newInstance();
         }
         catch(IOException | ConvertionException | ClassNotFoundException | InvocationTargetException |
               NoSuchMethodException | IllegalAccessException | InstantiationException e)

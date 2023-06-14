@@ -46,5 +46,6 @@ public class SharedConstants {
     public static final int FIRST_ELEMENT = 0;
     public static final String NOTHING = "";
     public static final int DEFAULT_CURRENT_CHAT_POINTER = 0;
+    public static final String SOCKET_PROPERTIES_PATH = "/messageFabric.properties";
 
 }
