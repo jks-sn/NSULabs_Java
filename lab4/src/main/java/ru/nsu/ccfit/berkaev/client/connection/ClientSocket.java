@@ -112,7 +112,12 @@ public class ClientSocket extends Thread {
                 STCMessage serverMessage = getMessage();
                 serverMessageData = serverMessage.getData();
                 reactions.get(serverMessage.getName()).run();
-            } catch (ClassNotFoundException | IOException e) {
+            } catch (ClassNotFoundException e)
+            {
+                System.out.println(RESET_MESSAGE);
+                client.closeError(e.getMessage());
+            }
+            catch( IOException e) {
                 client.processError(e.getMessage());
             } catch (NullPointerException e) {
                 try {

@@ -40,7 +40,7 @@ public class Client {
 
     public synchronized void connect() throws ConnectionError {
         try {
-            if (! socket.isConnected()) {
+            if (!socket.isConnected()) {
                 socket.initNewConnection(host, port);
                 socket.sendMessage(userInfo);
             }
@@ -66,18 +66,17 @@ public class Client {
     }
 
     public void processError(String err) {
-        if (err.equals(CONNECTION_RESET_CLIENT_MESSAGE)) {
-            System.out.println(RESET_MESSAGE);
-            try {
-                clientGUI.closeChat();
-                socket.closeConnection();
-            } catch (IOException | NoActiveSocketException e) {
-                processError(err);
-            }
-        }
         clientGUI.displayError(err);
     }
-
+    public void closeError(String err)
+    {
+        try {
+        clientGUI.closeChat();
+        socket.closeConnection();
+        } catch (IOException | NoActiveSocketException e) {
+            processError(err);
+        }
+    }
     private void openChat() {
         clientGUI.openChat();
     }
