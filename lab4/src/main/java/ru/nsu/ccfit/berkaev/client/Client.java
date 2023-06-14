@@ -44,16 +44,14 @@ public class Client {
                 socket.initNewConnection(host, port);
                 socket.sendMessage(userInfo);
             }
+            wait();
         }
         catch (SocketStillOpenedException e) {
             throw new ConnectionError(ACTIVE_CONNECTION_CLIENT_MESSAGE);
         } catch (IOException e) {
             throw new ConnectionError(UNKNOWN_PORT_HOST_CLIENT_MESSAGE);
         } catch (NoActiveSocketException ignored) {}
-
-        try {
-            wait();
-        } catch (InterruptedException e) {
+        catch (InterruptedException e) {
             closeClient();
             Thread.currentThread().interrupt();
             return;
