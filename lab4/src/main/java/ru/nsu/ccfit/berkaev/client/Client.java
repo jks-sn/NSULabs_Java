@@ -70,6 +70,7 @@ public class Client {
     }
     public void closeError(String err)
     {
+        System.out.println(RESET_MESSAGE);
         try {
         clientGUI.closeChat();
         socket.closeConnection();

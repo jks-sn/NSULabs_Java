@@ -114,7 +114,6 @@ public class ClientSocket extends Thread {
                 reactions.get(serverMessage.getName()).run();
             } catch (ClassNotFoundException e)
             {
-                System.out.println(RESET_MESSAGE);
                 client.closeError(e.getMessage());
             }
             catch( IOException e) {
