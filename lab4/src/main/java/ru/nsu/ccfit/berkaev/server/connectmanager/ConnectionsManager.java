@@ -19,8 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
-import static ru.nsu.ccfit.berkaev.constants.ServerConstants.INITIAL_EXECUTOR_DELAY;
-import static ru.nsu.ccfit.berkaev.constants.ServerConstants.PERIOD_EXECUTOR;
+import static ru.nsu.ccfit.berkaev.constants.ServerConstants.*;
 
 public class ConnectionsManager extends Thread implements CTSPassingInterface, STCPassingInterface {
 
@@ -28,7 +27,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
     private final ServerSocket serverSocket;
     private PropertiesReader propertiesReader;
     private final Map<Integer, Socket> sockets = new HashMap<>();
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(NUMBER_THREADS);
     private BlockingQueue<ChatServerTask> taskQueue = new LinkedBlockingQueue<>();
 
     private Integer nextID = SharedConstants.FIRST_ELEMENT;
