@@ -5,9 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import ru.nsu.ccfit.berkaev.XMLConverter.ConverterFactory;
 import ru.nsu.ccfit.berkaev.XMLConverter.ClientToXML.ClientMessageConvFactory;
@@ -21,28 +19,33 @@ import ru.nsu.ccfit.berkaev.constants.SharedConstants;
 import ru.nsu.ccfit.berkaev.server.connectmanager.ConnectionsManager;
 import ru.nsu.ccfit.berkaev.stcmessages.STCMessage;
 
-public class ChatServerThread extends Thread {
+public class ChatServerTask implements Runnable {
 
-    private final ConnectionsManager connectionsManager;
-    private final Integer sessionID;
-    private final ObjectInputStream objectInputStream;
-    private final ObjectOutputStream objectOutputStream;
+    private ConnectionsManager connectionsManager;
+    private Integer sessionID;
 
-    private final Map<String, Runnable> reactions = new HashMap<>();
+    private final STCMessage message;
+    private ObjectInputStream objectInputStream = null;
+    private ObjectOutputStream objectOutputStream = null;
+
+    private Map<String, Runnable> reactions = new HashMap<>();
     private ArrayList<Object> clientMessageData;
 
-    private final String protocol;
+    private String protocol;
+    private final Socket client;
 
-    public ChatServerThread(ConnectionsManager connectionsManager, Socket client, Integer sessionID, String protocol) throws ConnectionError {
-        setName(ServerSocketConstants.SERVER_THREAD_NAME + sessionID.toString());
+
+    public ChatServerTask(ConnectionsManager connectionsManager, Socket client, Integer sessionID, STCMessage message, String protocol) throws ConnectionError {
         this.sessionID = sessionID;
+        this.message = message;
         this.protocol = protocol;
         this.connectionsManager = connectionsManager;
+        this.client = client;
         try {
             objectInputStream = new ObjectInputStream(client.getInputStream());
             objectOutputStream = new ObjectOutputStream(client.getOutputStream());
         } catch (IOException e) {
-            throw new ConnectionError(ErrorConstants.CANT_CONNECT_NEW_CLIENT_MESSAGE + getName());
+            throw new ConnectionError(ErrorConstants.CANT_CONNECT_NEW_CLIENT_MESSAGE + sessionID);
         }
         initReactions();
     }
@@ -54,7 +57,7 @@ public class ChatServerThread extends Thread {
         reactions.put(ServerSocketConstants.TEXT_COMMAND_NAME, () -> connectionsManager.chatMessageNotification((String) clientMessageData.get(0), sessionID));
     }
 
-    private CTSMessage readClientMessage() throws Exception {
+    private void readClientMessage() throws Exception {
         CTSMessage message = null;
         if (protocol.equals(SharedConstants.PROTOCOL_BASIC_NAME)) {
             try {
@@ -68,21 +71,24 @@ public class ChatServerThread extends Thread {
             ConverterFactory converterFactory = new ClientMessageConvFactory();
             message = converterFactory.convertFromSerializableXMLtoCM(XMLMessage);
         }
-        return message;
+        if (message == null) return;
+        clientMessageData = message.getData();
+        reactions.get(message.getName()).run();
     }
 
     @Override
     public void run() {
-        while (! this.isInterrupted()) {
-            try {
-                CTSMessage message = readClientMessage();
-                clientMessageData = message.getData();
-                reactions.get(message.getName()).run();
-            } catch (Exception e) {
-                connectionsManager.disconnectUser(sessionID);
+        try {
+            if(Objects.isNull(message)) {
+                readClientMessage();
+                connectionsManager.addTask(new ChatServerTask(connectionsManager,client,sessionID, null, protocol));
             }
+            else
+                sendMessage(message);
+        } catch (Exception e) {
+            connectionsManager.disconnectUser(sessionID);
+            System.out.println(SharedConstants.interruptedConnectionMessage(sessionID));
         }
-        System.out.println(SharedConstants.interruptedConnectionMessage(sessionID));
     }
 
     public void sendMessage(STCMessage message) {

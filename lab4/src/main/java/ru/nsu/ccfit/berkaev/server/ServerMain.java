@@ -59,7 +59,7 @@ public class ServerMain {
         offsets = new HashMap<>();
     }
 
-    public void registrationUser(Integer sessionID, String username) throws IOException, IllegalRequestException {
+    public void registrateUser(Integer sessionID, String username) throws IOException, IllegalRequestException {
         try {
             username = username.replace(SharedConstants.DELIMITER_NEW_LINE, SharedConstants.NOTHING);
             username = username.replace(SharedConstants.DELIMITER_NEW_WORD, SharedConstants.NOTHING);
@@ -89,7 +89,18 @@ public class ServerMain {
             throw new IllegalRequestException(Integer.toString(sessionID));
         }
     }
-
+    public void deleteUser(Integer sessionID, String reason) throws IllegalRequestException {
+        try {
+            logger.info("New user whith name " + participantsList.getNameByID(sessionID) + " and ID " + String.valueOf(sessionID) + " had disconnected from server by timeout");
+            currentChatPointer++;
+            chatHistory.addSystemMessage("User whith name " + participantsList.getNameByID(sessionID) + " and ID " + String.valueOf(sessionID) + " had disconnected from server by timeout");
+            participantsList.removeParticipant(sessionID);
+            offsets.remove(sessionID);
+            refreshChat();
+        } catch (DuplicateNameException e) {
+            throw new IllegalRequestException(Integer.toString(sessionID));
+        }
+    }
     public void sendParticipantsTable(Integer sessionID) throws IllegalRequestException {
         try {
             logger.info("Send participants list to " + participantsList.getNameByID(sessionID));
@@ -102,7 +113,6 @@ public class ServerMain {
 
     public void addMessageToChatHistory(String message, Integer sessionID) {
         message = message.replace(SharedConstants.DELIMITER_NEW_LINE, SharedConstants.NOTHING);
-        message = message.replace(SharedConstants.DELIMITER_NEW_WORD, SharedConstants.NOTHING);
         try {
             logger.info("User " + participantsList.getNameByID(sessionID) + " sent message");
             currentChatPointer++;
