@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
+import static ru.nsu.ccfit.berkaev.constants.ServerConstants.INITIAL_EXECUTOR_DELAY;
+import static ru.nsu.ccfit.berkaev.constants.ServerConstants.PERIOD_EXECUTOR;
+
 public class ConnectionsManager extends Thread implements CTSPassingInterface, STCPassingInterface {
 
     private final ServerMain server;
@@ -48,7 +51,7 @@ public class ConnectionsManager extends Thread implements CTSPassingInterface, S
                 if (task != null) {
                     task.run();
                 }
-            }, 0, 1, TimeUnit.SECONDS);
+            }, INITIAL_EXECUTOR_DELAY, PERIOD_EXECUTOR, TimeUnit.SECONDS);
         });
         executorThread.start();
         while (! this.isInterrupted()) {
